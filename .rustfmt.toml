@@ -1,0 +1,31 @@
+# Learn More at: https://rust-lang.github.io/rustfmt/?version=v1.5.1&search=
+
+
+color = "Always"
+comment_width = "160"
+
+brace_style = "PreferSameLine"
+
+# DO
+# ----------
+# if x { 
+#    ...
+# } 
+# else {
+# ...
+# }
+# ----------
+# NOT
+# ----------
+# if x { 
+#    ...
+# } else {
+# ...
+# }
+# ----------
+# May revert
+control_brace_style = "ClosingNextLine"
+
+hex_literal_case = "Lower" # Readability. Upper looks like they fit in better though. 
+
+# Got down to here https://rust-lang.github.io/rustfmt/?version=v1.5.1&search=#indent_style
