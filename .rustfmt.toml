@@ -7,7 +7,7 @@ comment_width = "160"
 brace_style = "PreferSameLine"
 
 # DO
-# ----------
+# ---------- ClosingNextLine
 # if x { 
 #    ...
 # } 
@@ -16,7 +16,7 @@ brace_style = "PreferSameLine"
 # }
 # ----------
 # NOT
-# ----------
+# ---------- AlwaysSameLine
 # if x { 
 #    ...
 # } else {
