@@ -1,0 +1,7 @@
+
+# Web Stuff
+*.css          @tryoxiss
+*.html         @tryoxiss
+*.rs           @khaim0919 @tryoxiss
+
+/src/          @khaim0919 @tryoxiss
