@@ -92,21 +92,6 @@ fn TypeMessage(_props: &Props) -> Html {
 }
 
 #[function_component]
-fn MyProfile(props: &Props) -> Html {
-    html! { 
-        <my_profile>
-            <a class="pfp"><img class="pfp" src={ props.icon.clone() }/></a>
-            <fill>
-                <author><a>{ props.author.clone() }</a></author>
-                <content>
-                { props.content.clone() }
-                </content>
-            </fill>
-        </my_profile> 
-    }
-}
-
-#[function_component]
 fn App() -> Html {
     html! { 
         <app>
@@ -154,22 +139,23 @@ fn App() -> Html {
                     <Message content="I want to smother you in CUDDLES!!!" />
                     <MessageRoot author="tryoxiss" icon="https://cdn.discordapp.com/avatars/490544642559836163/b1963913984aaaaf07df937e7e2a2116.png?size=1024" content="*meows curiously*"/>
                     <MessageRoot author="khaim0919" icon="https://cdn.discordapp.com/avatars/226932670473568256/ceffffd4818c5c53709c3da7e8bbf7ab.png?size=1024" content="You're so gay i'd MARRY you!" />
-
                     <Message content="You are like, sosososo cuuute!!" />
                     <Message content="I want to smother you in CUDDLES!!!" />
                     <MessageRoot author="tryoxiss" icon="https://cdn.discordapp.com/avatars/490544642559836163/b1963913984aaaaf07df937e7e2a2116.png?size=1024" content="*meows curiously*"/>
 
                     <CommandResponse author="Azerty" icon="https://pm1.narvii.com/5884/e1682398c02d689122d4306c106b41cfffaa051c_hq.jpg" content="Sucess! Your nickname has been changed to 'KittenNyas!'!" />
-
-                    <TypeMessage content="Message @khaim0919#8008" />
                 </display_messages>
+
+                <TypeMessage content="Message @khaim0919#8008" />
             </main>
 
             <members>
             
             </members>
 
-            <MessageRoot author="tryoxiss" icon="https://cdn.discordapp.com/avatars/490544642559836163/b1963913984aaaaf07df937e7e2a2116.png?size=1024" content=".has_a_status" />
+            <your_profile>
+                <MessageRoot author="tryoxiss" icon="https://cdn.discordapp.com/avatars/490544642559836163/b1963913984aaaaf07df937e7e2a2116.png?size=1024" content=".has_a_status" />
+            </your_profile>
 
             // <HelloWorld is_loading={ true } />
         </app>
