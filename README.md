@@ -1,7 +1,7 @@
 # bonfire
 (TEMPORARY NAME) repo for decentralized discord-like federated chat! following all common conventions like markdown and naming schemes. Written in pure rust! 
 
-<img alt="Code Style: Beautiful" src="repo-style/code-style-beautiful-badge.png" style="height: 1.25rem">
+<img alt="Code Style: Beautiful" src="repo-style/code-style-beautiful-badge.png" style="height: 1rem">
 
 ![Code Style: Beautiful](repo-style/code-style-beautiful-badge.png)
 
