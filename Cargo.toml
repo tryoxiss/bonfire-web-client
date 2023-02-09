@@ -9,4 +9,5 @@ edition = "2021"
 yew = { version = "0.20.0", features = ["csr"] } # Client-side easy web rendering. 
 rocket = "0.4.11" # Backend
 json = "0.12.4"
-# rsa = "0.8.1" # Commented because not needed yet
+rsa = "0.8.1"
+aes-gcm-siv = "0.11.1"

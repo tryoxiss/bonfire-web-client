@@ -1,0 +1,6 @@
+message_guid,author_guid,timestamp,type,reply_to,content,attachments
+
+guid,guid,01-JAN-2021 59:59:59 UTC,message,guid,"hello I want to cuddle uu!",,
+guid,guid,01-JAN-2021 59:59:59 MNT,,,"Really? How much? I want cucddles",,
+guid,guid,01-JAN-2021 59:59:59 PSD,,,"Like a lot. *snugs*",,
+guid,guid,01-JAN-2021 59:59:59 PDT,,,"*purrs*",,
