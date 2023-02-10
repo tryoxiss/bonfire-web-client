@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+@import url('http://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css');
+
+:root {
+    --mocha-rosewater: rgb(245, 224, 220);
+    --mocha-flamingo: rgb(242, 205, 205);
+    --mocha-pink: rgb(245, 194, 231);
+    --mocha-mauve: rgb(203, 166, 247);
+    --mocha-red: rgb(243, 139, 168);
+    --mocha-maroon: rgb(235, 160, 172);
+    --mocha-peach: rgb(250, 179, 135);
+    --mocha-yellow: rgb(249, 226, 175);
+    --mocha-green: rgb(166, 227, 161);
+    --mocha-teal: rgb(148, 226, 213);
+    --mocha-sky: rgb(137, 220, 235);
+    --mocha-sapphire: rgb(116, 199, 236);
+    --mocha-blue: rgb(135, 176, 249);
+    --mocha-lavender: rgb(180, 190, 254);
+
+    --mocha-strong-text: #dce0ee;
+    
+    --mocha-text: rgb(198, 208, 245);
+    --mocha-subtext1: rgb(179, 188, 223);
+    --mocha-subtext0: rgb(161, 168, 201);
+    --mocha-overlay2: rgb(142, 149, 179);
+    --mocha-overlay1: rgb(123, 129, 157);
+    --mocha-overlay0: rgb(105, 109, 134);
+    --mocha-surface2: rgb(86, 89, 112);
+    --mocha-surface1: rgb(67, 70, 90);
+    --mocha-surface0: rgb(49, 50, 68);
+    --mocha-base: rgb(30, 30, 46);
+    --mocha-mantle: rgb(24, 24, 37);
+    --mocha-crust: rgb(17, 17, 27);
+
+    --accent-color: var(--mocha-text)
+}
+
+body { 
+    background-color: black;
+    font-family: sans-serif;
+
+    font-family: 'Hack';
+}
+
+.badge { 
+    height: 2rem;
+
+    padding: 1rem;
+}
+
+.badge div { 
+    display: inline-block;
+}
+
+.badge-violet { 
+    --accent-color: var(var(--mocha-lavender))
+}
+
+.badge .title { 
+    color: var(--mocha-base); 
+    background-color: var(--accent-color);
+
+    padding: 0.5rem;
+}
+
+.badge .text { 
+    color: var(--accent-color);
+    background-color: var(--mocha-base);
+
+    padding: 0.5rem;
+}
+
+
+
+.badge-violet .title { 
+    background-color: var(--mocha-lavender);
+}
+
+.badge-violet .text { 
+    color: var(--mocha-lavender);
+}
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Document to generate badges for the README.md file</p>
+    <p>Please use Mozilla's element screenshot to get it percisely!</p>
+
+    <a href="CODESTYLE.md">
+    <div style="height: 2rem; margin: 0.5rem;">
+        <div style="color: rgb(30, 30, 46); background-color: var(--accent-color);padding: 0.5rem; display: inline-block">Code Style</div><div style="color: var(--accent-color);background-color: rgb(30, 30, 46);padding: 0.5rem; display: inline-block">Beautiful</div>
+    </div>
+</a>
+</body>
+</html>
