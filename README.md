@@ -3,7 +3,7 @@
 
 (Please note: Badges are updated manually)
 
-[Code Style: Beautiful](repo-style/badges/code-style.png) [Build: 0.1.0](repo-style/badges/version.png) [Stability: Great](repo-style/badges/stability.png) [Code Health: Good](repo-style/badges/code-health.png) [Security: Terrible](repo-style/badges/security.png) [Contibuters: 2](repo-style/badges/contributers.png) [Documentation: Poor](repo-style/badges/documentation.png)
+![Code Style: Beautiful](repo-style/badges/code-style.png) ![Build: 0.1.0](repo-style/badges/version.png) ![Stability: Great](repo-style/badges/stability.png) ![Code Health: Good](repo-style/badges/code-health.png) ![Security: Terrible](repo-style/badges/security.png) ![Contibuters: 2](repo-style/badges/contributers.png) ![Documentation: Poor](repo-style/badges/documentation.png)
 
 
 Versioning is `major:minor:patch::build_status`. Breaking changes may occur, but should be avoided as much as possible. 
