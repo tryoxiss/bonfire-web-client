@@ -160,6 +160,8 @@ fn App() -> Html {
 
                     <CommandResponse author="Azerty" icon="https://pm1.narvii.com/5884/e1682398c02d689122d4306c106b41cfffaa051c_hq.jpg" content="Sucess! Your nickname has been changed to 'KittenNyas!'!" />
 
+                    <button id="send-message"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 18H6a2 2 0 0 1-2-2V7a2 2 0 0 0-2-2"></path><path d="M17 14V4a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v10"></path><rect x="8" y="6" width="13" height="8" rx="1"></rect><circle cx="18" cy="20" r="2"></circle><circle cx="9" cy="20" r="2"></circle></svg></button>
+                    
                     <TypeMessage content="Message @khaim0919#8008" />
                 </display_messages>
             </main>

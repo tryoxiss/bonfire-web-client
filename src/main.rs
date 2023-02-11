@@ -17,8 +17,6 @@ mod backend;
 
 fn main() { 
     webapp::render_app();
-
-    println!("Hello World")
 }
 
 // for login code: don't write out own, use an existing crate (obv)
