@@ -74,106 +74,149 @@ fn CommandResponse(props: &Props) -> Html {
 #[function_component]
 fn DrawHeader(props: &Props) -> Html {
     html! { 
-        <header>
-            { props.header_name.clone() }
-        </header>
+    <header>
+        <p>{"@khaim0919"}</p>
+    </header>
     }
 }
 
 #[function_component]
-fn TypeMessage(_props: &Props) -> Html {
+fn MessageButton(props: &Props) -> Html {
     html! { 
-        <message_area>
-            <textarea name="message_box" id="MessageArea" cols="30" rows="1" class="message_box"></textarea>
-            // { props.content.clone() }
-        </message_area>
+    <button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg>
+    </button>
     }
 }
 
 #[function_component]
-fn MyProfile(props: &Props) -> Html {
+fn GroupIcon(props: &Props) -> Html {
     html! { 
-        <my_profile>
-            <a class="pfp"><img class="pfp" src={ props.icon.clone() }/></a>
-            <fill>
-                <author><a>{ props.author.clone() }</a></author>
-                <content>
-                { props.content.clone() }
-                </content>
-            </fill>
-        </my_profile> 
+    <a href="#" class="active"><img src="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" alt=""/></a>
     }
 }
+
+
+
+#[function_component]
+fn InfoChannel(props: &Props) -> Html {
+    html! { 
+    <li>
+        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg></span>
+        <text>{"rules"}</text>
+    </li>
+    }
+}
+
+#[function_component]
+fn TextChannel(props: &Props) -> Html {
+    html! { 
+    <li>
+        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M181.3 32.4c17.4 2.9 29.2 19.4 26.3 36.8L197.8 128h95.1l11.5-69.3c2.9-17.4 19.4-29.2 36.8-26.3s29.2 19.4 26.3 36.8L357.8 128H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H347.1L325.8 320H384c17.7 0 32 14.3 32 32s-14.3 32-32 32H315.1l-11.5 69.3c-2.9 17.4-19.4 29.2-36.8 26.3s-29.2-19.4-26.3-36.8l9.8-58.7H155.1l-11.5 69.3c-2.9 17.4-19.4 29.2-36.8 26.3s-29.2-19.4-26.3-36.8L90.2 384H32c-17.7 0-32-14.3-32-32s14.3-32 32-32h68.9l21.3-128H64c-17.7 0-32-14.3-32-32s14.3-32 32-32h68.9l11.5-69.3c2.9-17.4 19.4-29.2 36.8-26.3zM187.1 192L165.8 320h95.1l21.3-128H187.1z"/></svg></span>
+        <text>{"general"}</text>
+    </li>
+    }
+}
+
+#[function_component]
+fn VoiceChannel(props: &Props) -> Html {
+    html! { 
+    <li>
+        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M176 0C123 0 80 43 80 96V256c0 53 43 96 96 96s96-43 96-96V96c0-53-43-96-96-96zM48 216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 89.1 66.2 162.7 152 174.4V464H104c-13.3 0-24 10.7-24 24s10.7 24 24 24h72 72c13.3 0 24-10.7 24-24s-10.7-24-24-24H200V430.4c85.8-11.7 152-85.3 152-174.4V216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 70.7-57.3 128-128 128s-128-57.3-128-128V216z"/></svg></span>
+        <text>{"girlies-call"}</text>
+    </li>
+    }
+}
+
+
 
 #[function_component]
 fn App() -> Html {
     html! { 
-        <app>
-            <nav class="hubs">
-                <a href="/app/#/home">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 576 576"><path d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/></svg> // <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                </a>
+    <app>
+        <div class="error-message">
+            <p>{ "A fatal error occured" }</p>
+            <h1>{ "Please use a larger screen" }</h1>
+            <p>{ "Our web app does not work on smaller screen sizes, if you would like to use it on mobile. We have an app for iOS and Android." }</p>
 
-                <hr />
+            <br/>
 
-                <a href="/app/#/hub/903019301230"><img src="https://cdn.discordapp.com/avatars/226932670473568256/ceffffd4818c5c53709c3da7e8bbf7ab.png?size=1024" alt="Khaim's Space:tm:" /></a>
-            </nav>
+            <p><a href="#">{"iOS App Store"}</a> {"|"} <a href="#">{"Google Play"}</a></p>
+        </div>
 
-            <nav class="channels">
-                <DrawHeader header_name="Direct Messages"> </DrawHeader>
-            </nav>
+        <nav role="groups">
 
-            <main>
-                <DrawHeader header_name="@khaim0919"> </DrawHeader>
+            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" style="margin-top: 10px; margin-left: 10px;">/*<!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->*/
+            <path d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/></svg></a>
 
-                <display_messages>
-                    <MessageRoot author="khaim0919" icon="https://cdn.discordapp.com/avatars/226932670473568256/ceffffd4818c5c53709c3da7e8bbf7ab.png?size=1024" content="You're so gay i'd MARRY you!" />
-                    <Message content="You are like, sosososo cuuute!!" />
-                    <Message content="I want to smother you in CUDDLES!!!" />
-                    <MessageRoot author="tryoxiss" icon="https://cdn.discordapp.com/avatars/490544642559836163/b1963913984aaaaf07df937e7e2a2116.png?size=1024" content="*meows curiously*"/>
+            // dm icons go here
 
-                    <MessageRoot author="khaim0919" icon="https://cdn.discordapp.com/avatars/226932670473568256/ceffffd4818c5c53709c3da7e8bbf7ab.png?size=1024" content="You're so gay i'd MARRY you!" />
-                    <Message content="You are like, sosososo cuuute!!" />
-                    <Message content="I want to smother you in CUDDLES!!!" />
-                    <MessageRoot author="tryoxiss" icon="https://cdn.discordapp.com/avatars/490544642559836163/b1963913984aaaaf07df937e7e2a2116.png?size=1024" content="*meows curiously*"/>
-                    <MessageRoot author="khaim0919" icon="https://cdn.discordapp.com/avatars/226932670473568256/ceffffd4818c5c53709c3da7e8bbf7ab.png?size=1024" content="You're so gay i'd MARRY you!" />
-                    <Message content="You are like, sosososo cuuute!!" />
-                    <Message content="I want to smother you in CUDDLES!!!" />
-                    <MessageRoot author="tryoxiss" icon="https://cdn.discordapp.com/avatars/490544642559836163/b1963913984aaaaf07df937e7e2a2116.png?size=1024" content="*meows curiously*"/>
-                    <MessageRoot author="khaim0919" icon="https://cdn.discordapp.com/avatars/226932670473568256/ceffffd4818c5c53709c3da7e8bbf7ab.png?size=1024" content="You're so gay i'd MARRY you!" />
-                    <Message content="You are like, sosososo cuuute!!" />
-                    <Message content="I want to smother you in CUDDLES!!!" />
-                    <MessageRoot author="tryoxiss" icon="https://cdn.discordapp.com/avatars/490544642559836163/b1963913984aaaaf07df937e7e2a2116.png?size=1024" content="*meows curiously*"/>
-                    <MessageRoot author="khaim0919" icon="https://cdn.discordapp.com/avatars/226932670473568256/ceffffd4818c5c53709c3da7e8bbf7ab.png?size=1024" content="You're so gay i'd MARRY you!" />
-                    <Message content="You are like, sosososo cuuute!!" />
-                    <Message content="I want to smother you in CUDDLES!!!" />
-                    <MessageRoot author="tryoxiss" icon="https://cdn.discordapp.com/avatars/490544642559836163/b1963913984aaaaf07df937e7e2a2116.png?size=1024" content="*meows curiously*"/>
-                    <MessageRoot author="khaim0919" icon="https://cdn.discordapp.com/avatars/226932670473568256/ceffffd4818c5c53709c3da7e8bbf7ab.png?size=1024" content="You're so gay i'd MARRY you!" />
-                    <Message content="You are like, sosososo cuuute!!" />
-                    <Message content="I want to smother you in CUDDLES!!!" />
-                    <MessageRoot author="tryoxiss" icon="https://cdn.discordapp.com/avatars/490544642559836163/b1963913984aaaaf07df937e7e2a2116.png?size=1024" content="*meows curiously*"/>
-                    <MessageRoot author="khaim0919" icon="https://cdn.discordapp.com/avatars/226932670473568256/ceffffd4818c5c53709c3da7e8bbf7ab.png?size=1024" content="You're so gay i'd MARRY you!" />
+            <hr />
 
-                    <Message content="You are like, sosososo cuuute!!" />
-                    <Message content="I want to smother you in CUDDLES!!!" />
-                    <MessageRoot author="tryoxiss" icon="https://cdn.discordapp.com/avatars/490544642559836163/b1963913984aaaaf07df937e7e2a2116.png?size=1024" content="*meows curiously*"/>
+            // group icons go here
 
-                    <CommandResponse author="Azerty" icon="https://pm1.narvii.com/5884/e1682398c02d689122d4306c106b41cfffaa051c_hq.jpg" content="Sucess! Your nickname has been changed to 'KittenNyas!'!" />
+            <GroupIcon />
+            <GroupIcon />
+            <GroupIcon />
 
-                    <button id="send-message"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 18H6a2 2 0 0 1-2-2V7a2 2 0 0 0-2-2"></path><path d="M17 14V4a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v10"></path><rect x="8" y="6" width="13" height="8" rx="1"></rect><circle cx="18" cy="20" r="2"></circle><circle cx="9" cy="20" r="2"></circle></svg></button>
-                    
-                    <TypeMessage content="Message @khaim0919#8008" />
-                </display_messages>
-            </main>
+            <a href="#" style="background: transparent;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="margin-left: 12px; margin-top: 9px; fill: var(--ctp-mocha-subtext1)"><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg></a>
+        </nav>
 
-            <members>
+        <nav role="channels">
+
+            <ul>
+                <InfoChannel />
+                <TextChannel />
+                <TextChannel />
+                <VoiceChannel />
+            </ul>
+
+            <p><span>{ "All icons are from "}</span><a href="https://fontawesome.com/search?o=r&m=free">{" Font Awesome Free"}</a></p>
+        </nav>
+
+        <main>
+            <DrawHeader />
+
+            <div class="messages">
+
+                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
+                <Message content="text" />
+                <Message content="text" />
+                <Message content="text" />
+                <Message content="text" />
+                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
+                <Message content="text" />
+                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
+                <Message content="text" />
+                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
+                <Message content="text" />
+                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
+                <Message content="text" />
+                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
+                <Message content="text" />
+                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
+                <Message content="text" />
+                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
+                <Message content="text" />
+                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
+                <Message content="text" />
+                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
+                <Message content="text" />
+                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
+                <Message content="text" />
+                
+                
+            </div>
             
-            </members>
+            <div class="message-box-area">
+                <MessageButton />
+                <textarea name="message-box" id="message-box" cols="30" rows="2"></textarea>
+            </div>
+        </main>
 
-            <MessageRoot author="tryoxiss" icon="https://cdn.discordapp.com/avatars/490544642559836163/b1963913984aaaaf07df937e7e2a2116.png?size=1024" content=".has_a_status" />
-
-            // <HelloWorld is_loading={ true } />
-        </app>
+        <div role="members-list">
+        </div>
+    </app>
     }
 }
 

@@ -1,6 +1,13 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
 <style>
-:root {
+    :root {
     --ctp-latte-rosewater: #de9584;
     --ctp-latte-rosewater-rgb: rgb(222, 149, 132);
     --ctp-latte-rosewater-hsl: hsl(11, 58%, 69%);
@@ -315,181 +322,251 @@
     --ctp-mocha-crust-hsl: hsl(240, 23%, 9%);
 }
 
-body { 
-    --ctp-text-normal: var(--ctp-mocha-text); 
-    --ctp-text-muted: var(--ctp-mocha-subtext-0); 
-    --ctp-text-strong: #dae3ff;
+* { 
+    -webkit-margin-collapse: collapse;
+    margin-collape: collapse;
 
-    line-height: 1.5; 
+    overflow: hidden;
+}
+
+author { 
+    margin: 0.25rem 0rem;
 }
 
 body { 
-    margin: 0; 
+    margin: 0;
 }
-
-body, * { 
-    border: 0; 
-}
-
-/* clamp(min, val, max) */
 
 app { 
-    display: grid; 
-    grid-template-columns: 4rem minmax(12rem, 14rem) 3fr minmax(0px, 10rem); 
-    grid-template-rows: 1fr 4rem;
+    --hubs-width: 4rem;
+    --channels-width: calc(8vw + 8rem);
+    --members-width: calc(10vw + 6rem);
 
-    background-color: var(--ctp-mocha-crust);
+    display: grid;
+    grid-template-columns: var(--hubs-width) var(--channels-width) 1fr var(--members-width);
+    margin: 0px;
 
-    width: 100vw; 
-    height: 100vh; 
+    min-height: 100vh;
+
     overflow: hidden;
 
-    color: var(--ctp-text-normal);
+    color: var(--ctp-mocha-text);
+    font-family: sans-serif;
 }
 
-nav.hubs { 
-    grid-row: 1 / 2;
-
+[role="groups"] { 
     background-color: var(--ctp-mocha-crust);
 }
 
-nav.channels { 
+[role="groups"] a { 
+    display: block;
+    margin: 0.5rem 0.5rem;
+    /* margin-top: 0.5rem; */
+
+    background-color: var(--ctp-mocha-base);
+    border-radius: 100px;
+
+    height: 3rem;
+    width: 3rem;
+}
+
+[role="groups"] img { 
+    width: 3rem;
+    height: 3rem; 
+    background-position: cover;
+
+    margin: 0px;
+    padding: 0px;
+
+    border-radius: 100px;
+}
+
+[role="groups"] svg { 
+    width: 1.75rem;
+    height: 1.75rem;
+    margin: 0.6rem;
+}
+
+[role="groups"] hr {
+    border: 1px solid var(--ctp-mocha-base);
+    margin: 0.5rem 0.25rem;
+}
+
+
+
+[role="channels"] { 
     background-color: var(--ctp-mocha-mantle);
+}
+
+[role="channels"] ul { 
+    list-style: none;
+    margin-left: -2rem;
+}
+
+[role="channels"] li { 
+    margin: 0.25rem 0rem;
+    display: flex;
+}
+
+[role="channels"] span { 
+    display: block;
+    margin-top: 2px;
+    margin-right: 0.5rem;
 }
 
 main { 
+    --message-box-min: 1.4rem; /* If the lines of text is 1 or 0, use this instead of the calculated box */
+    --message-box-max: 24rem; /* The max height the message box can expand to. */
+
+    --message-box-height: 1.4rem; /* (NumberOfTextLines)rem + 1rem */ 
+    --message-box-shove: calc(var(--message-box-height) + 6rem);
+
+    /* SHove = height + 7.5rem */
+
+    --header-height: 2.5rem;
+
     background-color: var(--ctp-mocha-base);
 
-    grid-row: span 2;
+    display: grid;
+    grid-template-rows: var(--header-height) 1fr var(--message-box-shove);
 
-    display: grid; 
-    grid-template-rows: 3rem 1fr 4rem; 
+    scrollbar-color: var(--ctp-mocha-sapphire) var(--ctp-mocha-base);
+    scrollbar-width: 6px;
+
 }
 
-members { 
+main header { 
     background-color: var(--ctp-mocha-mantle);
-
-    grid-row: span 2;
 }
 
-.hidden { 
-    display: none;
-}
-
-.hubs a { 
-    display: block;
-    width: 3rem; 
-    height: 3rem;
+header p { 
     margin: 0.5rem;
-
-    background-position: center; 
-
-    background-color: var(--ctp-mocha-mantle);
-    border-radius: 100%;
+    font-size: 1.05rem;
 }
-
-.hubs svg { 
-    width: 1.75rem; 
-    height: 1.75rem; 
-    margin: 0.65rem;
-}
-
-.hubs img { 
-    width: 3rem; 
-    height: 3rem;
-    border-radius: 100%;
-}
-
-/* main header { 
-} */
 
 header { 
-    padding: 0.5rem; 
-    border-bottom: 1px solid var(--ctp-mocha-surface0);
-
-    /* margin-bottom: 8px; */
+    display: flex;
 }
 
-display_messages { 
-    overflow: scroll;
-
-    display: grid; 
-    grid-template-rows: 1fr auto;
+[role="channels"] header svg { 
+    margin-bottom: 12px;
 }
 
-.message_box { 
-    border-radius: 4px; 
+[role="members-list"] { 
+    background-color: var(--ctp-mocha-mantle);
+}
 
+svg { 
+    /* stroke: var(--ctp-mocha-text); */
+    fill: var(--ctp-mocha-text);
+    width: 1rem;
+    height: 1rem;
+}
+
+button { 
+    border: 0;
     background-color: var(--ctp-mocha-mantle);
 
-    width: 98%;
+    margin: 0.25rem;
 
-    margin: 0.5rem; 
+    height: 2.5rem;
+    width: 2.5rem;
+
+    border-radius: 100%;
+}
+
+.message-box-area { 
+    --message-area-button-width: 3rem;
+    --num-message-area-buttons: 2;
+
+    display: flex;
+
+    --message-box-width: calc(100vw
+                        - (var(--hubs-width) + var(--channels-width) + 
+                        var(--members-width)) 
+                        - calc(var(--message-area-button-width) * 
+                            var(--num-message-area-buttons)
+                        ) );
+
+    isolation: isolate;
+    position: relative;
+
+    padding-top: 0;
+
+    /* width: var(--message-box-width); */
+
+    background-color: var(--ctp-mocha-base);
+}
+
+.messages { 
+    padding: 0.75rem;
+
+    overflow-y: scroll;
+    max-height: calc(100vh - var(--message-box-shove))
+}
+
+textarea { 
+    background-color: var(--ctp-mocha-mantle);
+    border: 0;
+    border-radius: 6px;
+    font-family: inherit;
+    color: inherit;
+    resize: none;
+    margin: 0.25rem;
     padding: 0.5rem;
+    height: var(--message-box-height);
 
-    /* resize: none; */
-
-    color: var(--text-normal);
+    width: var(--message-box-width);
 }
 
-.message_box:focus { 
-    /* The following instruction is NOT RECCOMMENDED for most cases: 
-     ***************************************************************
-     It worsens accesability in many but not all cases. In this case, 
-     it is a text box and it is obvious that it is selected from the
-     blinking cursor. However, in mot sutatuions avoid doing this for
-     accesability reasons. 
-    */
-    outline: 0; 
-}
-
-span.bot-tag { 
-    margin: 0px 0.5rem;
-    padding: 0px 0.5rem;
-    color: var(--ctp-mocha-base);
-    background-color: var(--ctp-mocha-sapphire);
-
-    border-radius: 1rem;
-
-    font-size: 0.75rem;
-    margin-bottom: 4px;
-}
-
-.bot-message { 
-    background-color: rgb(116, 199, 236, .2);;
-}
-
-.text-small { 
-    margin-top: 0px;
-    margin-bottom: 0px;
-
-    font-size: 0.8rem; 
+textarea:focus { 
+    outline: 0;
 }
 
 a { 
-    cursor: pointer !important;
+    text-decoration: none;
+    color: var(--ctp-mocha-sapphire)
 }
 
-message:not(.bot-message):hover { 
-    background-color: var(--ctp-mocha-mantle);
+body { 
+    background-color: var(--ctp-mocha-base);
 }
 
-nav hr { 
-    border-bottom: 1px solid var(--ctp-mocha-surface0);
-    margin: 0px 8px;
+@media (min-width: 900px) { 
+
+    .error-message { 
+        display: none;
+
+        background-color: var(--ctp-mocha-base) !important;
+    }
 }
 
-my_profile { 
-    background-color: var(--ctp-mocha-mantle);
-}
+@media (max-width: 900px ) { 
+    app > *:not(.error-message) { 
+        display: none;
+    }
 
-my_profile { 
-    grid-column: 1 / 3;
-}
+    .error-message { 
+        max-width: 28rem;
 
-app > * { 
-    min-width: 1rem;
-    min-height: 1rem; 
+        text-align: center;
+
+        margin: auto;
+
+        padding: 1rem;
+    }
+
+    * { 
+        margin: 0;
+    }
+
+    h1 { 
+        margin-bottom: 1rem;
+    }
+
+    app { 
+        display: flex;
+    }
 }
 
 message { 
@@ -515,10 +592,6 @@ author a {
     text-decoration: inherit;
 }
 
-a:hover { 
-    text-decoration: underline;
-}
-
 message fill { 
     display: block;
 
@@ -538,40 +611,10 @@ message .pfp {
     grid-column: 1 / 2; 
 }
 
-.hubs { 
-    background-color: var(--ctp-mocha-crust);
-}
 
-my_profile img { 
-    margin: 0.25rem 0px;
-    width: 3rem; 
-    height: 3rem; 
-}
-
-a { 
-    color: var(--ctp-mocha-sapphire);
-}
-
-* { 
-    font-family: sans-serif;
-}
-
-svg { 
-    width: 18px; 
-    height: 18px;
-
-    fill: var(--ctp-text-normal)
-}
-
-button { 
-    padding: 0.3rem 1rem; 
-}
 
 </style>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title>Rust::Cargo::CompilerError &star; Bonfire Is Gay</title>
-        <!-- THIS IS NOT A COMPILER ERROR IM JUST A SILLY GIRL -->
-    </head>
+<body>
+    
+</body>
 </html>
