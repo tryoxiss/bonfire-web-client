@@ -322,6 +322,34 @@
     --ctp-mocha-crust-hsl: hsl(240, 23%, 9%);
 }
 
+.ctp-mocha { 
+    --accent-color: var(--ctp-mocha-sapphire);
+
+    --color-danger: var(--ctp-mocha-red);
+    --color-warning: var(--ctp-mocha-yellow);
+    --color-safe: var(--ctp-mocha-green);
+    --color-cta: var(--accent-color);
+
+    --group-bar-color: var(--ctp-mocha-crust);
+
+    --border-color: var(--ctp-mocha-crust);
+
+    --channels-bar-color: var(--ctp-mocha-mantle);
+    --ui-box-color: var(--ctp-mocha-mantle);
+
+    --base-color: var(--ctp-mocha-base);
+
+    --text-color: var(--ctp-mocha-text);
+    --text-muted: var(--ctp-mocha-subtext0);
+
+    --main-font: sans-serif;
+    --code-font: 'Hack', monospace,
+}
+
+.ctp-latte { 
+    --var: 1;
+}
+
 * { 
     -webkit-margin-collapse: collapse;
     margin-collape: collapse;
@@ -344,18 +372,53 @@ app {
 
     display: grid;
     grid-template-columns: var(--hubs-width) var(--channels-width) 1fr var(--members-width);
+    grid-template-rows: 2.5rem 1fr 3rem;
     margin: 0px;
+
+    grid-template-areas: 
+    "group channels header  header"
+    "group channels message message"
+    "group profile message message";
+
+    --border-large-radius: 1000rem; /* make it cmpletely round */
+    --border-radius: 6px;
+
+    /* Search, members, pins, etc are all popups/dropdowns. */
 
     min-height: 100vh;
 
     overflow: hidden;
 
-    color: var(--ctp-mocha-text);
-    font-family: sans-serif;
+    color: var(--text-color);
+    font-family: var(--main-font);
+}
+
+[role="user-profile"] { grid-area: profile; }
+
+[role="user-profile"] { 
+    /* background-color: green; */
+    margin-top: -4rem;
 }
 
 [role="groups"] { 
-    background-color: var(--ctp-mocha-crust);
+    background-color: var(--group-bar-color);
+    grid-area: group;
+}
+
+[role="channels"] { 
+    grid-area: channels;
+}
+
+.header-bar { 
+    grid-area: header;
+}
+
+main { 
+    grid-area: message;
+}
+
+[role="members"] { 
+    grid-area: "misc";
 }
 
 [role="groups"] a { 
@@ -363,7 +426,7 @@ app {
     margin: 0.5rem 0.5rem;
     /* margin-top: 0.5rem; */
 
-    background-color: var(--ctp-mocha-base);
+    background-color: var(--base-color);
     border-radius: 100px;
 
     height: 3rem;
@@ -388,14 +451,14 @@ app {
 }
 
 [role="groups"] hr {
-    border: 1px solid var(--ctp-mocha-base);
+    border: 1px solid var(--base-color);
     margin: 0.5rem 0.25rem;
 }
 
 
 
 [role="channels"] { 
-    background-color: var(--ctp-mocha-mantle);
+    background-color: var(--channels-bar-color);
 }
 
 [role="channels"] ul { 
@@ -403,15 +466,54 @@ app {
     margin-left: -2rem;
 }
 
-[role="channels"] li { 
-    margin: 0.25rem 0rem;
+[role="channels"] details { 
+    margin: 1rem;
+}
+
+[role="channels"] details ul { 
+    margin-left: -2.5rem;
+}
+
+[role="channels"] ul { 
+    margin-top: 0.25rem;
+}
+
+[role="channels"] summary { 
+    margin-left: -0.9rem;
+    /* font-weight: bold; */
+}
+
+summary::marker { 
+    color: var(--channels-bar-color);
+}
+
+[role="channels"] * { 
+    color: var(--text-color)
+}
+
+[role="channels"] .li { 
+    padding: 0.25rem;
+
+    /* border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px; */
+
+    border-radius: 6px;
+
     display: flex;
 }
 
 [role="channels"] span { 
-    display: block;
+    /* display: block; */
     margin-top: 2px;
     margin-right: 0.5rem;
+}
+
+[role="channels"] .li:hover svg { 
+    fill: var(--accent-color);
+}
+
+[role="channels"] .li:hover, [role="channels"] .li.focus { 
+    background-color: var(--bases-color);
 }
 
 main { 
@@ -423,20 +525,29 @@ main {
 
     /* SHove = height + 7.5rem */
 
-    --header-height: 2.5rem;
-
-    background-color: var(--ctp-mocha-base);
+    background-color: var(--base-color);
 
     display: grid;
-    grid-template-rows: var(--header-height) 1fr var(--message-box-shove);
+    grid-template-rows: 1fr var(--message-box-shove);
 
-    scrollbar-color: var(--ctp-mocha-sapphire) var(--ctp-mocha-base);
+    scrollbar-color: var(--accent-color) var(--base-color);
     scrollbar-width: 6px;
 
 }
 
+header .topic { 
+    margin: 0.75rem; 
+    padding: 0.75rem; 
+    border-left: 1px solid var(--ctp-mocha-surface2);
+    color: var(--text-muted);
+}
+
+.muted { 
+    color: var(--text-muted);
+}
+
 main header { 
-    background-color: var(--ctp-mocha-mantle);
+    background-color: var(--channels-bar-color);
 }
 
 header p { 
@@ -446,33 +557,113 @@ header p {
 
 header { 
     display: flex;
+    background-color: var(--channels-bar-color);
+    border-left: 1px solid var(--border-color);
+}
+
+[role="members-list"] { 
+    border-top: 1px solid var(--border-color);
 }
 
 [role="channels"] header svg { 
     margin-bottom: 12px;
 }
 
-[role="members-list"] { 
-    background-color: var(--ctp-mocha-mantle);
-}
-
 svg { 
-    /* stroke: var(--ctp-mocha-text); */
-    fill: var(--ctp-mocha-text);
+    fill: var(--text-color);
     width: 1rem;
     height: 1rem;
 }
 
 button { 
     border: 0;
-    background-color: var(--ctp-mocha-mantle);
+    background-color: var(--ui-box-color);
+    color: var(--text-color);
 
     margin: 0.25rem;
+
+    transition: 100ms;
+
+    cursor: pointer;
+}
+
+
+
+.round-button { 
+    border: 0;
+    background-color: var(--ui-box-color);
 
     height: 2.5rem;
     width: 2.5rem;
 
     border-radius: 100%;
+}
+
+.menu-bar-buttons { 
+    margin-left: auto;
+    margin-right: 0.5rem;
+    margin-top: -4px;
+}
+
+.round-button { 
+    cursor: pointer;
+}
+
+.button-rect { 
+    padding: .6rem 1rem;
+
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+}
+
+.button-rect:hover { 
+    color: var(--accent-color);
+}
+
+.button-cta { 
+    background-color: var(--accent-color);
+    color: var(--ui-box-color);
+    border: 1px solid var(--accent-color);
+}
+
+.button-danger {
+    background-size: 200% 100%;
+    background-image: linear-gradient(to right, var(--ui-box-color) 50%, var(--color-danger) 50%);
+    -webkit-transition: background-position 2s;
+    -moz-transition: background-position 2s;
+    transition: background-position 2s;
+
+    text-shadow: 0px 0px 2px var(--ui-box-color);
+}
+
+.button-danger:hover {
+    background-position: -100% 0%;
+    color: var(--text-color);
+}
+
+.button-cta:hover { 
+    color: var(--accent-color);
+    background-color: var(--ui-box-color);
+}
+
+/* @keyframes slide { 
+    0% { 
+        background: linear-gradient(90deg, var(--color-danger) 1%, var(--ui-box-color) 1%);
+    }
+
+    100% { 
+        background: linear-gradient(90deg, var(--color-danger) 100%, var(--ui-box-color) 100%);
+    }
+} */
+
+.button-text { 
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+.button-text:hover { 
+    text-decoration: underline;
+    color: var(--text-color);
 }
 
 .message-box-area { 
@@ -482,8 +673,7 @@ button {
     display: flex;
 
     --message-box-width: calc(100vw
-                        - (var(--hubs-width) + var(--channels-width) + 
-                        var(--members-width)) 
+                        - (var(--hubs-width) + var(--channels-width) + 2.5rem) 
                         - calc(var(--message-area-button-width) * 
                             var(--num-message-area-buttons)
                         ) );
@@ -495,7 +685,7 @@ button {
 
     /* width: var(--message-box-width); */
 
-    background-color: var(--ctp-mocha-base);
+    background-color: var(--base-color);
 }
 
 .messages { 
@@ -506,7 +696,7 @@ button {
 }
 
 textarea { 
-    background-color: var(--ctp-mocha-mantle);
+    background-color: var(--ui-box-color);
     border: 0;
     border-radius: 6px;
     font-family: inherit;
@@ -525,11 +715,11 @@ textarea:focus {
 
 a { 
     text-decoration: none;
-    color: var(--ctp-mocha-sapphire)
+    color: var(--accent-color)
 }
 
 body { 
-    background-color: var(--ctp-mocha-base);
+    background-color: var(--base-color);
 }
 
 @media (min-width: 900px) { 
@@ -537,7 +727,7 @@ body {
     .error-message { 
         display: none;
 
-        background-color: var(--ctp-mocha-base) !important;
+        background-color: var(--base-color) !important;
     }
 }
 
@@ -569,13 +759,42 @@ body {
     }
 }
 
-message { 
-    display: block;
+.round-button:hover svg, [role="groups"] a:hover svg { 
+    fill: var(--accent-color);    
+}
 
-    padding: 0.2em 1rem;
+.user-profile img { 
+    width: 2.5rem; 
+    height: 2.5rem;
+    border-radius: 100%;
+    margin-left: 0.5rem;
+}
+
+.user-profile content * { 
+    margin: 0px;
+    display: block;
+}
+
+.user-profile a { 
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.user-profile text { 
+    color: var(--text-muted);
+
+}
+
+
+message, .user-profile { 
+    display: block;
 
     display: grid; 
     grid-template-columns: 3.5rem 1fr; 
+}
+
+message { 
+    padding: 0.2em 1rem;
 }
 
 message author {
@@ -583,13 +802,24 @@ message author {
 
     text-decoration: none;
 
-    font-weight: bold; 
-    color: var(--ctp-text-strong);
 }
 
 author a { 
     color: inherit;
     text-decoration: inherit;
+
+    font-weight: bold; 
+    color: var(--ctp-text-strong);
+}
+
+message time { 
+    color: var(--base-color);
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+}
+
+message:hover time { 
+    color: var(--text-muted);
 }
 
 message fill { 
@@ -598,7 +828,7 @@ message fill {
     grid-column: 2 / 3; 
 }
 
-message .pfp { 
+message .left .pfp { 
     width:  3rem; 
     height: 3rem;
 
@@ -607,11 +837,203 @@ message .pfp {
 
     margin-right: 0.5rem;
     /* margin-bottom: 0.5rem; */
+}
 
+message .left { 
     grid-column: 1 / 2; 
 }
 
+a:hover { 
+    text-decoration: underline;
+    cursor: pointer;
+}
 
+.li { 
+    display: list-item;
+}
+
+/* ********* COPYPASTA STARTS ************ */
+
+/* FROM CSSTRICKS @ https://css-tricks.com/custom-styling-form-inputs-with-modern-css-features/ OR https://codepen.io/aaroniker/pen/ZEYoxEY (it's literally 1:1 minus some variables and pickey tweaks) */
+
+/* TODO: Fix the colors, they are just temperary rn */
+
+@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+
+input[type=checkbox]:disabled,
+input[type=radio]:disabled {
+    --active-inner: var(--mocha-blue);
+} 
+
+input[type=checkbox],
+input[type=radio] {
+
+  /* --active: var(--blueviolet-2);
+  --active-inner: var(--border-color);
+  --border-hover: var(--blueviolet-2);
+  --background: var(--border-color);
+  --disabled: var(--border-color);
+  --disabled-inner: var(--blueviolet-2-bg); */
+
+  --active: var(--accent-color);
+  --active-inner: var(--ui-box-color);
+  --inactive-inner: var(--accent-color); 
+  /* --active-inner: red;  */
+  --border: var(--ui-box-color); 
+  --border-hover: var(--accent-color);
+  /* --background: transparent; */
+  --background: var(--ui-box-color); 
+
+  --disabled: var(--group-bar-color);
+  --disabled-inner: var(--group-bar-color);
+
+  appearance: none;
+  
+  height: 21px;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  margin: 0;
+  cursor: pointer;
+  border: 1px solid var(--bc, var(--border));
+  background: var(--b, var(--background));
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
+}
+input[type=checkbox]:after,
+input[type=radio]:after {
+  content: "";
+
+    /* content: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';  */
+
+  display: block;
+  left: 0;
+  top: 0;
+  position: absolute;
+
+  transition: transform var(--d-t, 0.3s) var(--d-t-e, ease), opacity var(--d-o, 0.2s);
+}
+input[type=checkbox]:checked,
+input[type=radio]:checked {
+  --b: var(--active);
+  --bc: var(--active);
+  --d-o: .3s;
+  --d-t: .6s;
+  --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
+}
+input[type=checkbox]:disabled,
+input[type=radio]:disabled {
+  --b: var(--disabled);
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+input[type=checkbox]:disabled:checked,
+input[type=radio]:disabled:checked {
+  --b: var(--disabled-inner);
+  --bc: var(--border);
+}
+input[type=checkbox]:disabled + label,
+input[type=radio]:disabled + label {
+  cursor: not-allowed;
+}
+input[type=checkbox]:hover:not(:checked):not(:disabled),
+input[type=radio]:hover:not(:checked):not(:disabled) {
+  --bc: var(--border-hover);
+}
+input[type=checkbox]:focus,
+input[type=radio]:focus {
+  box-shadow: 0 0 0 var(--focus);
+}
+input[type=checkbox]:not(.switch),
+input[type=radio]:not(.switch) {
+  width: 21px;
+}
+input[type=checkbox]:not(.switch):after,
+input[type=radio]:not(.switch):after {
+  opacity: var(--o, 0);
+}
+input[type=checkbox]:not(.switch):checked,
+input[type=radio]:not(.switch):checked {
+  --o: 1;
+}
+input[type=checkbox] + label,
+input[type=radio] + label {
+  font-size: 14px;
+  line-height: 21px;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+input[type=checkbox]:not(.switch) {
+  border-radius: 7px;
+}
+input[type=checkbox]:not(.switch):after {
+  width: 5px;
+  height: 9px;
+  border: 2px solid var(--active-inner);
+  border-top: 0;
+  border-left: 0;
+  left: 7px;
+  top: 4px;
+  transform: rotate(var(--r, 20deg));
+}
+input[type=checkbox]:not(.switch):checked {
+  --r: 43deg;
+}
+input[type=checkbox].switch {
+  width: 38px;
+  border-radius: 11px;
+}
+input[type=checkbox].switch:after {
+  left: 2px;
+  top: 2px;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  background: var(--ab, var(--inactive-inner));
+  transform: translateX(var(--x, 0));
+}
+input[type=checkbox].switch:checked {
+  --ab: var(--active-inner);
+  --x: 17px;
+}
+input[type=checkbox].switch:disabled:not(:checked):after {
+  opacity: 0.6;
+}
+
+input[type=radio] {
+  border-radius: 50%;
+}
+input[type=radio]:after {
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--active-inner);
+  opacity: 0;
+  transform: scale(var(--s, 0.7));
+}
+input[type=radio]:checked {
+  --s: .5;
+}
+}
+@media (max-width: 800px) {
+body {
+  flex-direction: column;
+}
+}  
+/* mine again :3 */
+
+
+/* 
+THINGS WE NEED TO ADD: 
+- more radio buttons (like the bg and stuff) (like discord)
+- color input
+- file input (MAYBE)
+- tabs
+- Dropdowns
+- code blocks
+*/
 
 </style>
 <body>
