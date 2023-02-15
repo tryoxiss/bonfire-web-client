@@ -27,6 +27,22 @@ pub struct Props {
 // }
 
 
+//# Everything prefixed with Fa is from font awesome Free
+// They provide this licence disclaimer. 
+// This will also be featured in the credits popup.
+// Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. 
+#[function_component]
+fn FaPlusIcon() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"></path></svg> }
+}
+
+#[function_component]
+fn FaSendIcon() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480V396.4c0-4 1.5-7.8 4.2-10.7L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg> }
+}
+
+
+
 
 #[function_component]
 fn MessageRoot(props: &Props) -> Html {
@@ -97,14 +113,14 @@ fn DrawHeader(props: &Props) -> Html {
     }
 }
 
-#[function_component]
-fn MessageButton(props: &Props) -> Html {
-    html! { 
-    <button class="round-button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg>
-    </button>
-    }
-}
+// #[function_component]
+// fn RoundButton(props: &Props) -> Html {
+//     html! { 
+//     <button class="round-button">
+//         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg>
+//     </button>
+//     }
+// }
 
 #[function_component]
 fn GroupIcon(props: &Props) -> Html {
@@ -193,7 +209,8 @@ fn App() -> Html {
             </ul>
             </details>
 
-            <p><span>{ "All icons are from "}</span><a href="https://fontawesome.com/search?o=r&m=free">{" Font Awesome Free"}</a></p>
+            <br />
+            <p>{ "Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. "}</p>
         </nav>
 
         <DrawHeader />
@@ -251,11 +268,13 @@ fn App() -> Html {
             </div>
             
             <div class="message-box-area">
-                <MessageButton />
+                <button class="round-button">
+                    <FaPlusIcon />
+                </button>
                 <textarea placeholder="Send a message... " name="message-box" id="message-box" cols="30" rows="2"></textarea>
 
                 <button class="round-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480V396.4c0-4 1.5-7.8 4.2-10.7L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
+                    <FaSendIcon />
                 </button>
             </div>
         </main>
