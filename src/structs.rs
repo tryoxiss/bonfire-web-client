@@ -8,6 +8,8 @@ pub struct Permissions {
     perms_for: Guid, // role or user
     // Useful so that channels can track a list of permissions objects, knowing what each is for. 
 
+    require_e2e: bool, 
+
     // viewing permissions
     view_channel: bool,
     view_audit_log: bool,
@@ -101,6 +103,8 @@ pub struct Profile {
     // Dosen't make sense to seperate it into a seperate struct because they are only used here. 
 
     // privacy and safety
+
+    require_e2e: bool,
 
     // dm = direct message
     require_friendship_to_dm: bool, // if  on: overrides all below settings in this block to FALSE
