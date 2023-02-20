@@ -1,0 +1,50 @@
+# This localisation file contains information about how to translate data. 
+# Strings can contain variables surrounded by [] in some cases/ 
+#
+# For example: 
+# Sent on [time:datetime_full]
+# Some can take arguments, for example time can take the time and check if its in the last 24 hours. the most recent viable one will always be used. 
+
+[messages]
+sent_time(scope:24h): "Today at [time:time_full]"
+sent_time(scope:48h): "Yesterday at [time:time_full]"
+sent_time: "Sent on [time:date_full] at [time:time_full]"
+
+[groups]
+group_members_total: "[n] Members"
+group_members_online: "[n] Online"
+
+[permissions]
+require_e2e: "Require end-to-end encryption"
+view_channel: "View Channel"
+view_audit_log : "View Audit Log"
+view_message_history: "View Message History"
+
+manage_channel: "Manage Channel"
+manage_roles: "Manage Roles"
+manage_emoji: "Manage Emoji"
+manage_webhooks: "Manage Webhooks"
+manage_bots: "Manage Integrations"
+manage_guild: "Manage Group"
+manage_alias: "Manage Nicknames"
+manage_messages: "Manage Messages"
+manage_threads: "Manage Threads"
+manage_events: "Manage Events"
+
+edit_alias: "Change Nickname"
+kick: "Kick Users" &assosiate:tip_kick
+ban: "Ban Users"
+mute_others: "Mute Members"
+move_members: "Move Members"
+force_voice_mute: "Voice Mute Members"
+force_voice_deafen: "Deafen Users"
+
+add_react: "Can Add Reactions"
+
+
+[tips]
+tip_kick: "This probably isn't what your looking for! If this is a public or by invite link group they can rejoin at any time with no restrictions!"
+
+[language options]
+language_en-US_name: "English (Simplified)"
+language_en-UK_name: "English (Traditional)"

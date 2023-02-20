@@ -29,15 +29,15 @@ pub struct Permissions {
 
     // member managementpermissions
     edit_alias: bool,
-    can_kick: bool,
-    can_ban: bool,
-    can_mute: bool,
-    can_move_members: bool,
+    kick: bool,
+    ban: bool,
+    mute_others: bool,
+    move_members: bool,
     force_voice_mute: bool,
     force_voice_deafen: bool,
 
     // ??? 
-    can_react: bool,
+    add_react: bool,
 
     // role permissions
     can_ping_all: bool,
@@ -171,7 +171,6 @@ pub struct Profile {
     attenuation_threshold: i8, // Lower the volume of other applications when receving voice input. 0 disables  it. Unit: Debibels
     show_warning_when_no_mic: bool, // display a warning when no mic is deteced in vc
 
-
     // text and images
     force_create_embeds: bool, // always show other peoples links as embeds, even if they don't have permission to in the group 
 
@@ -181,6 +180,9 @@ pub struct Profile {
     emoji_prefered_gender: String, // "person", "womman", "man" -- edits the shortcode, when you just do :shrug: it will append yourPrefrence_ to make it represent you better, for example, to :womman_shrug:
     preview_message_syntax: String, // show markdown and emoji syntax as you type
     click_to_show_spoiler: bool, // false: always show spoilered content. 
+
+    attempt_auto_translate: bool,
+    translate_engine: String, 
 
     //# notifcations
     desktop_notificiations: bool, 
@@ -226,6 +228,17 @@ pub struct Profile {
 
     //#
     language: String, // ISO codes, e.g., en-US (or just en), da, etc. 
+    use_silly_shortcodes: bool,
+
+    //# Diagnostic data collection
+    send_data_on_crash: bool,
+    send_data_on_startup: bool,
+    send_data_on_bug_report: bool,
+
+    send_data_network_area: bool, // timezone. 
+    send_data_hardware: bool, 
+    send_data_client: bool, 
+    send_data_os: bool,
 
     //# OS Settings
     open_on_startup: bool, 
