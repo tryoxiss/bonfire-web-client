@@ -53,4 +53,13 @@ See how much more readable that is? But that won't always work, so enter tech 2!
 
 Yes, function calls have a small amount of overhead, but that is so minor its not worth thinking about. Additioanlly: if you make good use of functions our code becomes more modular and faster to expand! Which is very important to us. Especially with the power of the macros system in rust, we can entirely remove the function overhead at only minimal cost to our developement and compile time!
 
+Nesting limitations do not apply to HTML, XML, XHTML, or any simillar markup languages as heavy nesting is unavoidable in those cases, and the nesting helps visual clarity. 
+
 If you are still confused, [this video should help explain how to prevent code nesting](https://www.youtube.com/watch?v=CFRhGnuXG-4).
+
+We indent with 4 spaces, not tabs. No more than 4 spaces, and no less. 
+
+## Weird Cases
+In the case of an HTTP macro, don't indent the root element. This creates an entirely unnecesary layer of nesting. 
+
+For <style> elements, used for performance opposed to downloading a seperate stylesheet for the webapp (seperate stylesheets are used for the client still), do not indent the elements. Write within the style element as if that was its own external file. Additioanlly, <style> elements always go directly after the <head>, and directly before the <body>. Similarly, do not indent <head> and <body> elements, only thier contents. They are functionally root elements. 
