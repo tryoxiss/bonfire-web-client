@@ -62,4 +62,16 @@ We indent with 4 spaces, not tabs. No more than 4 spaces, and no less.
 ## Weird Cases
 In the case of an HTTP macro, don't indent the root element. This creates an entirely unnecesary layer of nesting. 
 
-For <style> elements, used for performance opposed to downloading a seperate stylesheet for the webapp (seperate stylesheets are used for the client still), do not indent the elements. Write within the style element as if that was its own external file. Additioanlly, <style> elements always go directly after the <head>, and directly before the <body>. Similarly, do not indent <head> and <body> elements, only thier contents. They are functionally root elements. 
+For `<style>` elements, used for performance opposed to downloading a seperate stylesheet for the webapp (seperate stylesheets are used for the client still), do not indent the elements. Write within the style element as if that was its own external file. Additioanlly, `<style>` elements always go directly after the `<head>`, and directly before the `<body>`. Similarly, do not indent `<head>` and `<body>` elements, only thier contents. They are functionally root elements. 
+
+## Variables
+
+Variables are in `snake_case`. 
+
+1. Do not abbrivate names. `mouse_x_coordinate` or `mouse_x`, not `mX`
+2. Do not prefix variable type. `is_passing`, not `bool_is_passing` or `b_is_passing`. 
+3. If it uses a specific unit, add the unit. `delay_secconds`, not `delay`. 
+4. No "Utils" or "Helpers": Specify further. It can always be sorted into more neat sets. 
+5. Avoid "base_x", etc. Instead: create "x" as the base class, and over specify the name for children. 
+    - Not "Truck of BaseTruck"
+    - Instead use: "TrailerTruck of Truck"
