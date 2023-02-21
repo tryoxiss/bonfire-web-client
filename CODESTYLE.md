@@ -7,7 +7,7 @@ fn main(param1, param2) { // do not space pad brackets.
 } 
 ```
 
-Our code is also minimally nested. Only 4 layers or less of indentation will be allowed to merge. 
+Our code is also minimally nested. Only 4 layers or less of indentation will be allowed to merge. 4 layers deep is only sometimes acceptable, in some cases, and generally it is best to apply nesting minimisation starting at 2 or 3 levels deep. 
 
 This is the absolute most code can be nested. 
 ```py
