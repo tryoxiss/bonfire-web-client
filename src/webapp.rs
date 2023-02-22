@@ -1,6 +1,6 @@
 
-// use yew::prelude::*;
-use yew::{function_component, html, Html, Properties};
+use yew::prelude::*;
+// use yew::{function_component, html, Html, Properties};
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -20,11 +20,77 @@ pub struct Props {
     pub title: String,
 }
 
-// Then somewhere else you can use the component inside `html!`
-// #[function_component]
-// fn HelloWorld() -> Html {
-//     html! { <p>{ "Hello world" }</p> }
+enum Msg {
+    AddOne,
+}
+
+struct AppComponent {
+    count: i128,
+    v: Vec<i32>,
+}
+
+impl Component for AppComponent {
+    type Message = Msg;
+    type Properties = ();
+
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self { 
+            count: 0,
+            v: vec![1]        
+        }
+    }
+
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
+        match msg {
+            Msg::AddOne => {
+                self.count += 10;
+                self.v.push(1);
+                true // re-render component
+            }
+        }
+    }
+
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let link = ctx.link();
+        html! {
+            <div class="container">
+                <div>
+                    {
+
+                    for self.v.iter().map(|x| {
+                        html! {
+                            <p>{ x }</p>
+                        }
+                    })
+                    
+                    }
+                </div>
+
+                <button onclick={link.callback(|_| Msg::AddOne)}>{ "+1" }</button>
+            </div>
+        }
+    }
+}
+
+
+// Called by our JS entry point to run the example
+// #[wasm_bindgen(start)]
+// fn run() -> Result<(), JsValue> {
+//     // Use `web_sys`'s global `window` function to get a handle on the global
+//     // window object.
+//     let window = web_sys::window().expect("no global `window` exists");
+//     let document = window.document().expect("should have a document on window");
+//     let body = document.body().expect("document should have a body");
+
+//     // Manufacture the element we're gonna append
+//     let val = document.create_element("p")?;
+//     val.set_text_content(Some("Hello from Rust!"));
+
+//     body.append_child(&val)?;
+
+//     Ok(())
 // }
+
 
 
 
@@ -59,22 +125,22 @@ fn Message(props: &Props) -> Html {
     }
 }
 
-#[function_component]
-fn CommandResponse(props: &Props) -> Html {
-    html! { 
-        <message class="bot-message">
-            <a class="left"><img class="pfp" src={ props.icon.clone() }/></a>
-            <fill>
-                <author><a>{ props.author.clone() }</a><span class="bot-tag">{ "BOT" }</span></author>
-                <content>
-                { props.content.clone() }
+// #[function_component]
+// fn CommandResponse(props: &Props) -> Html {
+//     html! { 
+//         <message class="bot-message">
+//             <a class="left"><img class="pfp" src={ props.icon.clone() }/></a>
+//             <fill>
+//                 <author><a>{ props.author.clone() }</a><span class="bot-tag">{ "BOT" }</span></author>
+//                 <content>
+//                 { props.content.clone() }
 
-                    <p class="text-small"><span>{"Only you can see this messgae. It will disapear when your client is restarted or the tab is closed. "}</span><a>{"Dismiss it now."}</a></p>
-                </content>
-            </fill>
-        </message> 
-    }
-}
+//                     <p class="text-small"><span>{"Only you can see this messgae. It will disapear when your client is restarted or the tab is closed. "}</span><a>{"Dismiss it now."}</a></p>
+//                 </content>
+//             </fill>
+//         </message> 
+//     }
+// }
 
 #[function_component]
 fn DrawHeader(props: &Props) -> Html {
@@ -146,6 +212,29 @@ fn VoiceChannel(props: &Props) -> Html {
 }
 
 
+// fn determine_password_safety(password: String) -> u32{ 
+//     let score: u32;
+
+//     let MINIMUM_LENGTH: u32 = 12;
+//     let CHAR_VALUE: u32 = 4;
+
+//     let symbols = ['!', '@', '#', '$', '%', '^', '(', ')', '-', '_', '+', '=',
+//                                ':', '[', ']', '`', '~', '?', '<', '>', ',', '.', '/'];
+//     let low_alpha: [char; 26] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+//                                 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
+//                                 'y', 'z'];
+//     let up_alpha: [char; 26] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+//                                 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+//                                 'Y', 'Z'];
+//     let digit: [char; 10] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+//     let allowed = [symbols, low_alpha, up_alpha, digit];
+
+//     score += password.len() * CHAR_VALUE;
+
+//     return score;
+// }
+
 
 #[function_component]
 fn App() -> Html {
@@ -202,51 +291,43 @@ fn App() -> Html {
 
             <div class="messages">
 
-                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
-                <Message content="text" />
-                <Message content="text" />
-                <Message content="text" />
-                <Message content="text" />
-                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
-                <Message content="text" />
-                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
-                <Message content="text" />
-                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
-                <Message content="text" />
-                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
-                <Message content="text" />
-                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
-                <Message content="text" />
-                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
-                <Message content="text" />
-                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
-                <Message content="text" />
-                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
-                <Message content="text" />
-                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
-                <Message content="text" />
-                <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
-                <Message content="text" />
+                <div style="min-height: 90vh; display: flex;">
+                    <div style="margin-top: auto;">
+                    <text class="h1">{"This is the begining"}</text>
+                    <text>{"of your ✨magical✨ conversation!"}</text>
+                    //<text>{"(Thoigh of course it won't ALWAYS go that way, so heres some options)"}</text>
 
-                <button class="button-rect button-danger">{"Delete Account"}</button>
-                <button class="button-rect button-cta">{"Create Account"}</button>
-                <button class="button-rect button-neutral">{"edit username"}</button>
-                <button class="button-rect button-text">{"edit username"}</button>
+                //  <button class="button-rect button-danger">{"Block User"}</button>
+                    <button class="button-rect-small button-rect button-cta">{"Send Friend Request"}</button>
+                    //<button class="button-rect-small button-rect button-neutral">{"Reject Message Request"}</button>
+                    <button class="button-rect-small button-rect button-danger">{"Block User"}</button>
 
-                <input type="checkbox" class="switch" checked=true />
-                <input type="checkbox" class="switch" />
-                <input type="checkbox" class="switch" disabled=true checked=true />
-                <input type="checkbox" class="switch" disabled=true />
 
-                <input type="checkbox" checked=true />
-                <input type="checkbox" />
-                <input type="checkbox" disabled=true checked=true />
-                <input type="checkbox" disabled=true />
+                    </div>
+                </div>
 
-                <input type="radio" for="test1" checked=true />
-                <input type="radio" for="test1" />
-                <input type="radio" for="test1" disabled=true checked=true />
-                <input type="radio" for="test1" disabled=true />
+                // <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
+                // <Message content="text" />
+
+                // <button class="button-rect button-danger">{"Delete Account"}</button>
+                // <button class="button-rect button-cta">{"Create Account"}</button>
+                // <button class="button-rect button-neutral">{"edit username"}</button>
+                // <button class="button-rect button-text">{"edit username"}</button>
+
+                // <input type="checkbox" class="switch" checked=true />
+                // <input type="checkbox" class="switch" />
+                // <input type="checkbox" class="switch" disabled=true checked=true />
+                // <input type="checkbox" class="switch" disabled=true />
+
+                // <input type="checkbox" checked=true />
+                // <input type="checkbox" />
+                // <input type="checkbox" disabled=true checked=true />
+                // <input type="checkbox" disabled=true />
+
+                // <input type="radio" for="test1" checked=true />
+                // <input type="radio" for="test1" />
+                // <input type="radio" for="test1" disabled=true checked=true />
+                // <input type="radio" for="test1" disabled=true />
                 
             </div>
             
@@ -275,6 +356,10 @@ fn App() -> Html {
     }
 }
 
-pub fn render_app() {
-    yew::Renderer::<App>::new().render();
+pub fn khaim_debug() { 
+    yew::Renderer::<AppComponent>::new().render();
 }
+
+// pub fn render_app() {
+//     yew::Renderer::<App>::new().render();
+// }
