@@ -8,6 +8,14 @@
 
 Versioning is `major:minor:patch::build_status`. Breaking changes may occur, but should be avoided as much as possible. 
 
+On first run: 
+`rustup default nightly`
+`rustup target add wasm32-unknown-unknown`
+`cargo run`
+
+Everyt time to be served: 
+`trunk serve`
+
 ## Why not XMPP?
 
 XMPP is great: so great in fact, we want to make Bonfire interoperable with XMPP to the extent possible. However, it does not support the hubs and channels format that we want to use. So, unfortuntely, we need to make our own spec. We will still use XMPP for direct messages, or at least make them interoperable with it, but we can't use it for the bulk of Bonfire.
