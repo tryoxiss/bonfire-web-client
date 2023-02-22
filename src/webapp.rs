@@ -1,24 +1,130 @@
 
-// use yew::prelude::*;
-use yew::{function_component, html, Html, Properties};
+use yew::prelude::*;
+
+enum Msg {
+    AddOne,
+}
+
+struct AppComponent {
+    count: i128,
+    content: Vec<i32>,
+}
+
+impl Component for AppComponent {
+    type Message = Msg;
+    type Properties = ();
+
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self { 
+            count: 0,
+            content: vec![1]        
+        }
+    }
+
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
+        match msg {
+            Msg::AddOne => {
+                self.count += 10;
+                self.content.push(1);
+                true // re-render component
+            }
+        }
+    }
+
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let link = ctx.link();
+        html! { 
+<app class="ctp-mocha">
+    <nav role="groups">
+        <ul>
+            <li><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
+            <li><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a></li>
+        </ul>
+        <hr />
+        <ul>
+            <li><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
+            <li><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a></li>
+            <li><a href="#3" style="background-image: url(https://picsum.photos/id/237/1920/1080);"></a></li>
+            <li><a href="#4" style="background-image: url(https://picsum.photos/id/291/200/300);"></a></li>
+            <li><a href="#5" style="background-image: url(https://picsum.photos/id/221/200/300);"></a></li>
+            <li><a href="#6" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
+            <li><a href="#7" style="background-image: url(https://picsum.photos/id/297/200/300);"></a></li>
+            <li><a href="#8" style="background-image: url(https://picsum.photos/id/2197/200/300);"></a></li>
+        </ul>
+    </nav>
+    <nav role="channels"></nav>
+
+    <main>
+        <header class="med-padding">
+            <h1><span class="muted">{"@"}</span><span>{"doggo"}</span><span class="muted">{"@instance.tld"}</span></h1>
+            <vr/>
+            <span style="margin-left: auto;"><button><FaPushpinIcon /></button></span>
+        </header>
+
+        <ul>
+            <MessageRoot />
+        
+            {
+            
+            for self.content.iter().map(|x| {
+                html! {
+                    <Message />
+                }
+            })
+                
+            }
+            
+        </ul>
+
+        <div class="message-area">
+            <button class="round-button"><FaPlusIcon /></button>
+
+            <div 
+                class="expandable-textarea"
+                role="textbox"
+                contenteditable="true"
+                placeholder="send a message">
+            </div>
+
+            <button class="round-button" onclick={link.callback(|_| Msg::AddOne)}><FaSendIcon /></button>
+        </div>
+
+    </main>
+
+    <div role="profile"></div>
+</app>
+        }
+    }
+}
+
+
+// use yew::{function_component, html, Html, Properties};
+
+// #[derive(Properties, PartialEq)]
+// pub struct Props {
+//     #[prop_or_default]
+//     pub author: String,
+
+//     #[prop_or_default]
+//     pub content: String,
+
+//     #[prop_or_default]
+//     pub icon: String,
+
+//     #[prop_or_default]
+//     pub header_name: String,
+
+//     #[prop_or_default]
+//     pub title: String,
+// }
 
 #[derive(Properties, PartialEq)]
-pub struct Props {
-    #[prop_or_default]
-    pub author: String,
-
-    #[prop_or_default]
-    pub content: String,
-
-    #[prop_or_default]
-    pub icon: String,
-
-    #[prop_or_default]
-    pub header_name: String,
-
-    #[prop_or_default]
-    pub title: String,
+#[derive(Default)]
+pub struct AppStruct {
+    theme: String,
 }
+
+// props: &Props
 
 // Then somewhere else you can use the component inside `html!`
 // #[function_component]
@@ -69,8 +175,8 @@ fn MessageRoot() -> Html {
 
         <div class="content">
             <header>
-                <text class="author">{ "doggo"}</text>
-                <time>{ "07 Feb 2023 at 23:09"}</time>
+                <text class="author">{"doggo"}</text>
+                <time>{"07 Feb 2023 at 23:09"}</time>
             </header>
             <div class="content">
                 <text>{"lorem"}</text>
@@ -80,11 +186,17 @@ fn MessageRoot() -> Html {
     }
 }
 
+// pub struct Props { 
+//     public: String,
+//     main: String,
+//     args: String,
+// }
+
 #[function_component]
 fn Message() -> Html {
     html! {
     <li>
-    <time>{ "23:09"}</time>
+    <time>{"23:09"}</time>
         <div class="content">
         <text>{"lorem"}</text>
         </div>
@@ -102,91 +214,7 @@ fn Message() -> Html {
 // }
 
 
-#[function_component]
-fn App() -> Html {
-    html! { 
-    <app class="ctp-mocha">
-        <nav role="groups">
-            <ul>
-                <li><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
-                <li><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a></li>
-            </ul>
-            <hr />
-            <ul>
-                <li><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
-                <li><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a></li>
-                <li><a href="#3" style="background-image: url(https://picsum.photos/id/237/1920/1080);"></a></li>
-                <li><a href="#4" style="background-image: url(https://picsum.photos/id/291/200/300);"></a></li>
-                <li><a href="#5" style="background-image: url(https://picsum.photos/id/221/200/300);"></a></li>
-                <li><a href="#6" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
-                <li><a href="#7" style="background-image: url(https://picsum.photos/id/297/200/300);"></a></li>
-                <li><a href="#8" style="background-image: url(https://picsum.photos/id/2197/200/300);"></a></li>
-            </ul>
-        </nav>
-        <nav role="channels"></nav>
-
-        <main>
-            <header class="med-padding">
-                <h1><span class="muted">{"@"}</span><span>{"doggo"}</span><span class="muted">{"@instance.tld"}</span></h1>
-                <vr/>
-                <span style="margin-left: auto;"><button><FaPushpinIcon /></button></span>
-            </header>
-
-            <ul>
-                <MessageRoot />
-                <Message />
-                <MessageRoot />
-                <Message />
-                <MessageRoot />
-                <Message />
-                <Message />
-                <Message />
-                <MessageRoot />
-                <Message />
-                <MessageRoot />
-                <Message />
-                <MessageRoot />
-                <Message />
-                <Message />
-                <Message />
-                <MessageRoot />
-                <Message />
-                <MessageRoot />
-                <Message />
-                <MessageRoot />
-                <Message />
-                <Message />
-                <Message />
-                <MessageRoot />
-                <Message />
-                <MessageRoot />
-                <Message />
-                <MessageRoot />
-                <Message />
-                <Message />
-                <Message />
-            </ul>
-
-            <div class="message-area">
-                <button class="round-button"><FaPlusIcon /></button>
-
-                <div 
-                    class="expandable-textarea"
-                    role="textbox"
-                    contenteditable="true"
-                    placeholder="send a message">
-                </div>
-
-                <button class="round-button"><FaSendIcon /></button>
-            </div>
-
-        </main>
-
-        <div role="profile"></div>
-    </app>
-    }
-}
-
 pub fn render_app() {
-    yew::Renderer::<App>::new().render();
+    // yew::Renderer::<App>::new().render();
+    yew::Renderer::<AppComponent>::new().render();
 }
