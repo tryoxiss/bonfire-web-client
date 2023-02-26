@@ -287,6 +287,7 @@ pub struct Profile {
 
 }
 
+#[derive(Properties, PartialEq)]
 pub struct Message {
     author: Guid,
     guid: Guid, 
