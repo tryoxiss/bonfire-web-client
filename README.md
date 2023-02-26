@@ -9,7 +9,7 @@ Versioning is `major:minor:patch::build_status`. Breaking changes may occur, but
 
 This repository contains the server implementation, complete with a web client. It should be fully functional on its own if you follow our set up guide in our docs!
 
-We will likely also create alternate repositories for offical iOS, Android, Windows, MacOS and Linux clients in the future. 
+We will likely also create alternate repositories for offical iOS, Android, Windows, MacOS and Linux clients in the future. We have a seperate repostiroy for our website, which currently is just documentation. 
 
 ## Why not XMPP?
 
