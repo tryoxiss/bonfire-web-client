@@ -2,6 +2,8 @@
 // use yew::prelude::*;
 use yew::{function_component, html, Html, Properties};
 
+struct Guid { guid: u128 }
+
 #[derive(Properties, PartialEq)]
 pub struct Props {
     #[prop_or_default]
@@ -18,6 +20,15 @@ pub struct Props {
 
     #[prop_or_default]
     pub title: String,
+}
+
+#[derive(Properties, PartialEq)]
+pub struct MessageProperties {
+    #[prop_or_default]
+    pub author: String,
+
+    #[prop_or_default]
+    pub content: String,
 }
 
 // Then somewhere else you can use the component inside `html!`
@@ -62,7 +73,7 @@ fn FaHomeIcon() -> Html {
 
 
 #[function_component]
-fn MessageRoot() -> Html {
+fn MessageRoot(props: &MessageProperties) -> Html {
     html! {
     <li>
         <div style="background-image: url(https://picsum.photos/id/237/200/300);" class="pfp" />
@@ -81,7 +92,7 @@ fn MessageRoot() -> Html {
 }
 
 #[function_component]
-fn Message() -> Html {
+fn Message(props: &MessageProperties) -> Html {
     html! {
     <li>
     <time>{ "23:09"}</time>
@@ -100,7 +111,6 @@ fn Message() -> Html {
 //     </button>
 //     }
 // }
-
 
 #[function_component]
 fn App() -> Html {
