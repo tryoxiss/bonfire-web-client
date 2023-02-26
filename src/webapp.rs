@@ -1,6 +1,9 @@
 
 use yew::prelude::*;
 
+//# DEBUG
+use rand::prelude::*;
+
 enum Msg {
     AddOne,
 }
@@ -38,6 +41,7 @@ impl Component for AppComponent {
 
     <div class="absolute-pane">
         <ContextMenu />
+        <span class="tooltip" id="tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span>
     </div>
 
     <nav role="groups">
@@ -72,8 +76,15 @@ impl Component for AppComponent {
             {
             
             for self.content.iter().map(|x| {
-                html! {
-                    <MessageRoot />
+
+                if rand::random() {
+                    html! { 
+                        <MessageRoot />
+                    }
+                } else {
+                    html! { 
+                        <Message />
+                    }
                 }
             })
                 
@@ -238,7 +249,7 @@ fn MessageRoot() -> Html {
         <div class="content">
             <header>
                 <text class="author">{"doggo"}</text>
-                <time>{"07 Feb 2023 at 23:09"}</time>
+                <time class="has-tooltip">{"07 Feb 2023 at 23:09"}</time>
             </header>
             <div class="content">
                 <text>{"lorem"}</text>
@@ -258,7 +269,7 @@ fn MessageRoot() -> Html {
 fn Message() -> Html {
     html! {
     <li>
-    <time>{"23:09"}</time>
+    <time class="has-tooltip">{"23:09"}</time>
         <div class="content">
         <text>{"lorem"}</text>
         </div>

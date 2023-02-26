@@ -711,6 +711,60 @@ a:hover {
     opacity: .7;
 }
 
+
+/* Copyied from w3 schools/tooltip */
+/* https://www.w3schools.com/css/css_tooltip.asp */
+
+/* .has-tooltip {
+    position: relative;
+    display: inline-block;
+
+    isolation: isolate;
+} */
+
+/* Before all of thwese were decendents of .has-tooltip */
+
+.tooltip {
+    visibility: visible;
+    background-color: var(--group-bar-color);
+    color: var(--text-color);
+    text-align: center;
+    border-radius: var(--border-ui-box-radius);
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 9999;
+}
+
+/* .tooltip {
+    visibility: visible;
+} */
+
+.tooltip {
+    z-index: 99999;
+
+    width: max-content;
+    padding: 0.25rem 0.5rem;
+    bottom: 100%;
+    left: 0;
+    margin-left: -50%;
+
+    min-height: 1rem;
+    top: 10rem;
+    left: 10rem;
+}
+
+/* .has-tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip *
+    left: 50%;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--group-bar-color) transparent transparent transparent;
+} */
+
 </style>
 <body>
     
@@ -719,25 +773,74 @@ a:hover {
 document.onclick = hideMenu; 
 document.oncontextmenu = rightClick; 
 
+window.contextMenuCoordinates = [];
+
 function hideMenu() { 
     document.getElementById("contextMenu") 
             .style.display = "none" 
 } 
 
 function rightClick(e) { 
-    e.preventDefault(); 
 
-    if (document.getElementById("contextMenu").style.display == "block"){ 
-        hideMenu(); 
-        menu.style.left = e.pageX + "px"; 
-        menu.style.top = e.pageY + "px"; 
+    // if ((e.pageX > contextMenuCoordinates[0] + 50) || 
+    //     (e.pageX < contextMenuCoordinates[0] - 50) || 
+
+    //     (e.pageY > contextMenuCoordinates[1] + 50) || 
+    //     (e.pageY > contextMenuCoordinates[1] + 50)
+        
+    //     ) { 
+
+    // }
+
+
+    if (document.getElementById("contextMenu").style.display == "block") { 
+
+        // if you right click again when the menu is open, check to see 
+        // if the location was within 20 pixels of its current location. 
+        // If so: Don't re-open it, allow the  defult context meny. 
+        // If not: do the standard behavor of close/open.
+        if ((e.pageX > contextMenuCoordinates[0] + 20) || 
+            (e.pageX < contextMenuCoordinates[0] - 20) || 
+
+            (e.pageY > contextMenuCoordinates[1] + 20) || 
+            (e.pageY > contextMenuCoordinates[1] + 20)
+            
+            ) { 
+            e.preventDefault();
+            hideMenu(); 
+        } 
     } else { 
+        e.preventDefault(); 
+
         var menu = document.getElementById("contextMenu")
         menu.style.display = 'block'; 
         menu.style.marginLeft = e.pageX + "px"; 
         menu.style.marginTop = e.pageY + "px"; 
     } 
+
+    contextMenuCoordinates[0] = e.pageX;
+    contextMenuCoordinates[1] = e.pageY;
 } 
+</script>
+
+<script credit="https://stackoverflow.com/questions/49301668/javascript-div-box-that-follow-cursor-position">
+var cer = document.getElementById('tooltip');
+var pro = document.getElementById('tooltip');
+
+
+pro.addEventListener("mousemove", function() {
+var e = window.event;
+var x = e.clientX;
+var y = e.clientY;
+cer.style.top = y + "px";
+cer.style.left = x + "px";
+cer.style.transition = "2s";
+});
+
+pro.addEventListener("mouseout", function() {
+cer.style.top = "15px";
+cer.style.left = "15px";
+});
 </script>
 </body>
 </html>
