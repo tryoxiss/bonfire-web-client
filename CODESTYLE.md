@@ -64,14 +64,22 @@ In the case of an HTML macro, don't indent the root element. This creates an ent
 
 For `<style>` elements, used for performance opposed to downloading a seperate stylesheet for the webapp (seperate stylesheets are used for the client still), do not indent the elements. Write within the style element as if that was its own external file. Additionally, `<style>` elements always go directly after the `<head>`, and directly before the `<body>`. Similarly, do not indent `<head>` and `<body>` elements, only thier contents. They are functionally root elements. 
 
-## Variables
+## Naming Conventions
 
 Variables are in `snake_case`. 
 
-1. Do not abbrivate names. `mouse_x_coordinate` or `mouse_x`, not `mX`
+1. Do not abbrivate names. `mouse_x_coordinate` or `mouse_x`, not `mX`. If your function is explictly a coordinate handler, and only deals with one set of coordinates, x, y, and z are fine. 
 2. Do not prefix variable type. `is_passing`, not `bool_is_passing` or `b_is_passing`. 
 3. If it uses a specific unit, add the unit. `delay_seconds`, not `delay`. 
 4. No "Utils" or "Helpers": Specify further. It can always be sorted into more neat sets. 
 5. Avoid "base_x", etc. Instead: create "x" as the base class, and over specify the name for children. 
     - Not "Truck of BaseTruck"
     - Instead use: "TrailerTruck of Truck"
+6. One letter variable names are allowed for the following cases: 
+    1. explicit one way mathmatical functions that take in one value, where you can use n. 
+    2. x, y, and z coordinates in a coordinate handler where you only deal with one set of coordinates. 
+    3. For i loops with only one nest. for j is not allowed, and if you need a nested for loop you cannot use i, you must name both variables according to other conventions
+7. Abbreviations and initalisms are fine sometimes, for example `guid` is fine as its clear what it is, despite being an initalism. 
+
+## Comments
+Comments starting with //# are header comments. This means they tell you information about the block of code until the next empty line. This is mostly useful in Structs where we can use them to show our categorisation of variables. 
