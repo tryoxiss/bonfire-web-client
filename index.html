@@ -332,29 +332,47 @@
 /* THEME STYLES: This is here because it is the defult, normally this would be 
 an external stylesheet on the users computer in the app. Custom themes are not 
 supported on the web client version*/
-.ctp-mocha { 
-    --accent-color-rgb: var(--ctp-mocha-sapphire-rgb);
-    --accent-color: rgb(var(--ctp-mocha-sapphire-rgb));
-    --hilight-color: rgb(var(--accent-color-rgb), 0.5);
+[theme*="ctp-mocha"] { 
 
-    --color-danger: var(--ctp-mocha-red);
+    /* Colors source: https://github.com/catppuccin/catppuccin#-palette */
+
+    /* The following variables are NOT used by code and can be whatever you want. */
+    --red: rgb(243, 139, 168);
+    --maroon: rgb(235, 160, 172);
+    --orange: rgb(250, 179, 135);
+    --yellow: rgb(249, 226, 175);
+    --green: rgb(166, 227, 161);
+    --teal: rgb(148, 226, 213);
+    --sky: rgb(137, 220, 235);
+    --sapphire: rgb(116, 199, 236);
+    --blue: rgb(137, 180, 250);
+    --violet: rgb(180, 190, 254);
+    
+    /* All the rest of the variables ARE used by code and changing thier 
+     * names WILL break things. */
+    --accent-color-rgb: var(--sapphire);
+    --accent-color: var(--sapphire);
+    --hilight-color: rgb(116, 199, 236 0.5);
+
+    --color-danger: var(--red);
     --color-danger-disabled: rgb(243, 139, 168, 0.25);
 
-    --color-warning: var(--ctp-mocha-yellow);
-    --color-safe: var(--ctp-mocha-green);
+    --color-warning: var(--yellow);
+    --color-safe: var(--green);
     --color-cta: var(--accent-color);
 
-    --group-bar-color: var(--ctp-mocha-crust);
+    --group-bar-color: rgb(17, 17, 27);
+    --border-color: rgb(17, 17, 27);
+    --channels-bar-color: rgb(24, 24, 37);
+    --ui-box-color: rgb(24, 24, 37);
+    --overlay-darken-color: rgb(108, 112, 134);
 
-    --border-color: var(--ctp-mocha-crust);
+    --color-base: rgb(30, 30, 46);
 
-    --channels-bar-color: var(--ctp-mocha-mantle);
-    --ui-box-color: var(--ctp-mocha-mantle);
-
-    --color-base: var(--ctp-mocha-base);
-
-    --text-color: var(--ctp-mocha-text);
-    --text-muted: var(--ctp-mocha-subtext0);
+    --text-color: rgb(198, 208, 245);
+    --text-muted: rgb(161, 168, 201);
+    --link-color: var(--sapphire);
+    --link-text-decoration: none;
 
     --main-font: sans-serif;
     --code-font: 'Hack', monospace;
@@ -370,6 +388,15 @@ supported on the web client version*/
     --textarea-max-height: 70vh;
 
     --round-button-size: 2.25rem;
+
+    --large-margin: 0.75rem;
+    --large-padding: 0.75rem;
+
+    --standard-margin: 0.5rem;
+    --standard-padding: 0.5rem;
+
+    --small-margin: 0.25rem;
+    --small-padding: 0.25rem;
 
     --message-spacing: 0.5rem;
 
@@ -388,6 +415,11 @@ supported on the web client version*/
     -webkit-margin-collapse: collapse;
     margin-collapse: collapse;
     margin: 0;
+}
+
+a { 
+    color: var(--link-color);
+    text-decoration: var(--link-text-decoration);
 }
 
 body { 
@@ -495,8 +527,6 @@ hr {
 
 
 main { 
-    /* margin: 0.5rem; */
-
     display: grid;
     grid-template-rows: 2.5rem 1fr auto;
 
@@ -512,7 +542,7 @@ main > header {
 }
 
 main time { 
-    margin-left: 0.5rem;
+    margin-left: var(--standard-margin);
     font-size: 0.8rem;
     margin-top: 3px;
     color: var(--text-muted);
@@ -522,7 +552,11 @@ main time {
 
 .author { 
     font-weight: bold;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+main ul header { 
+    margin-top: var(--small-margin);
 }
 
 main ul { 
@@ -533,7 +567,7 @@ main ul {
 }
 
 main li:hover time { 
-    margin-left: 0.5rem;
+    margin-left: var(--standard-margin);
     font-size: 0.8rem;
     margin-top: 3px;
     color: var(--text-muted);
@@ -567,7 +601,7 @@ main li {
     resize: none !important;
     font-family: inherit;
     font-size: inherit;
-    padding: 0.5rem;
+    padding: var(--standard-padding);
 
     display: block;
     width: calc(100% - 1rem - (var(--round-button-size) * var(--message-box-buttons)));
@@ -598,7 +632,7 @@ header {
 }
 
 .med-padding { 
-    padding: 0.5rem;
+    padding: var(--standard-padding);
 }
 
 [role="profile"] { 
@@ -620,7 +654,7 @@ vr {
     border-left: 1px solid var(--border-color);
     border-right: transparent;
 
-    margin: 0px 0.5rem;
+    margin: 0px var(--standard-margin);
 
     height: 90%;
 }
@@ -645,7 +679,7 @@ button {
     width: var(--round-button-size);
     height: var(--round-button-size);
 
-    margin: 0.5rem;
+    margin: var(--standard-margin);
 
     border-radius: 500rem;
 }
@@ -664,7 +698,7 @@ svg {
 }
 
 main li { 
-    margin: 0.5rem;
+    margin: var(--standard-margin);
 }
 
 
@@ -680,7 +714,7 @@ main li {
     border-radius: var(--border-ui-box-radius);
     font-size: 1rem;
 
-    margin: 0.25rem;
+    margin: var(--small-margin);
 
     color: var(--text-color);
 }
@@ -866,7 +900,7 @@ input[type=radio] + label {
 }
 
 input[type=checkbox]:not(.switch) {
-  border-radius: 7px;
+  border-radius: var(--border-ui-box-radius);
 }
 input[type=checkbox]:not(.switch):after {
   width: 5px;
@@ -927,7 +961,7 @@ input[type=radio]:checked {
 
 input[type=radio] {
   border-radius: 50%;
-  margin-right: 0.25rem;
+  margin-right: var(--small-margin);
 }
 input[type=radio]:not(:checked) {
     border: 1px solid var(--text-muted);
@@ -955,8 +989,8 @@ body {
 /* mine again :3 */
 
 .radio-option { 
-    padding: 0.5rem;
-    margin: 0.25rem;
+    padding: var(--standard-padding);
+    margin: var(--small-margin);
 
     display: flex;
 
@@ -1101,15 +1135,14 @@ see this stack overflow question: https://stackoverflow.com/questions/7208786/ho
     display: flex;
     flex-direction: column;
 
-    margin: 0.25rem;
-    padding: 0.5rem;
+    margin: var(--small-margin);
+    padding: var(--standard-padding);
     padding-left: 2.5rem;
 
     border-radius: var(--border-ui-box-radius);
 }
 
 .context-menu li { 
-    /* padding: 0.25rem; */
     margin: 0;
     display: block;
 }
@@ -1124,6 +1157,15 @@ see this stack overflow question: https://stackoverflow.com/questions/7208786/ho
 
 .context-menu svg { 
     margin-left: auto;
+}
+
+.context-menu input { 
+    margin-left: 0 !important;
+    margin-right: -3px;
+}
+
+.context-menu label { 
+    flex-grow: 1;
 }
 
 .tooltip { 
@@ -1166,7 +1208,7 @@ see this stack overflow question: https://stackoverflow.com/questions/7208786/ho
     text-align: left;
     color: inherit;
     font-size: 1rem;
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem var(--standard-padding);
     height: auto;
 
     background-color: inherit;
@@ -1181,7 +1223,7 @@ see this stack overflow question: https://stackoverflow.com/questions/7208786/ho
 
 .context-menu { 
     background-color: var(--group-bar-color);
-    padding: 0.25rem;
+    padding: var(--small-padding);
     border-radius: var(--border-ui-box-radius);
 
     width: 12rem;
@@ -1226,7 +1268,7 @@ a:hover {
     width: max-content;
     visibility: hidden;
     width: max-content;
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem var(--standard-padding);
     background-color: var(--group-bar-color);
     /* background-color: blue; */
     height: 1.75rem;

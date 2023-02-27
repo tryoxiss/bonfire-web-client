@@ -37,7 +37,7 @@ impl Component for AppComponent {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let link = ctx.link();
         html! { 
-<app class="ctp-mocha" app="Bonfire Server offical" version="0:1:0::beta" repository="github.com/tryoxiss/bonfire-server" authors="Khaim0919, Tryoxiss">
+<app class="ctp-mocha" theme="ctp-mocha" app="Bonfire Server offical" version="0:1:0::beta" repository="github.com/tryoxiss/bonfire-server" authors="Khaim0919, Tryoxiss">
 
     <div class="absolute-pane">
         <ContextMenu />
@@ -86,53 +86,6 @@ impl Component for AppComponent {
                 }
             })
             }
-
-            <button class="button-rect button-cta">{"CTA Button"}</button>
-            <button class="button-rect button-normal">{"Normal Button UwU"}</button>
-            <button class="button-rect button-danger-wait">{"Danger Wait Button"}</button>
-            <button class="button-rect button-danger">{"Danger Button"}</button>
-            <button class="button-rect button-text">{"Text Button"}</button>
-
-            <input type="checkbox" />
-            <input type="checkbox" checked=true />
-            <input type="checkbox" disabled=true />
-            <input type="checkbox" disabled=true checked=true />
-
-            <input type="checkbox" class="switch" />
-            <input type="checkbox" class="switch" checked=true />
-            <input type="checkbox" class="switch" disabled=true />
-            <input type="checkbox" class="switch" disabled=true checked=true />
-
-            <form action="/action_page.php">
-            <p>{"Please select your favorite Web language:"}</p>
-
-            <div class="radio-option"><input type="radio" id="html" name="fav_language" value="HTML" />
-            <label for="html">{"HTML"}</label></div>
-
-            <div class="radio-option"><input type="radio" id="css" name="fav_language" value="CSS" />
-            <label for="css">{"CSS"}</label></div>
-
-            <div class="radio-option"><input type="radio" id="javascript" name="fav_language" value="JavaScript" />
-            <label for="javascript">{"JavaScript"}</label></div>
-
-            <input type="range" min="1" max="100" value="50" class="slider" id="myRange" />
-
-            <br />  
-
-            <p>{"Please select your age:"}</p>
-
-            <div class="radio-option"><input type="radio" id="age1" name="age" value="30" />
-            <label for="age1">{"0 - 30"}</label></div>
-
-            <div class="radio-option"><input type="radio" id="age2" name="age" value="60" />
-            <label for="age2">{"31 - 60"}</label></div>
-
-            <div class="radio-option"><input type="radio" id="age3" name="age" value="100" />
-            <label for="age3">{"61 - 100"}</label></div>
-
-            <input type="submit" value="Submit" />
-
-            </form>
 
         </ul>
 
@@ -400,6 +353,78 @@ fn ContextMenuManageChannel() -> Html {
         </ul> 
     }
 }
+
+#[function_component]
+fn ButtonCta() -> Html {
+    html! {
+        <button class="button-rect button-cta">{"CTA Button"}</button>
+    }
+}
+
+#[function_component]
+fn ButtonNormal() -> Html {
+    html! {
+    <button class="button-rect button-normal">{"Normal Button UwU"}</button>
+    }
+}
+
+#[function_component]
+fn ButtonDanger() -> Html {
+    html! {
+    <button class="button-rect button-danger">{"Danger Button"}</button>
+    }
+}
+
+#[function_component]
+fn ButtonDangerWait() -> Html {
+    html! {
+    <button class="button-rect button-danger-wait">{"Danger Wait Button"}</button>
+    }
+}
+
+#[function_component]
+fn ButtonText() -> Html {
+    html! {
+    <button class="button-rect button-text">{"Text Button"}</button>
+    }
+}
+
+#[function_component]
+fn Checkbox() -> Html {
+    html! {
+    <input type="checkbox" />
+    }
+}
+
+#[function_component]
+fn Switch() -> Html {
+    html! {
+    <input type="checkbox" class="switch" />
+    }
+}
+
+// <input type="checkbox" class="switch" />
+// <input type="checkbox" class="switch" checked=true />
+// <input type="checkbox" class="switch" disabled=true />
+// <input type="checkbox" class="switch" disabled=true checked=true />
+
+#[function_component]
+fn RadioButton() -> Html {
+    html! {
+    <div class="yew-makes-me-do-this-gross-uneeded-div-vomit-emoji">
+        <div class="radio-option"><input type="radio" id="html" name="fav_language" value="HTML" />
+        <label for="html">{"HTML"}</label></div>
+    </div>
+    }
+}
+
+#[function_component]
+fn Slider() -> Html {
+    html! {
+    <input type="range" min="1" max="100" value="50" class="slider"/>
+    }
+}
+
 
 
 pub fn render_app() {
