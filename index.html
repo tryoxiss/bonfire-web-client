@@ -777,17 +777,17 @@ a:hover {
     border-color: transparent var(--channels-bar-color) transparent transparent;
 }
 
+/* Might make it just a class that determines if the popup takes time becayse I want the groups tooltip to show up immeitely.*/
+
+[role="groups"] .has-tooltip .tooltip { 
+    animation: pop-in 1ms;
+}
+
 /* Used to create a delayed show up effect with pure css. */
 @keyframes pop-in { 
     from { visibility: hidden; }
     99% { visibility: hidden; }
     to { visibility: visible; }
-}
-
-/* Might make it just a class that determines if the popup takes time becayse I want the groups tooltip to show up immeitely.*/
-
-[role="groups"] .has-tooltip .tooltip { 
-    animation: pop-in 1ms;
 }
 
 </style>
