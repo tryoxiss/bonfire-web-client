@@ -409,10 +409,12 @@ app {
     overflow: hidden;
 }
 
-app > * { 
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
+/* app > * {  */
+    /* overflow-y: scroll; */
+    /* overflow-x: hidden; */
+
+    /* opacity: .5; */
+/* } */
 
 :not(.allow-ul) ul { 
     list-style: none;
@@ -731,13 +733,20 @@ a:hover {
     width: max-content;
     padding: 0.25rem 0.5rem;
     background-color: var(--group-bar-color);
+    /* background-color: blue; */
+    height: 1.75rem;
     color: #fff;
     text-align: center;
     border-radius: var(--border-ui-box-radius);
     
     /* Position the tooltip text - see examples below! */
     position: absolute;
-    z-index: 1;
+
+    z-index: 9999;
+}
+
+[role="groups"] .tooltip { 
+    margin-top: 0.75rem;
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
@@ -748,7 +757,7 @@ a:hover {
 
 .has-tooltip .right-tooltip {
   top: -5px;
-  left: 110%;
+  left: 115%;
 }
 
 .has-tooltip .right-tooltip::after {
@@ -760,8 +769,12 @@ a:hover {
     border-width: 5px;
     border-style: solid;
 
-    border-color: transparent blue transparent transparent;
-    /* border-color: transparent var(--group-bar-color) transparent transparent; */
+    /* border-color: transparent blue transparent transparent; */
+    border-color: transparent var(--group-bar-color) transparent transparent;
+}
+
+[role="groups"] .right-tooltip::after { 
+    border-color: transparent var(--channels-bar-color) transparent transparent;
 }
 
 /* Used to create a delayed show up effect with pure css. */
