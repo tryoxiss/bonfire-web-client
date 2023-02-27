@@ -37,7 +37,7 @@ impl Component for AppComponent {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let link = ctx.link();
         html! { 
-<app class="ctp-mocha">
+<app class="ctp-mocha" app="Bonfire Server offical" version="0:1:0::beta" repository="github.com/tryoxiss/bonfire-server" authors="Khaim0919, Tryoxiss">
 
     <div class="absolute-pane">
         <ContextMenu />

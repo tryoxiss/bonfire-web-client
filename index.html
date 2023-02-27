@@ -659,8 +659,6 @@ svg {
     height: 1rem;
 }
 
-
-
 *:hover > svg { 
     fill: var(--accent-color);
 }
@@ -693,11 +691,7 @@ main li {
     margin: 0.5rem 0.35rem;
 }
 
-.button-neutral { 
-    border: 1px solid var(--ui-box-color);
-}
-
-.button-rect:hover { 
+.button-normal:hover { 
     color: var(--accent-color);
 }
 
@@ -727,16 +721,16 @@ main li {
 
 .button-danger { 
     color: var(--color-danger);
+    text-shadow: 0px 0px 4px var(--ui-box-color);
 }
 
 .button-danger:hover { 
-    color: var(--ui-box-color);
-    background-color: var(--color-danger);
+    color: var(--color-danger);
+    background-color: var(--color-danger-disabled);
 }
 
 .button-cta:hover { 
-    color: var(--accent-color);
-    background-color: var(--ui-box-color);
+    opacity: .7;
 }
 
 /* @keyframes slide { 
@@ -908,6 +902,10 @@ input[type=checkbox].switch:disabled:not(:checked):after {
   opacity: 0.6;
 }
 
+label { 
+    cursor: pointer;
+}
+
 
 /* input[type=radio] {
     border-radius: 7px;
@@ -986,22 +984,24 @@ body {
 /* slider base code from https://www.w3schools.com/howto/howto_js_rangeslider.asp */
 
 input[type="range"] {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 4px;
-  border-radius: 5px;  
-  background: var(--ui-box-color);
-  outline: none;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 5px;  
+    background: var(--ui-box-color);
+    outline: none;
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%; 
-  background: var(--accent-color);
-  cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%; 
+    background: var(--accent-color);
+    cursor: pointer;
+    border: 0;
+    outline: 0;
 }
 
 input[type="range"]::-moz-range-thumb {
@@ -1010,6 +1010,8 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 50%;
   background: var(--accent-color);
   cursor: pointer;
+  border: 0;
+    outline: 0;
 }
 
 
@@ -1091,7 +1093,7 @@ see this stack overflow question: https://stackoverflow.com/questions/7208786/ho
 
 
 .context-menu { 
-    --context-menu-width: calc(var(--channels-bar-width) + 2rem);
+    --context-menu-width: calc(var(--channels-bar-width) + 10rem);
 
     background-color: var(--ui-box-color);
     width: var(--context-menu-width);
@@ -1107,7 +1109,7 @@ see this stack overflow question: https://stackoverflow.com/questions/7208786/ho
 }
 
 .context-menu li { 
-    padding: 0.25rem;
+    /* padding: 0.25rem; */
     margin: 0;
     display: block;
 }
@@ -1121,9 +1123,7 @@ see this stack overflow question: https://stackoverflow.com/questions/7208786/ho
 }
 
 .context-menu svg { 
-    fill: var(--text-muted);
     margin-left: auto;
-    margin-right: 0.25rem;
 }
 
 .tooltip { 
@@ -1219,8 +1219,6 @@ a:hover {
 /* Tooltip container */
 .has-tooltip {
     position: relative;
-
-    z-index: 9999;
 }
 
 /* Tooltip text */
@@ -1289,7 +1287,6 @@ a:hover {
 
 </style>
 <body>
-    
 
 <script>
 document.onclick = hideMenu; 
@@ -1325,9 +1322,7 @@ function rightClick(e) {
             (e.pageX < contextMenuCoordinates[0] - 20) || 
 
             (e.pageY > contextMenuCoordinates[1] + 20) || 
-            (e.pageY > contextMenuCoordinates[1] + 20)
-            
-            ) { 
+            (e.pageY > contextMenuCoordinates[1] + 20)) { 
             e.preventDefault();
             hideMenu(); 
         } 
@@ -1338,7 +1333,7 @@ function rightClick(e) {
         menu.style.display = 'block'; 
         menu.style.marginLeft = e.pageX + "px"; 
         menu.style.marginTop = e.pageY + "px"; 
-    } 
+    }
 
     contextMenuCoordinates[0] = e.pageX;
     contextMenuCoordinates[1] = e.pageY;
