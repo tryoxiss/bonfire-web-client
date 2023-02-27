@@ -41,17 +41,17 @@ impl Component for AppComponent {
 
     <div class="absolute-pane">
         <ContextMenu />
-        <span class="tooltip" id="tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span>
+        // <span class="tooltip" id="tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span>
     </div>
 
     <nav role="groups">
         <ul>
-            <li><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
-            <li><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a></li>
+            <li class="has-tooltip"><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a><span class="tooltip right-tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span></li>
+            <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a><span class="tooltip right-tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span></li>
         </ul>
         <hr />
         <ul>
-            <li><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
+            <li class="has-tooltip"><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
             <li><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a></li>
             <li><a href="#3" style="background-image: url(https://picsum.photos/id/237/1920/1080);"></a></li>
             <li><a href="#4" style="background-image: url(https://picsum.photos/id/291/200/300);"></a></li>
@@ -249,7 +249,7 @@ fn MessageRoot() -> Html {
         <div class="content">
             <header>
                 <text class="author">{"doggo"}</text>
-                <time class="has-tooltip">{"07 Feb 2023 at 23:09"}</time>
+                <time class="has-tooltip">{"07 Feb 2023 at 23:09"}<span class="tooltip right-tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span></time>
             </header>
             <div class="content">
                 <text>{"lorem"}</text>
@@ -269,11 +269,18 @@ fn MessageRoot() -> Html {
 fn Message() -> Html {
     html! {
     <li>
-    <time class="has-tooltip">{"23:09"}</time>
+    <time class="has-tooltip">{"23:09"} <span class="tooltip right-tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span></time>
         <div class="content">
         <text>{"lorem"}</text>
         </div>
     </li>
+    }
+}
+
+#[function_component]
+fn RightTooltip() -> Html {
+    html! {
+    <span class="tooltip right-tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span>
     }
 }
 
