@@ -334,6 +334,8 @@ supported on the web client version*/
     --accent-color: var(--ctp-mocha-sapphire);
 
     --color-danger: var(--ctp-mocha-red);
+    --color-danger-disabled: rgb(243, 139, 168, 0.25);
+
     --color-warning: var(--ctp-mocha-yellow);
     --color-safe: var(--ctp-mocha-green);
     --color-cta: var(--accent-color);
@@ -372,6 +374,8 @@ supported on the web client version*/
 
 *, *::before, *::after { 
     box-sizing: border-box;
+    -webkit-margin-collapse: collapse;
+    margin-collapse: collapse;
     margin: 0;
 }
 
@@ -452,6 +456,15 @@ main { grid-area: messages; }
     padding: 0;
 
     border: 1px solid var(--channels-bar-color);
+}
+
+hr { 
+    /* width: 80%; */
+    height: 0px;
+    margin: 0.15rem;
+    padding: 0;
+
+    border: 1px solid var(--border-color);
 }
 
 
@@ -596,7 +609,10 @@ button {
     background-color: var(--ui-box-color);
     border: 0;
     cursor: pointer;
+    
+}
 
+.header-button { 
     width: 1.5rem;
     height: 1.5rem;
 }
@@ -623,6 +639,487 @@ svg {
 
 *:hover > svg { 
     fill: var(--accent-color);
+}
+
+main li { 
+    margin: 0.5rem;
+}
+
+
+/* ******** */
+
+.button-rect-large { 
+    padding: .5rem 1rem;
+}
+
+.button-rect { 
+    padding: .35rem 1rem;
+
+    border-radius: var(--border-ui-box-radius);
+    font-size: 1rem;
+
+    margin: 0.25rem;
+
+    color: var(--text-color);
+}
+
+.button-rect-small { 
+    padding: .25rem 0.75rem;
+    font-size: 0.9rem;
+    margin: 0.5rem 0.35rem;
+}
+
+.button-neutral { 
+    border: 1px solid var(--ui-box-color);
+}
+
+.button-rect:hover { 
+    color: var(--accent-color);
+}
+
+.button-cta { 
+    background-color: var(--accent-color);
+    color: var(--ui-box-color);
+    /* border: 1px solid var(--accent-color); */
+}
+
+.button-danger-wait {
+    background-size: 200% 100%;
+    background-image: linear-gradient(to right, var(--ui-box-color) 50%, var(--color-danger-disabled) 50%);
+    -webkit-transition: background-position 2s;
+    -moz-transition: background-position 2s;
+    transition: background-position 2s;
+
+    color: var(--color-danger);
+
+    text-shadow: 0px 0px 4px var(--ui-box-color);
+}
+
+.button-danger-wait:hover {
+
+    background-position: -100% 0%;
+    color: var(--color-danger);
+}
+
+.button-danger { 
+    color: var(--color-danger);
+}
+
+.button-danger:hover { 
+    color: var(--ui-box-color);
+    background-color: var(--color-danger);
+}
+
+.button-cta:hover { 
+    color: var(--accent-color);
+    background-color: var(--ui-box-color);
+}
+
+/* @keyframes slide { 
+    0% { 
+        background: linear-gradient(90deg, var(--color-danger) 1%, var(--ui-box-color) 1%);
+    }
+    100% { 
+        background: linear-gradient(90deg, var(--color-danger) 100%, var(--ui-box-color) 100%);
+    }
+} */
+
+.button-text { 
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+.button-text:hover { 
+    text-decoration: underline;
+    color: var(--text-color);
+}
+
+/* ********* COPYPASTA STARTS ************ */
+
+/* FROM CSSTRICKS @ https://css-tricks.com/custom-styling-form-inputs-with-modern-css-features/ OR https://codepen.io/aaroniker/pen/ZEYoxEY (it's literally 1:1 minus some variables and pickey tweaks) */
+
+/* TODO: Fix the colors, they are just temperary rn */
+
+@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+
+input[type=checkbox]:disabled,
+input[type=radio]:disabled {
+    --active-inner: var(--mocha-blue);
+} 
+
+input[type=checkbox],
+input[type=radio] {
+
+  /* --active: var(--blueviolet-2);
+  --active-inner: var(--border-color);
+  --border-hover: var(--blueviolet-2);
+  --background: var(--border-color);
+  --disabled: var(--border-color);
+  --disabled-inner: var(--blueviolet-2-bg); */
+
+  --active: var(--accent-color);
+  --active-inner: var(--ui-box-color);
+  --inactive-inner: var(--accent-color); 
+  /* --active-inner: red;  */
+  --border: var(--ui-box-color); 
+  --border-hover: var(--accent-color);
+  /* --background: transparent; */
+  --background: var(--ui-box-color); 
+
+  --disabled: var(--group-bar-color);
+  --disabled-inner: var(--group-bar-color);
+
+  appearance: none;
+  
+  height: 21px;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  margin: 0;
+  cursor: pointer;
+  border: 1px solid var(--bc, var(--border));
+  background: var(--b, var(--background));
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
+}
+input[type=checkbox]:after,
+input[type=radio]:after {
+  content: "";
+
+    /* content: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';  */
+
+  display: block;
+  left: 0;
+  top: 0;
+  position: absolute;
+
+  transition: transform var(--d-t, 0.3s) var(--d-t-e, ease), opacity var(--d-o, 0.2s);
+}
+input[type=checkbox]:checked,
+input[type=radio]:checked {
+  --b: var(--active);
+  --bc: var(--active);
+  --d-o: .3s;
+  --d-t: .6s;
+  --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
+}
+input[type=checkbox]:disabled,
+input[type=radio]:disabled {
+  --b: var(--disabled);
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+input[type=checkbox]:disabled:checked,
+input[type=radio]:disabled:checked {
+  --b: var(--disabled-inner);
+  --bc: var(--border);
+}
+input[type=checkbox]:disabled + label,
+input[type=radio]:disabled + label {
+  cursor: not-allowed;
+}
+input[type=checkbox]:hover:not(:checked):not(:disabled),
+input[type=radio]:hover:not(:checked):not(:disabled) {
+  --bc: var(--border-hover);
+}
+input[type=checkbox]:focus,
+input[type=radio]:focus {
+  box-shadow: 0 0 0 var(--focus);
+}
+input[type=checkbox]:not(.switch),
+input[type=radio]:not(.switch) {
+  width: 21px;
+}
+input[type=checkbox]:not(.switch):after,
+input[type=radio]:not(.switch):after {
+  opacity: var(--o, 0);
+}
+input[type=checkbox]:not(.switch):checked,
+input[type=radio]:not(.switch):checked {
+  --o: 1;
+}
+input[type=checkbox] + label,
+input[type=radio] + label {
+  font-size: 14px;
+  line-height: 21px;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+input[type=checkbox]:not(.switch) {
+  border-radius: 7px;
+}
+input[type=checkbox]:not(.switch):after {
+  width: 5px;
+  height: 9px;
+  border: 2px solid var(--active-inner);
+  border-top: 0;
+  border-left: 0;
+  left: 7px;
+  top: 4px;
+  transform: rotate(var(--r, 20deg));
+}
+input[type=checkbox]:not(.switch):checked {
+  --r: 43deg;
+}
+input[type=checkbox].switch {
+  width: 38px;
+  border-radius: 11px;
+}
+input[type=checkbox].switch:after {
+  left: 2px;
+  top: 2px;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  background: var(--ab, var(--inactive-inner));
+  transform: translateX(var(--x, 0));
+}
+input[type=checkbox].switch:checked {
+  --ab: var(--active-inner);
+  --x: 17px;
+}
+input[type=checkbox].switch:disabled:not(:checked):after {
+  opacity: 0.6;
+}
+
+
+/* input[type=radio] {
+    border-radius: 7px;
+    margin-right: 0.25rem;
+}
+input[type=radio]:after {
+    width: 5px;
+  height: 9px;
+  border: 2px solid var(--active-inner);
+  border-top: 0;
+  border-left: 0;
+  left: 7px;
+  top: 4px;
+  transform: rotate(var(--r, 20deg));
+}
+input[type=radio]:checked {
+    --r: 43deg;
+} */
+
+input[type=radio] {
+  border-radius: 50%;
+  margin-right: 0.25rem;
+}
+input[type=radio]:not(:checked) {
+    border: 1px solid var(--text-muted);
+}
+input[type=radio]:after {
+    width: 5px;
+  height: 9px;
+  border: 2px solid var(--active-inner);
+  border-top: 0;
+  border-left: 0;
+  left: 7px;
+  top: 4px;
+  transform: rotate(var(--r, 20deg));
+}
+input[type=radio]:checked {
+--r: 43deg;
+  --s: .5;
+}
+}
+@media (max-width: 800px) {
+body {
+  flex-direction: column;
+}
+}  
+/* mine again :3 */
+
+.radio-option { 
+    padding: 0.5rem;
+    margin: 0.25rem;
+
+    display: flex;
+
+    border-radius: var(--border-ui-box-radius);
+    background-color: var(--ui-box-color);
+}
+
+.radio-option > * { 
+    display: block;
+}
+
+.radio-option label { 
+    flex-grow: 1;
+}
+
+
+/* ADD CLASSES */
+
+.my-message {}
+.bot-message {}
+.ping-message {}
+
+
+
+/* slider base code from https://www.w3schools.com/howto/howto_js_rangeslider.asp */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 5px;  
+  background: var(--ui-box-color);
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%; 
+  background: var(--accent-color);
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: var(--accent-color);
+  cursor: pointer;
+}
+
+
+
+/* How to style select?? also we need colors and ranges and sliders */
+
+/* Select dropdowns are generated by the brower/os and NOT by the html/css, so we need this to style it.
+see this stack overflow question: https://stackoverflow.com/questions/7208786/how-to-style-the-option-of-an-html-select-element */
+
+.s-hidden {
+  visibility: hidden;
+  padding-right: 10px;
+}
+
+.select {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  font: normal 11px/22px Arial, Sans-Serif;
+  color: black;
+  border: 1px solid #ccc;
+}
+
+.styledSelect {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  padding: 0 10px;
+  font-weight: bold;
+}
+
+.styledSelect:after {
+  content: "";
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-color: black transparent transparent transparent;
+  position: absolute;
+  top: 9px;
+  right: 6px;
+}
+
+.styledSelect:active,
+.styledSelect.active {
+  background-color: #eee;
+}
+
+.options {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: 999;
+  margin: 0 0;
+  padding: 0 0;
+  list-style: none;
+  border: 1px solid #ccc;
+  background-color: white;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.options li {
+  padding: 0 6px;
+  margin: 0 0;
+  padding: 0 10px;
+}
+
+.options li:hover {
+  background-color: #39f;
+  color: white;
+}
+
+
+
+.context-menu { 
+    --context-menu-width: calc(var(--channels-bar-width) + 2rem);
+
+    background-color: var(--ui-box-color);
+    width: var(--context-menu-width);
+
+    display: flex;
+    flex-direction: column;
+
+    margin: 0.25rem;
+    padding: 0.5rem;
+    padding-left: 2.5rem;
+
+    border-radius: var(--border-ui-box-radius);
+}
+
+.context-menu li { 
+    padding: 0.25rem;
+    margin: 0;
+    display: block;
+}
+.context-menu a { 
+    display: flex;
+}
+
+.context-menu li:hover { 
+    background-color: var(--color-base);
+    border-radius: var(--border-ui-box-radius);
+}
+
+.context-menu svg { 
+    fill: var(--text-muted);
+    margin-left: auto;
+    margin-right: 0.25rem;
+}
+
+.tooltip { 
+    background-color: var(--ui-box-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--border-ui-box-radius);
+
+    height: max-content;
+}
+
+.absolute-pane { 
+    position: absolute;
+}
+
+.absolute-pane > * { 
+    display: none;
+}
+
+.absolute-pane > .visible { 
+    display: block;
 }
 
 </style>

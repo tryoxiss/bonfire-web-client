@@ -35,6 +35,20 @@ impl Component for AppComponent {
         let link = ctx.link();
         html! { 
 <app class="ctp-mocha">
+
+    <div class="absolute-pane">
+        <ul class="context-menu">
+                <li><a><span>{"Reply"}</span><FaSendIcon /></a></li>
+                <li>{"Add Reacton"}</li>
+                <li>{"Copy Link"}</li>
+                <hr />
+                <li>{"Edit Message"}</li>
+                <li>{"Delete Message"}</li>
+            </ul>
+
+            <span class="tooltip">{"Tooltip"}</span>
+    </div>
+
     <nav role="groups">
         <ul>
             <li><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
@@ -58,7 +72,7 @@ impl Component for AppComponent {
         <header class="med-padding">
             <h1><span class="muted">{"@"}</span><span>{"doggo"}</span><span class="muted">{"@instance.tld"}</span></h1>
             <vr/>
-            <span style="margin-left: auto;"><button><FaPushpinIcon /></button></span>
+            <span style="margin-left: auto;"><button class="heaer-button"><FaPushpinIcon /></button></span>
         </header>
 
         <ul>
@@ -68,12 +82,59 @@ impl Component for AppComponent {
             
             for self.content.iter().map(|x| {
                 html! {
-                    <Message />
+                    <MessageRoot />
                 }
             })
                 
             }
-            
+
+            <button class="button-rect button-cta">{"CTA Button"}</button>
+            <button class="button-rect button-normal">{"Normal Button UwU"}</button>
+            <button class="button-rect button-danger-wait">{"Danger Wait Button"}</button>
+            <button class="button-rect button-danger">{"Danger Button"}</button>
+            <button class="button-rect button-text">{"Text Button"}</button>
+
+            <input type="checkbox" />
+            <input type="checkbox" checked=true />
+            <input type="checkbox" disabled=true />
+            <input type="checkbox" disabled=true checked=true />
+
+            <input type="checkbox" class="switch" />
+            <input type="checkbox" class="switch" checked=true />
+            <input type="checkbox" class="switch" disabled=true />
+            <input type="checkbox" class="switch" disabled=true checked=true />
+
+            <form action="/action_page.php">
+            <p>{"Please select your favorite Web language:"}</p>
+
+            <div class="radio-option"><input type="radio" id="html" name="fav_language" value="HTML" />
+            <label for="html">{"HTML"}</label></div>
+
+            <div class="radio-option"><input type="radio" id="css" name="fav_language" value="CSS" />
+            <label for="css">{"CSS"}</label></div>
+
+            <div class="radio-option"><input type="radio" id="javascript" name="fav_language" value="JavaScript" />
+            <label for="javascript">{"JavaScript"}</label></div>
+
+            <input type="range" min="1" max="100" value="50" class="slider" id="myRange" />
+
+            <br />  
+
+            <p>{"Please select your age:"}</p>
+
+            <div class="radio-option"><input type="radio" id="age1" name="age" value="30" />
+            <label for="age1">{"0 - 30"}</label></div>
+
+            <div class="radio-option"><input type="radio" id="age2" name="age" value="60" />
+            <label for="age2">{"31 - 60"}</label></div>
+
+            <div class="radio-option"><input type="radio" id="age3" name="age" value="100" />
+            <label for="age3">{"61 - 100"}</label></div>
+
+            <input type="submit" value="Submit" />
+
+            </form>
+
         </ul>
 
         <div class="message-area">
@@ -93,7 +154,7 @@ impl Component for AppComponent {
 
     <div role="profile"></div>
 </app>
-        }
+        } 
     }
 }
 
@@ -179,7 +240,7 @@ fn MessageRoot() -> Html {
                 <time>{"07 Feb 2023 at 23:09"}</time>
             </header>
             <div class="content">
-                <text>{"lorem"}</text>
+                <text>{"Arf! Arf!"}</text>
             </div>
         </div>
     </li>
