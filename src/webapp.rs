@@ -8,12 +8,12 @@ enum Msg {
     AddOne,
 }
 
-struct AppComponent {
+struct App {
     count: i128,
     content: Vec<i32>,
 }
 
-impl Component for AppComponent {
+impl Component for App {
     type Message = Msg;
     type Properties = ();
 
@@ -37,28 +37,26 @@ impl Component for AppComponent {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let link = ctx.link();
         html! { 
-<app class="ctp-mocha" theme="ctp-mocha" app="Bonfire Server offical" version="0:1:0::beta" repository="github.com/tryoxiss/bonfire-server" authors="Khaim0919, Tryoxiss">
+<app class="ctp-mocha" theme="ctp-mocha" app="Bonfire Server offical" version="0:1:0::beta" repository="github.com/tryoxiss/bonfire-server" authors="Khaim0919, Tryoxiss" licence="AGPL 3.0 (https://github.com/tryoxiss/bonfire-server/blob/main/LICENCE)">
 
     <div class="absolute-pane">
         <ContextMenu />
-        // <span class="tooltip" id="tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span>
     </div>
 
     <nav role="groups">
         <ul>
-            <li class="has-tooltip"><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a><span class="tooltip right-tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span></li>
-            <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a><span class="tooltip right-tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span></li>
+            <li class="has-tooltip"><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a><span class="tooltip right-tooltip">{"@doggo@instance.tld"}</span></li>
+            <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a><span class="tooltip right-tooltip">{"@zengarden@example.com"}</span></li>
         </ul>
         <hr />
         <ul>
-            <li class="has-tooltip"><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
-            <li><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a></li>
-            <li><a href="#3" style="background-image: url(https://picsum.photos/id/237/1920/1080);"></a></li>
-            <li><a href="#4" style="background-image: url(https://picsum.photos/id/291/200/300);"></a></li>
-            <li><a href="#5" style="background-image: url(https://picsum.photos/id/221/200/300);"></a></li>
-            <li><a href="#6" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
-            <li><a href="#7" style="background-image: url(https://picsum.photos/id/297/200/300);"></a></li>
-            <li><a href="#8" style="background-image: url(https://picsum.photos/id/2197/200/300);"></a></li>
+            <li class="has-tooltip"><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a><span class="tooltip right-tooltip">{"Doggo's House"}</span></li>
+            <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a><span class="tooltip right-tooltip">{"The Zen Garden"}</span></li>
+            <li class="has-tooltip"><a href="#3" style="background-image: url(https://picsum.photos/id/237/1920/1080);"></a><span class="tooltip right-tooltip">{"Doggo's Test Void"}</span></li>
+            <li class="has-tooltip"><a href="#4" style="background-image: url(https://picsum.photos/id/291/200/300);"></a><span class="tooltip right-tooltip">{"Mistlands"}</span></li>
+            <li class="has-tooltip"><a href="#5" style="background-image: url(https://picsum.photos/id/221/200/300);"></a><span class="tooltip right-tooltip">{"the Concrete Jungle"}</span></li>
+            <li class="has-tooltip"><a href="#6" style="background-image: url(https://picsum.photos/id/231/200/300);"></a><span class="tooltip right-tooltip">{"Mountian Range"}</span></li>
+            <li class="has-tooltip"><a href="#7" style="background-image: url(https://picsum.photos/id/212/200/300);"></a><span class="tooltip right-tooltip">{"The park Bench"}</span></li>
         </ul>
     </nav>
     <nav role="channels"></nav>
@@ -72,31 +70,34 @@ impl Component for AppComponent {
 
         <ul>
             <MessageRoot />
+            <Message />
+            <Message />
             
             {
-            for self.content.iter().map(|_x| {
-                if rand::random() {
-                    html! { 
-                        <MessageRoot />
+                for self.content.iter().map(|_x| {
+                    if rand::random() {
+                        html! { 
+                            <MessageRoot />
+                        }
+                    } else {
+                        html! { 
+                            <Message />
+                        }
                     }
-                } else {
-                    html! { 
-                        <Message />
-                    }
-                }
-            })
+                })
             }
 
         </ul>
 
-        <div class="message-area">
+        <div class="message-area placeholder-message">
             <button class="round-button"><FaPlusIcon /></button>
 
+            // The textarea div cannot be void or else it cannot be edited.
             <div 
-                class="expandable-textarea"
-                role="textbox"
-                contenteditable="true"
-                placeholder="send a message">
+            class="expandable-textarea"
+            role="textbox"
+            contenteditable="true"
+            placeholder="send a message">
             </div>
 
             <button class="round-button" onclick={link.callback(|_| Msg::AddOne)}><FaSendIcon /></button>
@@ -429,5 +430,5 @@ fn Slider() -> Html {
 
 pub fn render_app() {
     // yew::Renderer::<App>::new().render();
-    yew::Renderer::<AppComponent>::new().render();
+    yew::Renderer::<App>::new().render();
 }

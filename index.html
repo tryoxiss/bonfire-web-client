@@ -352,7 +352,7 @@ supported on the web client version*/
      * names WILL break things. */
     --accent-color-rgb: var(--sapphire);
     --accent-color: var(--sapphire);
-    --hilight-color: rgb(116, 199, 236 0.5);
+    --hilight-color: rgb(116, 199, 236, 0.5);
 
     --color-danger: var(--red);
     --color-danger-disabled: rgb(243, 139, 168, 0.25);
@@ -612,6 +612,19 @@ main li {
     min-height: 40px;
     line-height: 20px;
 }
+
+.expandable-textarea:empty::after { 
+    --placeholder-message: "Send a message...";
+    content: var(--placeholder-message);
+}
+
+.expandable-textarea::after { 
+    --placeholder-message: "";
+    content: "";
+
+    color: var(--text-muted);
+}
+
 
 /* ☢️ You're playing a dangrous game, girl!
  * -----------------------------------------
@@ -1172,6 +1185,8 @@ see this stack overflow question: https://stackoverflow.com/questions/7208786/ho
     background-color: var(--ui-box-color);
     padding: 0.25rem 0.75rem;
     border-radius: var(--border-ui-box-radius);
+
+    font-size: 0.8rem;
 
     height: max-content;
 }
