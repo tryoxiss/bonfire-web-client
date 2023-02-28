@@ -28,3 +28,9 @@ Khaim - lead programmer
 ## For Testing
 
 `trunk serve`
+
+## Naming Format
+
+Releases are named 
+bonfire-server-VERSION-os.zip (containing the release files including a readme inside)
+the version is 1.3.9 for example, NOT our internal colon seperated system for windows compatability. 
