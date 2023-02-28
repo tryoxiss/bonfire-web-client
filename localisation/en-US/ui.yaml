@@ -1,18 +1,24 @@
 # This localisation file contains information about how to translate data. 
 # Strings can contain variables surrounded by [] in some cases/ 
+# This is NOT a yaml file (but we use the extension as it is very simillar syntactically).
+# This is a lace (.lce) file, our own custom localisation and translation system.
+# We don't have a full spec, and probably won't for a while, but feel free to ask
+# @tryoxiss any questions you have about it!
 #
+# 
 # For example: 
 # Sent on [time:datetime_full]
 # Some can take arguments, for example time can take the time and check if its in the last 24 hours. the most recent viable one will always be used. 
 
 [messages]
-sent_time(scope:24h): "Today at [time:time_full]"
-sent_time(scope:48h): "Yesterday at [time:time_full]"
-sent_time: "Sent on [time:date_full] at [time:time_full]"
+sent_time(scope:24h): "Today at [time:time_hh_mm]"
+sent_time(scope:48h): "Yesterday at [time:time_hh_mm]"
+sent_time: "Sent on [time:date_full] at [time:time_hh_mm]"
+placeholder: "Send a message to [bonfire:channel]"
 
 [groups]
-group_members_total: "[n] Members"
-group_members_online: "[n] Online"
+group_members_total: "[:n] Members"
+group_members_online: "[:n] Online"
 
 [permissions]
 require_e2e: "Require end-to-end encryption"
@@ -32,7 +38,7 @@ manage_threads: "Manage Threads"
 manage_events: "Manage Events"
 
 edit_alias: "Change Nickname"
-kick: "Kick Users" &assosiate:tip_kick
+kick: "Kick Users" &assosiate tips:tip_kick
 ban: "Ban Users"
 mute_others: "Mute Members"
 move_members: "Move Members"
@@ -48,3 +54,16 @@ tip_kick: "This probably isn't what your looking for! If this is a public or by 
 [language options]
 language_en-US_name: "English (Simplified)"
 language_en-UK_name: "English (Traditional)"
+
+
+# Variable sections (TOUCHING MAY BREAK LANGUAGE PACKS THAT USE THEM. The main tochuing use is to change the date or time format.)
+# The dictionary is reserved for autofilled sections, you just need to define what your sorcing it from. 
+[DICTIONARY] {
+
+[time]
+time_hh_mm: os.time(HH:MM)
+
+[bonfire]
+channel: bonfire.channel::current
+
+}
