@@ -69,19 +69,19 @@ impl Component for App {
         </header>
 
         <ul>
-            <MessageRoot />
-            <Message />
-            <Message />
+            <MessageRoot content="Hello world" author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            <MessageConsecutive content="Hello world" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            <MessageConsecutive content="Oooh treats!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
             
             {
                 for self.content.iter().map(|_x| {
                     if rand::random() {
                         html! { 
-                            <MessageRoot />
+                            <MessageRoot author_name="Doggo" content="*nom nom nom*" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
                         }
                     } else {
                         html! { 
-                            <Message />
+                            <MessageConsecutive content="yummy!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
                         }
                     }
                 })
@@ -97,6 +97,7 @@ impl Component for App {
             class="expandable-textarea"
             role="textbox"
             contenteditable="true"
+            id="message_textfield"
             placeholder="send a message">
             </div>
 
@@ -236,21 +237,35 @@ fn FaFlag() -> Html {
 //     html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg> }
 // }
 
+#[derive(Properties, PartialEq)]
+pub struct Message { 
+    #[prop_or_default]
+    content: String,
 
+    #[prop_or_default]
+    time: String,
+
+    #[prop_or_default]
+    datetime_full: String,
+
+    // temperary
+    #[prop_or_default]
+    author_name: String,
+}
 
 #[function_component]
-fn MessageRoot() -> Html {
+fn MessageRoot(props: &Message) -> Html {
     html! {
     <li>
         <div style="background-image: url(https://picsum.photos/id/237/200/300);" class="pfp" />
 
         <div class="content">
             <header>
-                <text class="author">{"doggo"}</text>
-                <time class="has-tooltip">{"07 Feb 2023 at 23:09"}<span class="tooltip right-tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span></time>
+                <text class="author">{ props.author_name.clone()}</text>
+                <time class="has-tooltip">{ props.datetime_full.clone() }<span class="tooltip right-tooltip">{ props.datetime_full.clone() }</span></time>
             </header>
             <div class="content">
-                <p>{"Arf! Arf!"}</p>
+                <p>{ props.content.clone() }</p>
             </div>
         </div>
     </li>
@@ -264,12 +279,12 @@ fn MessageRoot() -> Html {
 // }
 
 #[function_component]
-fn Message() -> Html {
+fn MessageConsecutive(props: &Message) -> Html {
     html! {
     <li>
-    <time class="has-tooltip">{"23:09"} <span class="tooltip right-tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span></time>
+    <time class="has-tooltip">{ props.time.clone() } <span class="tooltip right-tooltip">{ props.datetime_full.clone() }</span></time>
         <div class="content">
-        <p>{"lorem"}</p>
+        <p>{ props.content.clone() }</p>
         </div>
     </li>
     }
