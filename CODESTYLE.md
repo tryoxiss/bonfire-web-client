@@ -64,6 +64,8 @@ In the case of an HTML macro, don't indent the root element. This creates an ent
 
 For `<style>` elements, used for performance opposed to downloading a seperate stylesheet for the webapp (seperate stylesheets are used for the client still), do not indent the elements. Write within the style element as if that was its own external file. Additionally, `<style>` elements always go directly after the `<head>`, and directly before the `<body>`. Similarly, do not indent `<head>` and `<body>` elements, only thier contents. They are functionally root elements. 
 
+For single lines of text, use a `<text>` element rather than a classed paragraph. For messages, assume its always a paragraph.
+
 ## Naming Conventions
 
 Variables are in `snake_case`. 

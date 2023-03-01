@@ -250,7 +250,7 @@ fn MessageRoot() -> Html {
                 <time class="has-tooltip">{"07 Feb 2023 at 23:09"}<span class="tooltip right-tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span></time>
             </header>
             <div class="content">
-                <text>{"Arf! Arf!"}</text>
+                <p>{"Arf! Arf!"}</p>
             </div>
         </div>
     </li>
@@ -269,7 +269,7 @@ fn Message() -> Html {
     <li>
     <time class="has-tooltip">{"23:09"} <span class="tooltip right-tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span></time>
         <div class="content">
-        <text>{"lorem"}</text>
+        <p>{"lorem"}</p>
         </div>
     </li>
     }
