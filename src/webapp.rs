@@ -52,7 +52,7 @@ impl Component for App {
         <ul>
             <li class="has-tooltip"><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a><span class="tooltip right-tooltip">{"Doggo's House"}</span></li>
             <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a><span class="tooltip right-tooltip">{"The Zen Garden"}</span></li>
-            <li class="has-tooltip"><a href="#3" style="background-image: url(https://picsum.photos/id/237/1920/1080);"></a><span class="tooltip right-tooltip">{"Doggo's Test Void"}</span></li>
+            <li class="has-tooltip"><a href="#3" style="background-image: url(https://picsum.photos/id/237/1920/1080);"></a><span class="tooltip right-tooltip">{"Doggo's Sunbeam"}</span></li>
             <li class="has-tooltip"><a href="#4" style="background-image: url(https://picsum.photos/id/291/200/300);"></a><span class="tooltip right-tooltip">{"Mistlands"}</span></li>
             <li class="has-tooltip"><a href="#5" style="background-image: url(https://picsum.photos/id/221/200/300);"></a><span class="tooltip right-tooltip">{"the Concrete Jungle"}</span></li>
             <li class="has-tooltip"><a href="#6" style="background-image: url(https://picsum.photos/id/231/200/300);"></a><span class="tooltip right-tooltip">{"Mountian Range"}</span></li>
@@ -74,17 +74,17 @@ impl Component for App {
             <MessageConsecutive content="Oooh treats!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
             
             {
-                for self.content.iter().map(|_x| {
-                    if rand::random() {
-                        html! { 
-                            <MessageRoot author_name="Doggo" content="*nom nom nom*" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-                        }
-                    } else {
-                        html! { 
-                            <MessageConsecutive content="yummy!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-                        }
+            for self.content.iter().map(|_x| {
+                if rand::random() {
+                    html! { 
+                        <MessageRoot author_name="Doggo" content="*nom nom nom*" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
                     }
-                })
+                } else {
+                    html! { 
+                        <MessageConsecutive content="yummy!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+                    }
+                }
+            })
             }
 
         </ul>
