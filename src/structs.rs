@@ -50,9 +50,6 @@ pub struct Permissions {
     create_invite: bool,
     send_messages: bool,
     create_threads: bool,
-    
-    embed_images: bool,
-    embed_links: bool,
 
     use_external_emoji: bool,
     use_commands: bool,
@@ -71,7 +68,7 @@ pub struct Permissions {
 pub struct Status { 
     guid: Guid, // users GUID, NOT statuses. They dont get GUIDs
 
-    is_rich: bool, // if false: the icon is instead an emoji, and only the status is filled, the rest are n ull
+    is_rich: bool, // if false: the icon is instead an emoji, and only the status is filled, the rest are null
 
     title: String,
     status: String,
@@ -105,6 +102,8 @@ pub struct Profile {
     // privacy and safety
 
     require_e2e: bool,
+    try_serverless: bool, // not truly serverless, but avoids most server interaction by going directly peer-to-peer.
+    expand_embeded_urls: bool, // show the raw text for [embeeded links](url)
 
     // dm = direct message
     require_friendship_to_dm: bool, // if  on: overrides all below settings in this block to FALSE
