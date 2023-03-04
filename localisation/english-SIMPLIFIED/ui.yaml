@@ -10,6 +10,15 @@
 # Sent on [time:datetime_full]
 # Some can take arguments, for example time can take the time and check if its in the last 24 hours. the most recent viable one will always be used. 
 
+[.metadata]
+iso_code: en-US
+prefered_code: en-CA
+region: "North America"
+fallback_display_name: "English (Simplified)"
+pack_credits: [
+  "tryoxiss (translator)",
+]
+
 [messages]
 sent_time(scope:24h): "Today at [time:time_hh_mm]"
 sent_time(scope:48h): "Yesterday at [time:time_hh_mm]"
@@ -52,7 +61,7 @@ add_react: "Can Add Reactions"
 tip_kick: "This probably isn't what your looking for! If this is a public or by invite link group they can rejoin at any time with no restrictions!"
 
 [language options]
-language_en-US_name: "English (Simplified)"
+language_english-SIMPLIFIED: "English (Simplified)"
 language_en-UK_name: "English (Traditional)"
 
 
