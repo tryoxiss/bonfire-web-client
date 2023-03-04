@@ -40,13 +40,14 @@ impl Component for App {
 <app class="ctp-mocha" logged_in_account="GUID" theme="ctp-mocha" app="Bonfire Server offical" version="0:1:0::beta" repository="github.com/tryoxiss/bonfire-server" main_authors="Khaim0919, Tryoxiss" licence="AGPL 3.0 (https://github.com/tryoxiss/bonfire-server/blob/main/LICENCE)" >
 
     <div class="absolute-pane">
+        // <Modal />
         <ContextMenu />
     </div>
 
     <nav role="groups">
         <ul>
-            <li class="has-tooltip"><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a><span class="tooltip right-tooltip">{"@doggo@instance.tld"}</span></li>
             <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a><span class="tooltip right-tooltip">{"@zengarden@example.com"}</span></li>
+            <SidebarIcon label="@doggo@instance.tld" />
         </ul>
         <hr />
         <ul>
@@ -214,7 +215,7 @@ fn MessageRoot(props: &Message) -> Html {
 
         <div class="content">
             <header>
-                <text class="author">{ props.author_name.clone()}</text>
+                <a class="author">{ props.author_name.clone()}</a>
                 <time class="has-tooltip">{ props.datetime_full.clone() }<span class="tooltip right-tooltip">{ props.datetime_full.clone() }</span></time>
             </header>
             <div class="content">
@@ -224,12 +225,6 @@ fn MessageRoot(props: &Message) -> Html {
     </li>
     }
 }
-
-// pub struct Props { 
-//     public: String,
-//     main: String,
-//     args: String,
-// }
 
 #[function_component]
 fn MessageConsecutive(props: &Message) -> Html {
@@ -242,6 +237,26 @@ fn MessageConsecutive(props: &Message) -> Html {
     </li>
     }
 }
+
+#[derive(Properties, PartialEq)]
+pub struct SidebarIconStruct { 
+    #[prop_or_default]
+    label: String,
+
+}
+
+#[function_component]
+fn SidebarIcon(props: &SidebarIconStruct) -> Html {
+    html! {
+    <li class="has-tooltip">
+        <a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a>
+        <span class="tooltip right-tooltip">{ props.label.clone() }</span>
+    </li>
+    }
+}
+
+
+
 
 #[function_component]
 fn RightTooltip() -> Html {
@@ -272,6 +287,22 @@ fn ExpandableTextarea() -> Html {
 //     }
 // }
 
+
+#[function_component]
+fn Modal() -> Html {
+    html! {
+    <div id="modal" class="modal"> 
+    <h2>{"Oops!"}</h2>
+        <p>{"Something went wrong..."}</p>
+        <ButtonText />
+        <ButtonDanger />
+    </div> 
+    }
+}
+
+
+
+
 #[function_component]
 fn ContextMenu() -> Html {
     html! {
@@ -295,8 +326,6 @@ fn ContextMenu() -> Html {
     </div> 
     }
 }
-
-
 
 #[function_component]
 fn ContextMenuMessage() -> Html {
