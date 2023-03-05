@@ -124,7 +124,9 @@ app {
     background-color: var(--color-base);
     font-family: var(--main-font);
     color: var(--text-color);
+}
 
+app, .absolute-pane { 
     overflow: hidden;
 }
 
@@ -151,6 +153,27 @@ app {
     border-radius: var(--border-icon-radius);
 }
 
+/* nav { 
+    overflow-x: inherit;
+    overflow-y: scroll;
+} */
+
+/* 
+nav .tooltip { 
+    overflow-x: scroll;
+    visibility: visible;
+    display: block;
+} */
+
+nav * { 
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+nav *::-webkit-scrollbar {
+  display: none;
+}
+
 [role="groups"] { grid-area: groups; }
 [role="channels"] { grid-area: channels; }
 main { grid-area: messages; }
@@ -160,6 +183,10 @@ main { grid-area: messages; }
 
 [role="groups"] { 
     background-color: var(--group-bar-color);
+}
+
+[role="groups"] ul { 
+    /* overflow-y: scroll; */
 }
 
 [role="groups"] * { 

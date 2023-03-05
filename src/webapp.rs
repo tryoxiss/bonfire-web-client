@@ -61,7 +61,10 @@ impl Component for App {
             <li class="has-tooltip"><a href="#7" style="background-image: url(https://picsum.photos/id/212/200/300);"></a><span class="tooltip right-tooltip">{"The park Bench"}</span></li>
         </ul>
     </nav>
-    <nav role="channels"></nav>
+    <nav role="channels">
+        <ul>
+        </ul>
+    </nav>
 
     <main>
         <header class="med-padding">
