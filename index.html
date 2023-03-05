@@ -1011,6 +1011,11 @@ a:hover {
   left: 115%;
 }
 
+[role="groups"] .right-tooltip {
+  top: -5px;
+  left: 4rem;
+}
+
 .has-tooltip .right-tooltip::after {
     content: "";
     position: absolute;
@@ -1022,10 +1027,6 @@ a:hover {
 
     /* border-color: transparent blue transparent transparent; */
     border-color: transparent var(--group-bar-color) transparent transparent;
-}
-
-[role="groups"] .right-tooltip::after { 
-    border-color: transparent var(--channels-bar-color) transparent transparent;
 }
 
 /* Might make it just a class that determines if the popup takes time becayse I want the groups tooltip to show up immeitely.*/

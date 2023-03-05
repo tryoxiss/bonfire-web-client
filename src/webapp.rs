@@ -1,5 +1,6 @@
 
 use yew::prelude::*;
+use std::time::{Duration, SystemTime};
 
 //# DEBUG
 use rand::prelude::*;
@@ -37,7 +38,7 @@ impl Component for App {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let link = ctx.link();
         html! { 
-<app class="ctp-mocha" logged_in_account="GUID" theme="ctp-mocha" app="Bonfire Server offical" version="0:1:0::beta" repository="github.com/tryoxiss/bonfire-server" main_authors="Khaim0919, Tryoxiss" licence="AGPL 3.0 (https://github.com/tryoxiss/bonfire-server/blob/main/LICENCE)" >
+<app class="ctp-mocha" logged_in_account="GUID" theme="ctp-mocha" app="Bonfire Server offical" version="0:1:0::beta" repository="github.com/tryoxiss/bonfire-server" main_authors="Khaim0919, Tryoxiss" licence="AGPL 3.0 (https://github.com/tryoxiss/bonfire-server/blob/main/LICENCE)">
 
     <div class="absolute-pane">
         // <Modal />
@@ -75,7 +76,14 @@ impl Component for App {
             <MessageConsecutive content="Oooh treats!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
             
             {
+
+            // let now = SystemTime::now()
+            //     .duration_since(SystemTime::UNIX_EPOCH)
+            //     .unwrap()
+            //     .as_millis(); // See struct std::time::Duration methods
+
             for self.content.iter().map(|_x| {
+
                 if rand::random() {
                     html! { 
                         <MessageRoot author_name="Doggo" content="*nom nom nom*" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
@@ -205,6 +213,9 @@ pub struct Message {
     // temperary
     #[prop_or_default]
     author_name: String,
+
+    #[prop_or_default]
+    unix_time: i64,
 }
 
 #[function_component]
