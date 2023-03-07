@@ -43,7 +43,7 @@ def main():
     if milk == False: 
         return
             
-    if water == False: 
+    if water == True: 
         return
     
     # your code block here
