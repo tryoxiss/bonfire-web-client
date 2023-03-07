@@ -285,6 +285,7 @@ fn ExpandableTextarea() -> Html {
     // The textarea div cannot be void or else it cannot be edited.
     <div 
     class="expandable-textarea"
+    id="message-box"
     role="textbox"
     contenteditable="true"
     placeholder="send a message">

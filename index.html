@@ -1091,24 +1091,32 @@ document.oncontextmenu = rightClick;
 
 window.contextMenuCoordinates = [];
 
+// Sets a timer for a few frames to allow the page to load before checking
+let checkForBoxTimer = setTimeout(connectMessageBox, 10);
+
+// Connects the message box from rust to the DOM so we are able to read input, if it fails, trys again in a few frames.
+function connectMessageBox() {
+    try {
+        const message_box = document.getElementById("message-box");
+
+        message_box.oninput = function(e) {
+            if ((message_box.innerHTML == "<br>") || (message_box.innerHTML == "<div><br></div>")) {
+                message_box.innerHTML = "";
+            }
+        } 
+        clearTimeout(checkForBoxTimer);
+    } catch (error) {
+        console.log("Message box not found: " + error + "\nTrying again...");
+        checkForBoxTimer = setTimeout(connectMessageBox, 10);
+    }
+}
+
 function hideMenu() { 
     document.getElementById("contextMenu") 
             .style.display = "none" 
 } 
 
 function rightClick(e) { 
-
-    // if ((e.pageX > contextMenuCoordinates[0] + 50) || 
-    //     (e.pageX < contextMenuCoordinates[0] - 50) || 
-
-    //     (e.pageY > contextMenuCoordinates[1] + 50) || 
-    //     (e.pageY > contextMenuCoordinates[1] + 50)
-        
-    //     ) { 
-
-    // }
-
-
     if (document.getElementById("contextMenu").style.display == "block") { 
 
         // if you right click again when the menu is open, check to see 
