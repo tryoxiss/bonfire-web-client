@@ -8,12 +8,12 @@ basically unuseable until you do the next two steps:
      decrypt a directory (i.e., this directory)   
   
   2. That's it! You now have a decrypted data package!  
+
+Inside this data package, you will find various .yaml (yet Another Markup 
+Language) and .csv (Comma separated Values) files, which we use
+to provide our service to you.
   
-Inside this data package, you will find various .json (JavaScript Standard
-Object Notation) and .csv (Comma separated Values) files, which we use    
-to provide our service to you.  
-  
-The JSON files are used to store more complex objects, such as account    
+The YAML files are used to store more complex objects, such as account    
 data, profiles, etc. They can be opened with any text editor, or a  
 browser in most cases.    
   

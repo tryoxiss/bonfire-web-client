@@ -1,7 +1,7 @@
 *-----------------------------------------------------------------------------*
 |   .      *                    .            .           .                    |
 |                   *                                                   .     |
-| .                    *             .          .                             |
+| .                    *             .                                        |
 |       .                                                 .                   |
 |                           *                                        .        |
 |             .        .         .       *                                 .  |
@@ -16,8 +16,8 @@
 |        /    ,^,    \                  ~   %$#N%$@a -                        |
 |       /     | |   wwwwwWWWwwwww          ;========;          wwwWWwwwwwwwwww|
 |  wwwwwWWwwWWwwwWWwwWWwwwwwwwwwWWWWwwwwWWwwwwwwwwwWWwwwwWWWwwwwwwwwwwwwwwwwww|
-|wWWWWWwwwwwwwwwwww wWw WwwwWWwwwWWWw Ww w WWwwwwWWWWwwwwwwwwwWWwwWW  Www www |
-|WWwwwWww  wwwWw         wwWww Www w         wwwWwww w  wwWWwww               |
+|wWWWWWwwwwwwwwwwwwWwWwWWwwwWWwwwWWWwWWwWwWWWwwwwWWWWwwwwwwwwwWWwwWWwWWwwWwwwW|
+|WWwwwWwwWwwwwWwWWWwwWWwWwwWwwwWwwWwWWWwwWWwWwwwWwwwWwWWwwWWwwwWWWwwWwwWWWwWWw|
 *-----------------------------------------------------------------------------*
 |                                                                             |
 |  Your data has arrived! And with it comes a few extra steps... (sorry!)     |
@@ -31,11 +31,11 @@
 |                                                                             |
 |    2. That's it! You now have a decrypted data package!                     |
 |                                                                             |
-|  Inside this data package, you will find various .json (JavaScript Standard |
-|  Object Notation) and .csv (Comma separated Values) files, which we use     |
-|  to provide our service to you.                                             |
+|  Inside this data package, you will find various .yaml (Yet Another Markup  |
+|  Language) and .csv (Comma separated Values) files, which we use to provide |
+|  our service to you.                                                        |
 |                                                                             |
-|  The JSON files are used to store more complex objects, such as account     |
+|  The YAML files are used to store more complex objects, such as account     |
 |  data, profiles, etc. They can be opened with any text editor, or a         |
 |  browser in most cases.                                                     |
 |                                                                             |
@@ -77,7 +77,7 @@
 |                                                                             |
 |  In your case, we have                                                      |
 |  XXX.XXX.XXX Messages                                                       |
-|  XXX.XXX Contacts                                                           |
+|  XXX Contacts                                                               |
 |  XXX Groups                                                                 |
 |                                                                             |
 |  All of which makes up a staggaering 0.00Ub (XXX.XXX.XXX Bytes!) of data.   |
