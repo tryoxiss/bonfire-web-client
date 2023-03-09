@@ -47,18 +47,37 @@ impl Component for App {
 
     <nav role="groups">
         <ul>
-            <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a><span class="tooltip right-tooltip">{"@zengarden@example.com"}</span></li>
+            <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a></li>
             <SidebarIcon label="@doggo@instance.tld" />
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
         </ul>
         <hr />
         <ul>
-            <li class="has-tooltip"><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a><span class="tooltip right-tooltip">{"Doggo's House"}</span></li>
-            <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a><span class="tooltip right-tooltip">{"The Zen Garden"}</span></li>
-            <li class="has-tooltip"><a href="#3" style="background-image: url(https://picsum.photos/id/237/1920/1080);"></a><span class="tooltip right-tooltip">{"Doggo's Sunbeam"}</span></li>
-            <li class="has-tooltip"><a href="#4" style="background-image: url(https://picsum.photos/id/291/200/300);"></a><span class="tooltip right-tooltip">{"Mistlands"}</span></li>
-            <li class="has-tooltip"><a href="#5" style="background-image: url(https://picsum.photos/id/221/200/300);"></a><span class="tooltip right-tooltip">{"the Concrete Jungle"}</span></li>
-            <li class="has-tooltip"><a href="#6" style="background-image: url(https://picsum.photos/id/231/200/300);"></a><span class="tooltip right-tooltip">{"Mountian Range"}</span></li>
-            <li class="has-tooltip"><a href="#7" style="background-image: url(https://picsum.photos/id/212/200/300);"></a><span class="tooltip right-tooltip">{"The park Bench"}</span></li>
+            <li class="has-tooltip"><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
+            <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a></li>
+            <li class="has-tooltip"><a href="#3" style="background-image: url(https://picsum.photos/id/237/1920/1080);"></a></li>
+            <li class="has-tooltip"><a href="#4" style="background-image: url(https://picsum.photos/id/291/200/300);"></a></li>
+            <li class="has-tooltip"><a href="#5" style="background-image: url(https://picsum.photos/id/221/200/300);"></a></li>
+            <li class="has-tooltip"><a href="#6" style="background-image: url(https://picsum.photos/id/231/200/300);"></a></li>
+            <li class="has-tooltip"><a href="#7" style="background-image: url(https://picsum.photos/id/212/200/300);"></a></li>
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
+            <SidebarIcon />
         </ul>
     </nav>
     <nav role="channels">
@@ -108,9 +127,13 @@ impl Component for App {
 
     <div role="profile"></div>
 </app>
-        } 
+        }
     }
 }
+
+// fn process_uri(uri: String) { 
+    
+// }
 
 #[derive(Properties, PartialEq)]
 pub struct AppStruct {
@@ -225,7 +248,7 @@ fn MessageRoot(props: &Message) -> Html {
         <div class="content">
             <header>
                 <a class="author">{ props.author_name.clone()}</a>
-                <time class="has-tooltip">{ props.datetime_full.clone() }<span class="tooltip right-tooltip">{ props.datetime_full.clone() }</span></time>
+                <time class="has-tooltip">{ props.datetime_full.clone() }</time>
             </header>
             <div class="content">
                 <p>{ props.content.clone() }</p>
@@ -239,7 +262,7 @@ fn MessageRoot(props: &Message) -> Html {
 fn MessageConsecutive(props: &Message) -> Html {
     html! {
     <li>
-    <time class="has-tooltip">{ props.time.clone() } <span class="tooltip right-tooltip">{ props.datetime_full.clone() }</span></time>
+    <time class="has-tooltip">{ props.time.clone() }</time>
         <div class="content">
         <p>{ props.content.clone() }</p>
         </div>
@@ -251,26 +274,14 @@ fn MessageConsecutive(props: &Message) -> Html {
 pub struct SidebarIconStruct { 
     #[prop_or_default]
     label: String,
-
 }
 
 #[function_component]
 fn SidebarIcon(props: &SidebarIconStruct) -> Html {
     html! {
     <li class="has-tooltip">
-        <a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a>
-        <span class="tooltip right-tooltip">{ props.label.clone() }</span>
+        <a href="#1" data-tippy-content="Tooltip" style="background-image: url(https://picsum.photos/id/237/200/300);"></a>
     </li>
-    }
-}
-
-
-
-
-#[function_component]
-fn RightTooltip() -> Html {
-    html! {
-    <span class="tooltip right-tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span>
     }
 }
 
@@ -340,45 +351,45 @@ fn ContextMenu() -> Html {
 #[function_component]
 fn ContextMenuMessage() -> Html {
     html! {
-        <ul class="menu"> 
-            <li class="trash"><button href="#">{"Add Reaction"} <FaChevronRight /></button></li> 
-            <li class="trash"><button href="#">{"Bookmark Message"} <FaBookmarkEmpty /></button></li> 
-            <li class="trash"><button href="#">{"Reply"} <FaReply /></button></li> 
-        </ul> 
+    <ul class="menu"> 
+        <li class="trash"><button href="#">{"Add Reaction"} <FaChevronRight /></button></li> 
+        <li class="trash"><button href="#">{"Bookmark Message"} <FaBookmarkEmpty /></button></li> 
+        <li class="trash"><button href="#">{"Reply"} <FaReply /></button></li> 
+    </ul> 
     }
 }
 
 #[function_component]
 fn ContextMenuManageMessage() -> Html {
     html! {
-        <ul class="menu"> 
-            <li class="trash"><button href="#">{"Inspect Element"}</button></li> 
-        </ul> 
+    <ul class="menu"> 
+        <li class="trash"><button href="#">{"Inspect Element"}</button></li> 
+    </ul> 
     }
 }
 
 #[function_component]
 fn ContextMenuChannel() -> Html {
     html! {
-        <ul class="menu"> 
-            <li class="trash"><button href="#">{"Inspect Element"}</button></li> 
-        </ul> 
+    <ul class="menu"> 
+        <li class="trash"><button href="#">{"Inspect Element"}</button></li> 
+    </ul> 
     }
 }
 
 #[function_component]
 fn ContextMenuManageChannel() -> Html {
     html! {
-        <ul class="menu"> 
-            <li class="trash"><button href="#">{"Inspect Element"}</button></li> 
-        </ul> 
+    <ul class="menu"> 
+        <li class="trash"><button href="#">{"Inspect Element"}</button></li> 
+    </ul> 
     }
 }
 
 #[function_component]
 fn ButtonCta() -> Html {
     html! {
-        <button class="button-rect button-cta">{"CTA Button"}</button>
+    <button class="button-rect button-cta">{"CTA Button"}</button>
     }
 }
 
