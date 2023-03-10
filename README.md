@@ -47,9 +47,7 @@ For versioning, we use our system, of course. However we will release it anually
 
 This is seperate from the software version number, which represents its developement.
 
-Every year of developement after 1.0 we will make an LTS release for every edition with spec changes, which will be maintained for the following timespans. LTS releases are feature frozen in time. 
-- Bug Fixes (2 years)
-- Vulnerability Fixes (4 years)
+Every year of developement after 1.0 we will make an LTS release for every edition with spec changes, which will be maintained for the following timespans. LTS releases are feature frozen in time. We currently provide no gaurnteed support window for LTS releases, but we can say that they will be supported at least until the next LTS release has been out for 6 months or so.
 
 Internal versions are clean:version, `Major:Minor:Patch::version`. For example: `1:3:1::beta`. They are incremeneted as follows. Everything after the doubble colon can be ommitted if it is not the defult. 
 
