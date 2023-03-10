@@ -59,7 +59,7 @@ Stability ratings:
 - Beta `beta` - unstable, dev only (i.e., try not to run this on a production server)
 - Alpha `alpha` - HIGHLY unstable. Often not used, often its just beta stability.
 
-
+Our numbering system is:
 - The first digit indicates fundemental change. Not necesarly breaking: but it is a very diffrent peice of software. This should be avoided.
 - Minor is incremented with feature sets (generally, pushes to the main branch). After 1.0, we only intend to do this two or three times a year at most.
 - Patch is incremented any time branches are merged OR a feature is added. 
