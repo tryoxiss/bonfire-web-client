@@ -94,6 +94,9 @@ pub struct Profile {
     discriminator: u16, // min: 0000 (system) max: 9999
     prefered_name: String,
 
+    alt_names: String,
+    ponouns: String, 
+
     guid: Guid,
 
     // Prefrences. Warning: LONG. 
@@ -293,11 +296,11 @@ pub struct Message {
     content: String,
     // reactions: Vec,
 
-    channel: Guid,
-    reply_to: Guid,
+    // channel: Guid,
+    // reply_to: Guid,
 
-    posted_time: String,  // DD-MMM-YYYY HH:MM:SS (07-FEB-2023 14:12:23). All times are converted to UTC.
-    edited_time: String 
+    // posted_time: String,  // DD-MMM-YYYY HH:MM:SS (07-FEB-2023 14:12:23). All times are converted to UTC.
+    // edited_time: String 
 }
 
 pub struct Channel {

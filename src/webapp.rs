@@ -146,7 +146,6 @@ pub struct AppStruct {
 // #[function_component]
 // fn HelloWorld() -> Html {
 //     html! { <p>{ "Hello world" }</p> }
-// }
 
 //# Everything prefixed with Fa is from font awesome Free
 // They provide this licence disclaimer. 
@@ -238,6 +237,7 @@ pub struct Message {
     #[prop_or_default]
     unix_time: i64,
 }
+
 
 #[function_component]
 fn MessageRoot(props: &Message) -> Html {
@@ -376,7 +376,6 @@ fn ContextMenuChannel() -> Html {
     </ul> 
     }
 }
-
 #[function_component]
 fn ContextMenuManageChannel() -> Html {
     html! {
@@ -391,7 +390,29 @@ fn ButtonCta() -> Html {
     html! {
     <button class="button-rect button-cta">{"CTA Button"}</button>
     }
-}
+
+// fn determine_password_safety(password: String) -> u32{ 
+//     let score: u32;
+
+//     let MINIMUM_LENGTH: u32 = 12;
+//     let CHAR_VALUE: u32 = 4;
+
+//     let symbols = ['!', '@', '#', '$', '%', '^', '(', ')', '-', '_', '+', '=',
+//                                ':', '[', ']', '`', '~', '?', '<', '>', ',', '.', '/'];
+//     let low_alpha: [char; 26] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+//                                 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
+//                                 'y', 'z'];
+//     let up_alpha: [char; 26] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+//                                 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+//                                 'Y', 'Z'];
+//     let digit: [char; 10] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+//     let allowed = [symbols, low_alpha, up_alpha, digit];
+
+//     score += password.len() * CHAR_VALUE;
+
+//     return score;
+// }
 
 #[function_component]
 fn ButtonNormal() -> Html {
