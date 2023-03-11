@@ -23,7 +23,7 @@ A clear and concise description of what you expected to happen.
 **Screenshots** (optional)
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
+**Desktop (please complete the following information if applicable):**
  - OS: [e.g. iOS, Windows 11, Fedora Linux, etc.]
  - Browser [e.g. chrome, safari, custom client]
  - Version [e.g. 1.14.2] (optional)

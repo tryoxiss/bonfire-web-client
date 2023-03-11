@@ -8,6 +8,8 @@ pub struct Permissions {
     perms_for: Guid, // role or user
     // Useful so that channels can track a list of permissions objects, knowing what each is for. 
 
+    require_e2e: bool, 
+
     // viewing permissions
     view_channel: bool,
     view_audit_log: bool,
@@ -27,15 +29,15 @@ pub struct Permissions {
 
     // member managementpermissions
     edit_alias: bool,
-    can_kick: bool,
-    can_ban: bool,
-    can_mute: bool,
-    can_move_members: bool,
+    kick: bool,
+    ban: bool,
+    mute_others: bool,
+    move_members: bool,
     force_voice_mute: bool,
     force_voice_deafen: bool,
 
     // ??? 
-    can_react: bool,
+    add_react: bool,
 
     // role permissions
     can_ping_all: bool,
@@ -48,9 +50,6 @@ pub struct Permissions {
     create_invite: bool,
     send_messages: bool,
     create_threads: bool,
-    
-    embed_images: bool,
-    embed_links: bool,
 
     use_external_emoji: bool,
     use_commands: bool,
@@ -69,7 +68,7 @@ pub struct Permissions {
 pub struct Status { 
     guid: Guid, // users GUID, NOT statuses. They dont get GUIDs
 
-    is_rich: bool, // if false: the icon is instead an emoji, and only the status is filled, the rest are n ull
+    is_rich: bool, // if false: the icon is instead an emoji, and only the status is filled, the rest are null
 
     title: String,
     status: String,
@@ -104,6 +103,10 @@ pub struct Profile {
     // Dosen't make sense to seperate it into a seperate struct because they are only used here. 
 
     // privacy and safety
+
+    require_e2e: bool,
+    try_serverless: bool, // not truly serverless, but avoids most server interaction by going directly peer-to-peer.
+    expand_embeded_urls: bool, // show the raw text for [embeeded links](url)
 
     // dm = direct message
     require_friendship_to_dm: bool, // if  on: overrides all below settings in this block to FALSE
@@ -170,7 +173,6 @@ pub struct Profile {
     attenuation_threshold: i8, // Lower the volume of other applications when receving voice input. 0 disables  it. Unit: Debibels
     show_warning_when_no_mic: bool, // display a warning when no mic is deteced in vc
 
-
     // text and images
     force_create_embeds: bool, // always show other peoples links as embeds, even if they don't have permission to in the group 
 
@@ -180,6 +182,9 @@ pub struct Profile {
     emoji_prefered_gender: String, // "person", "womman", "man" -- edits the shortcode, when you just do :shrug: it will append yourPrefrence_ to make it represent you better, for example, to :womman_shrug:
     preview_message_syntax: String, // show markdown and emoji syntax as you type
     click_to_show_spoiler: bool, // false: always show spoilered content. 
+
+    attempt_auto_translate: bool,
+    translate_engine: String, 
 
     //# notifcations
     desktop_notificiations: bool, 
@@ -225,6 +230,17 @@ pub struct Profile {
 
     //#
     language: String, // ISO codes, e.g., en-US (or just en), da, etc. 
+    use_silly_shortcodes: bool,
+
+    //# Diagnostic data collection
+    send_data_on_crash: bool,
+    send_data_on_startup: bool,
+    send_data_on_bug_report: bool,
+
+    send_data_network_area: bool, // timezone. 
+    send_data_hardware: bool, 
+    send_data_client: bool, 
+    send_data_os: bool,
 
     //# OS Settings
     open_on_startup: bool, 
@@ -273,6 +289,7 @@ pub struct Profile {
 
 }
 
+#[derive(Properties, PartialEq)]
 pub struct Message {
     author: Guid,
     guid: Guid, 

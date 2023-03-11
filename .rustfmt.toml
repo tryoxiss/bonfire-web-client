@@ -2,7 +2,7 @@
 
 
 color = "Always"
-comment_width = "160"
+comment_width = "80"
 
 brace_style = "PreferSameLine"
 
