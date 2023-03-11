@@ -1,9 +1,46 @@
 
 use yew::prelude::*;
 use std::time::{Duration, SystemTime};
+use serde::{Deserialize, Serialize};
+use wasm_bindgen::prelude::*;
+
+const KEY: &'static str = "yew.tut.database";
+
 
 //# DEBUG
 use rand::prelude::*;
+
+
+
+
+#[derive(Serialize, Deserialize)]
+pub struct Database {
+    tasks: Vec<Task>,
+}
+impl Database {
+    pub fn new() -> Self {
+        Database { tasks: Vec::new() }
+    }
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Task {
+    title: String,
+    description: String,
+}
+impl Task {
+    pub fn new() -> Self {
+        Task {
+            title: "".to_string(),
+            description: "".to_string(),
+        }
+    }
+    pub fn is_filledin(&self) -> bool {
+        (self.title != "") && (self.description != "")
+    }
+}
+
+
+
 
 enum Msg {
     AddOne,
@@ -47,37 +84,18 @@ impl Component for App {
 
     <nav role="groups">
         <ul>
-            <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a></li>
+            <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a><span class="tooltip right-tooltip">{"@zengarden@example.com"}</span></li>
             <SidebarIcon label="@doggo@instance.tld" />
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
         </ul>
         <hr />
         <ul>
-            <li class="has-tooltip"><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
-            <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a></li>
-            <li class="has-tooltip"><a href="#3" style="background-image: url(https://picsum.photos/id/237/1920/1080);"></a></li>
-            <li class="has-tooltip"><a href="#4" style="background-image: url(https://picsum.photos/id/291/200/300);"></a></li>
-            <li class="has-tooltip"><a href="#5" style="background-image: url(https://picsum.photos/id/221/200/300);"></a></li>
-            <li class="has-tooltip"><a href="#6" style="background-image: url(https://picsum.photos/id/231/200/300);"></a></li>
-            <li class="has-tooltip"><a href="#7" style="background-image: url(https://picsum.photos/id/212/200/300);"></a></li>
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
-            <SidebarIcon />
+            <li class="has-tooltip"><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a><span class="tooltip right-tooltip">{"Doggo's House"}</span></li>
+            <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a><span class="tooltip right-tooltip">{"The Zen Garden"}</span></li>
+            <li class="has-tooltip"><a href="#3" style="background-image: url(https://picsum.photos/id/237/1920/1080);"></a><span class="tooltip right-tooltip">{"Doggo's Sunbeam"}</span></li>
+            <li class="has-tooltip"><a href="#4" style="background-image: url(https://picsum.photos/id/291/200/300);"></a><span class="tooltip right-tooltip">{"Mistlands"}</span></li>
+            <li class="has-tooltip"><a href="#5" style="background-image: url(https://picsum.photos/id/221/200/300);"></a><span class="tooltip right-tooltip">{"the Concrete Jungle"}</span></li>
+            <li class="has-tooltip"><a href="#6" style="background-image: url(https://picsum.photos/id/231/200/300);"></a><span class="tooltip right-tooltip">{"Mountian Range"}</span></li>
+            <li class="has-tooltip"><a href="#7" style="background-image: url(https://picsum.photos/id/212/200/300);"></a><span class="tooltip right-tooltip">{"The park Bench"}</span></li>
         </ul>
     </nav>
     <nav role="channels">
@@ -127,13 +145,9 @@ impl Component for App {
 
     <div role="profile"></div>
 </app>
-        }
+        } 
     }
 }
-
-// fn process_uri(uri: String) { 
-    
-// }
 
 #[derive(Properties, PartialEq)]
 pub struct AppStruct {
@@ -146,6 +160,7 @@ pub struct AppStruct {
 // #[function_component]
 // fn HelloWorld() -> Html {
 //     html! { <p>{ "Hello world" }</p> }
+// }
 
 //# Everything prefixed with Fa is from font awesome Free
 // They provide this licence disclaimer. 
@@ -238,7 +253,6 @@ pub struct Message {
     unix_time: i64,
 }
 
-
 #[function_component]
 fn MessageRoot(props: &Message) -> Html {
     html! {
@@ -248,7 +262,7 @@ fn MessageRoot(props: &Message) -> Html {
         <div class="content">
             <header>
                 <a class="author">{ props.author_name.clone()}</a>
-                <time class="has-tooltip">{ props.datetime_full.clone() }</time>
+                <time class="has-tooltip">{ props.datetime_full.clone() }<span class="tooltip right-tooltip">{ props.datetime_full.clone() }</span></time>
             </header>
             <div class="content">
                 <p>{ props.content.clone() }</p>
@@ -262,7 +276,7 @@ fn MessageRoot(props: &Message) -> Html {
 fn MessageConsecutive(props: &Message) -> Html {
     html! {
     <li>
-    <time class="has-tooltip">{ props.time.clone() }</time>
+    <time class="has-tooltip">{ props.time.clone() } <span class="tooltip right-tooltip">{ props.datetime_full.clone() }</span></time>
         <div class="content">
         <p>{ props.content.clone() }</p>
         </div>
@@ -274,14 +288,26 @@ fn MessageConsecutive(props: &Message) -> Html {
 pub struct SidebarIconStruct { 
     #[prop_or_default]
     label: String,
+
 }
 
 #[function_component]
 fn SidebarIcon(props: &SidebarIconStruct) -> Html {
     html! {
     <li class="has-tooltip">
-        <a href="#1" data-tippy-content="Tooltip" style="background-image: url(https://picsum.photos/id/237/200/300);"></a>
+        <a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a>
+        <span class="tooltip right-tooltip">{ props.label.clone() }</span>
     </li>
+    }
+}
+
+
+
+
+#[function_component]
+fn RightTooltip() -> Html {
+    html! {
+    <span class="tooltip right-tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span>
     }
 }
 
@@ -351,11 +377,11 @@ fn ContextMenu() -> Html {
 #[function_component]
 fn ContextMenuMessage() -> Html {
     html! {
-    <ul class="menu"> 
-        <li class="trash"><button href="#">{"Add Reaction"} <FaChevronRight /></button></li> 
-        <li class="trash"><button href="#">{"Bookmark Message"} <FaBookmarkEmpty /></button></li> 
-        <li class="trash"><button href="#">{"Reply"} <FaReply /></button></li> 
-    </ul> 
+        <ul class="menu"> 
+            <li class="trash"><button href="#">{"Add Reaction"} <FaChevronRight /></button></li> 
+            <li class="trash"><button href="#">{"Bookmark Message"} <FaBookmarkEmpty /></button></li> 
+            <li class="trash"><button href="#">{"Reply"} <FaReply /></button></li> 
+        </ul> 
     }
 }
 
@@ -376,43 +402,22 @@ fn ContextMenuChannel() -> Html {
     </ul> 
     }
 }
+
 #[function_component]
 fn ContextMenuManageChannel() -> Html {
     html! {
-    <ul class="menu"> 
-        <li class="trash"><button href="#">{"Inspect Element"}</button></li> 
-    </ul> 
+        <ul class="menu"> 
+            <li class="trash"><button href="#">{"Inspect Element"}</button></li> 
+        </ul> 
     }
 }
 
 #[function_component]
 fn ButtonCta() -> Html {
     html! {
-    <button class="button-rect button-cta">{"CTA Button"}</button>
+        <button class="button-rect button-cta">{"CTA Button"}</button>
     }
-
-// fn determine_password_safety(password: String) -> u32{ 
-//     let score: u32;
-
-//     let MINIMUM_LENGTH: u32 = 12;
-//     let CHAR_VALUE: u32 = 4;
-
-//     let symbols = ['!', '@', '#', '$', '%', '^', '(', ')', '-', '_', '+', '=',
-//                                ':', '[', ']', '`', '~', '?', '<', '>', ',', '.', '/'];
-//     let low_alpha: [char; 26] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-//                                 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
-//                                 'y', 'z'];
-//     let up_alpha: [char; 26] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
-//                                 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-//                                 'Y', 'Z'];
-//     let digit: [char; 10] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-
-//     let allowed = [symbols, low_alpha, up_alpha, digit];
-
-//     score += password.len() * CHAR_VALUE;
-
-//     return score;
-// }
+}
 
 #[function_component]
 fn ButtonNormal() -> Html {
