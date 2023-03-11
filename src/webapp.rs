@@ -1,42 +1,64 @@
 
 use yew::prelude::*;
-// use yew::{function_component, html, Html, Properties};
+use std::time::{Duration, SystemTime};
+use serde::{Deserialize, Serialize};
+use wasm_bindgen::prelude::*;
 
-#[derive(Properties, PartialEq)]
-pub struct Props {
-    #[prop_or_default]
-    pub author: String,
+const KEY: &'static str = "yew.tut.database";
 
-    #[prop_or_default]
-    pub content: String,
 
-    #[prop_or_default]
-    pub icon: String,
+//# DEBUG
+use rand::prelude::*;
 
-    #[prop_or_default]
-    pub header_name: String,
 
-    #[prop_or_default]
-    pub title: String,
+
+
+#[derive(Serialize, Deserialize)]
+pub struct Database {
+    tasks: Vec<Task>,
 }
+impl Database {
+    pub fn new() -> Self {
+        Database { tasks: Vec::new() }
+    }
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Task {
+    title: String,
+    description: String,
+}
+impl Task {
+    pub fn new() -> Self {
+        Task {
+            title: "".to_string(),
+            description: "".to_string(),
+        }
+    }
+    pub fn is_filledin(&self) -> bool {
+        (self.title != "") && (self.description != "")
+    }
+}
+
+
+
 
 enum Msg {
     AddOne,
 }
 
-struct AppComponent {
+struct App {
     count: i128,
-    v: Vec<i32>,
+    content: Vec<i32>,
 }
 
-impl Component for AppComponent {
+impl Component for App {
     type Message = Msg;
     type Properties = ();
 
     fn create(_ctx: &Context<Self>) -> Self {
         Self { 
             count: 0,
-            v: vec![1]        
+            content: vec![1]
         }
     }
 
@@ -44,7 +66,7 @@ impl Component for AppComponent {
         match msg {
             Msg::AddOne => {
                 self.count += 10;
-                self.v.push(1);
+                self.content.push(1);
                 true // re-render component
             }
         }
@@ -52,333 +74,416 @@ impl Component for AppComponent {
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         let link = ctx.link();
-        html! {
-            <div class="container">
-                <div>
-                    {
+        html! { 
+<app class="ctp-mocha" logged_in_account="GUID" theme="ctp-mocha" app="Bonfire Server offical" version="0:1:14::beta" repository="github.com/tryoxiss/bonfire-server" main_authors="Khaim0919, Tryoxiss" licence="AGPL 3.0 (https://github.com/tryoxiss/bonfire-server/blob/main/LICENCE)">
 
-                    for self.v.iter().map(|x| {
-                        html! {
-                            <p>{ x }</p>
-                        }
-                    })
-                    
+    <div class="absolute-pane">
+        // <Modal />
+        <ContextMenu />
+    </div>
+
+    <nav role="groups">
+        <ul>
+            <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a><span class="tooltip right-tooltip">{"@zengarden@example.com"}</span></li>
+            <SidebarIcon label="@doggo@instance.tld" />
+        </ul>
+        <hr />
+        <ul>
+            <li class="has-tooltip"><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a><span class="tooltip right-tooltip">{"Doggo's House"}</span></li>
+            <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a><span class="tooltip right-tooltip">{"The Zen Garden"}</span></li>
+            <li class="has-tooltip"><a href="#3" style="background-image: url(https://picsum.photos/id/237/1920/1080);"></a><span class="tooltip right-tooltip">{"Doggo's Sunbeam"}</span></li>
+            <li class="has-tooltip"><a href="#4" style="background-image: url(https://picsum.photos/id/291/200/300);"></a><span class="tooltip right-tooltip">{"Mistlands"}</span></li>
+            <li class="has-tooltip"><a href="#5" style="background-image: url(https://picsum.photos/id/221/200/300);"></a><span class="tooltip right-tooltip">{"the Concrete Jungle"}</span></li>
+            <li class="has-tooltip"><a href="#6" style="background-image: url(https://picsum.photos/id/231/200/300);"></a><span class="tooltip right-tooltip">{"Mountian Range"}</span></li>
+            <li class="has-tooltip"><a href="#7" style="background-image: url(https://picsum.photos/id/212/200/300);"></a><span class="tooltip right-tooltip">{"The park Bench"}</span></li>
+        </ul>
+    </nav>
+    <nav role="channels">
+        <ul>
+        </ul>
+    </nav>
+
+    <main>
+        <header class="med-padding">
+            <h1><span class="muted">{"@"}</span><span>{"doggo"}</span><span class="muted">{"@instance.tld"}</span></h1>
+            <vr/>
+            <span style="margin-left: auto;"><button class="heaer-button"><FaPushpinIcon /></button></span>
+        </header>
+
+        <ul>
+            <MessageRoot content="Hello world" author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            <MessageConsecutive content="Hello world" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            <MessageConsecutive content="Oooh treats!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            
+            {
+
+            for self.content.iter().map(|_x| {
+
+                if rand::random() {
+                    html! { 
+                        <MessageRoot author_name="Doggo" content="*nom nom nom*" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
                     }
-                </div>
+                } else {
+                    html! { 
+                        <MessageConsecutive content="yummy!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+                    }
+                }
+            })
+            }
 
-                <button onclick={link.callback(|_| Msg::AddOne)}>{ "+1" }</button>
-            </div>
-        }
+        </ul>
+
+        <div class="message-area placeholder-message">
+            <button class="round-button"><FaPlusIcon /></button>
+
+            <ExpandableTextarea />
+
+            <button class="round-button" onclick={link.callback(|_| Msg::AddOne)}><FaSendIcon /></button>
+        </div>
+
+    </main>
+
+    <div role="profile"></div>
+</app>
+        } 
     }
 }
 
+#[derive(Properties, PartialEq)]
+pub struct AppStruct {
+    theme: String,
+}
 
-// Called by our JS entry point to run the example
-// #[wasm_bindgen(start)]
-// fn run() -> Result<(), JsValue> {
-//     // Use `web_sys`'s global `window` function to get a handle on the global
-//     // window object.
-//     let window = web_sys::window().expect("no global `window` exists");
-//     let document = window.document().expect("should have a document on window");
-//     let body = document.body().expect("document should have a body");
+// props: &Props
 
-//     // Manufacture the element we're gonna append
-//     let val = document.create_element("p")?;
-//     val.set_text_content(Some("Hello from Rust!"));
-
-//     body.append_child(&val)?;
-
-//     Ok(())
+// Then somewhere else you can use the component inside `html!`
+// #[function_component]
+// fn HelloWorld() -> Html {
+//     html! { <p>{ "Hello world" }</p> }
 // }
-
 
 //# Everything prefixed with Fa is from font awesome Free
 // They provide this licence disclaimer. 
 // This will also be featured in the credits popup.
 // Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. 
-#[function_component]
-fn FaPlusIcon() -> Html {
+// https://fontawesome.com/search?m=free&o=r
+// The function componene tis on the same line to make this more compact. With most code editors you can collapse these blocks to make them take up one line each.
+#[function_component] fn FaPlusIcon() -> Html {
     html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"></path></svg> }
-}
-
-#[function_component]
-fn FaSendIcon() -> Html {
+} 
+#[function_component] fn FaSendIcon() -> Html {
     html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480V396.4c0-4 1.5-7.8 4.2-10.7L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg> }
+} 
+#[function_component] fn FaUserIcon() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg> }
+} 
+#[function_component] fn FaSearchIcon() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg> }
+} 
+#[function_component] fn FaPushpinIcon() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M32 32C32 14.3 46.3 0 64 0H320c17.7 0 32 14.3 32 32s-14.3 32-32 32H290.5l11.4 148.2c36.7 19.9 65.7 53.2 79.5 94.7l1 3c3.3 9.8 1.6 20.5-4.4 28.8s-15.7 13.3-26 13.3H32c-10.3 0-19.9-4.9-26-13.3s-7.7-19.1-4.4-28.8l1-3c13.8-41.5 42.8-74.8 79.5-94.7L93.5 64H64C46.3 64 32 49.7 32 32zM160 384h64v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V384z"/></svg> }
+} 
+#[function_component] fn FaInvisibleIcon() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M40.1 467.1l-11.2 9c-3.2 2.5-7.1 3.9-11.1 3.9C8 480 0 472 0 462.2V192C0 86 86 0 192 0S384 86 384 192V462.2c0 9.8-8 17.8-17.8 17.8c-4 0-7.9-1.4-11.1-3.9l-11.2-9c-13.4-10.7-32.8-9-44.1 3.9L269.3 506c-3.3 3.8-8.2 6-13.3 6s-9.9-2.2-13.3-6l-26.6-30.5c-12.7-14.6-35.4-14.6-48.2 0L141.3 506c-3.3 3.8-8.2 6-13.3 6s-9.9-2.2-13.3-6L84.2 471c-11.3-12.9-30.7-14.6-44.1-3.9zM160 192a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm96 32a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"/></svg> }
 }
-
-
-
-
-
-#[function_component]
-fn MessageRoot(props: &Props) -> Html {
-    html! { 
-        <message>
-            <a class="left"><img class="pfp" src={ props.icon.clone() }/></a>
-            <fill>
-                <author><a>{ props.author.clone() }</a> <time>{ "24/DEC/2022 at 2:21" }</time></author>
-                <content>
-                { props.content.clone() }
-                </content>
-            </fill>
-        </message> 
-    }
+#[function_component] fn FaHomeIcon() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/></svg> }
 }
-
-#[function_component]
-fn Message(props: &Props) -> Html {
-    html! { 
-        <message>
-            <div class="left">
-                <time>{"22:22"}</time>
-            </div>
-            <fill>
-                <content>
-                { props.content.clone() }
-                </content>
-            </fill>
-        </message> 
-    }
+#[function_component] fn FaHtmlIcon() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg> }
 }
-
+#[function_component] fn FaChevronRight() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg> }
+}
+#[function_component] fn FaFingerprint() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M454.4 93c7.3 8.8 6.1 21.6-2 29.7c-10.6 10.6-28.2 8.6-38-2.7C376.2 75.9 319.9 48 257 48C142.1 48 49 141.1 49 256v24.9c0 6.1-.2 12.2-.6 18.3C47.7 311.2 37.6 320 25.6 320C11.1 320 .1 307 .7 292.5c.2-3.9 .3-7.7 .3-11.6V256C1 114.6 115.6 0 257 0c79.4 0 150.4 36.2 197.4 93zm19.3 89.6c13.1-6.5 29-.2 32.4 14.1c4.5 19.1 6.9 39 6.9 59.4v24.9c0 5.4-.1 10.9-.2 16.3C512.6 310 502 320 489.2 320c-13.7 0-24.6-11.5-24.4-25.3c.1-4.6 .1-9.2 .1-13.8V256c0-15.1-1.6-29.8-4.6-43.9c-2.5-11.8 2.5-24.2 13.3-29.6zM257 80c97.2 0 176 78.8 176 176v24.9c0 27.7-1.7 55.3-5 82.7c-1.4 11.7-11.5 20.3-23.3 20.3c-14.7 0-25.9-13.2-24.2-27.8c3-24.9 4.4-50.1 4.4-75.3V256c0-70.7-57.3-128-128-128c-11.6 0-22.8 1.5-33.4 4.4c-10.6 2.9-22.3 .4-29.4-7.9c-10.4-12.1-6.9-30.9 8.3-35.9C219.6 83 238 80 257 80zM151.7 148.7c8.2 9.6 7.5 23.8 .2 34.2C137.5 203.6 129 228.8 129 256v24.9c0 28.9-3.3 57.7-9.7 85.8C116.9 377 107.6 384 97.1 384c-15.9 0-27.3-15.6-23.9-31.1c5.2-23.6 7.8-47.7 7.8-71.9V256c0-40.6 13.7-78 36.8-107.7c8.5-11 24.8-10.2 33.9 .4zM257 160c53 0 96 43 96 96v24.9c0 39.7-3.9 79.3-11.6 118.1c-2 10-10.8 17-21 17c-14.2 0-24.5-13.3-21.8-27.2c6.9-35.5 10.4-71.6 10.4-107.9V256c0-28.7-23.3-52-52-52s-52 23.3-52 52v24.9c0 40.5-5.3 80.7-15.9 119.7c-2.5 9.2-10.9 15.4-20.4 15.4c-14.8 0-25.3-14.6-21.5-29c9.1-34.6 13.8-70.2 13.8-106.1V256c0-53 43-96 96-96zm24 96v24.9c0 65.8-12.1 131-35.7 192.4l-5.9 15.3c-4.8 12.4-18.6 18.5-31 13.8s-18.5-18.6-13.8-31l5.9-15.3C222 400.2 233 340.8 233 280.9V256c0-13.3 10.7-24 24-24s24 10.7 24 24z"/></svg> }
+}
+#[function_component] fn FaReply() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M205 34.8c11.5 5.1 19 16.6 19 29.2v64H336c97.2 0 176 78.8 176 176c0 113.3-81.5 163.9-100.2 174.1c-2.5 1.4-5.3 1.9-8.1 1.9c-10.9 0-19.7-8.9-19.7-19.7c0-7.5 4.3-14.4 9.8-19.5c9.4-8.8 22.2-26.4 22.2-56.7c0-53-43-96-96-96H224v64c0 12.6-7.4 24.1-19 29.2s-25 3-34.4-5.4l-160-144C3.9 225.7 0 217.1 0 208s3.9-17.7 10.6-23.8l160-144c9.4-8.5 22.9-10.6 34.4-5.4z"/></svg> }
+}
+#[function_component] fn FaBookmarkFilled() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/></svg> }
+}
+#[function_component] fn FaBookmarkEmpty() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M0 48C0 21.5 21.5 0 48 0l0 48V441.4l130.1-92.9c8.3-6 19.6-6 27.9 0L336 441.4V48H48V0H336c26.5 0 48 21.5 48 48V488c0 9-5 17.2-13 21.3s-17.6 3.4-24.9-1.8L192 397.5 37.9 507.5c-7.3 5.2-16.9 5.9-24.9 1.8S0 497 0 488V48z"/></svg> }
+}
+#[function_component] fn FaEnvelopeClosed() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg> }
+}
+#[function_component] fn FaEnvelopeOpen() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M215.4 96H144 107.8 96v8.8V144v40.4 89L.2 202.5c1.6-18.1 10.9-34.9 25.7-45.8L48 140.3V96c0-26.5 21.5-48 48-48h76.6l49.9-36.9C232.2 3.9 243.9 0 256 0s23.8 3.9 33.5 11L339.4 48H416c26.5 0 48 21.5 48 48v44.3l22.1 16.4c14.8 10.9 24.1 27.7 25.7 45.8L416 273.4v-89V144 104.8 96H404.2 368 296.6 215.4zM0 448V242.1L217.6 403.3c11.1 8.2 24.6 12.7 38.4 12.7s27.3-4.4 38.4-12.7L512 242.1V448v0c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64v0zM176 160H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg> }
+}
+#[function_component] fn FaCopy() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 448c0 35.3 28.7 64 64 64H288c35.3 0 64-28.7 64-64V384H224c-53 0-96-43-96-96V160H64c-35.3 0-64 28.7-64 64V448zm224-96H448c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H224c-35.3 0-64 28.7-64 64V288c0 35.3 28.7 64 64 64z"/></svg> }
+}
+#[function_component] fn FaLink() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z"/></svg> }
+}
+#[function_component] fn FaTrash() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg> }
+}
+#[function_component] fn FaFlag() -> Html {
+    html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z"/></svg> }
+}
 // #[function_component]
-// fn CommandResponse(props: &Props) -> Html {
-//     html! { 
-//         <message class="bot-message">
-//             <a class="left"><img class="pfp" src={ props.icon.clone() }/></a>
-//             <fill>
-//                 <author><a>{ props.author.clone() }</a><span class="bot-tag">{ "BOT" }</span></author>
-//                 <content>
-//                 { props.content.clone() }
-
-//                     <p class="text-small"><span>{"Only you can see this messgae. It will disapear when your client is restarted or the tab is closed. "}</span><a>{"Dismiss it now."}</a></p>
-//                 </content>
-//             </fill>
-//         </message> 
-//     }
+// fn FaTrash() -> Html {
+//     html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg> }
+// }
+// #[function_component]
+// fn FaTrash() -> Html {
+//     html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg> }
 // }
 
-#[function_component]
-fn DrawHeader(props: &Props) -> Html {
-    html! { 
-    <header class="header-bar">
-        <p><span><span class="muted">{"@"}</span><strong>{"khaim0919"}</strong><span class="muted">{"#0001@instance.tld"}</span></span> <span class="topic"> {" Nicknames or Channel Topic"} </span></p>
+#[derive(Properties, PartialEq)]
+pub struct Message { 
+    #[prop_or_default]
+    content: String,
 
-        <span class="menu-bar-buttons">
-        <button class="round-button">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>
-        </button>
-        <button class="round-button">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M32 32C32 14.3 46.3 0 64 0H320c17.7 0 32 14.3 32 32s-14.3 32-32 32H290.5l11.4 148.2c36.7 19.9 65.7 53.2 79.5 94.7l1 3c3.3 9.8 1.6 20.5-4.4 28.8s-15.7 13.3-26 13.3H32c-10.3 0-19.9-4.9-26-13.3s-7.7-19.1-4.4-28.8l1-3c13.8-41.5 42.8-74.8 79.5-94.7L93.5 64H64C46.3 64 32 49.7 32 32zM160 384h64v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V384z"/></svg>
-        </button>
-        <button class="round-button">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
-        </button>
-        </span>
-    </header>
+    #[prop_or_default]
+    time: String,
+
+    #[prop_or_default]
+    datetime_full: String,
+
+    // temperary
+    #[prop_or_default]
+    author_name: String,
+
+    #[prop_or_default]
+    unix_time: i64,
+}
+
+#[function_component]
+fn MessageRoot(props: &Message) -> Html {
+    html! {
+    <li>
+        <div style="background-image: url(https://picsum.photos/id/237/200/300);" class="pfp" />
+
+        <div class="content">
+            <header>
+                <a class="author">{ props.author_name.clone()}</a>
+                <time class="has-tooltip">{ props.datetime_full.clone() }<span class="tooltip right-tooltip">{ props.datetime_full.clone() }</span></time>
+            </header>
+            <div class="content">
+                <p>{ props.content.clone() }</p>
+            </div>
+        </div>
+    </li>
+    }
+}
+
+#[function_component]
+fn MessageConsecutive(props: &Message) -> Html {
+    html! {
+    <li>
+    <time class="has-tooltip">{ props.time.clone() } <span class="tooltip right-tooltip">{ props.datetime_full.clone() }</span></time>
+        <div class="content">
+        <p>{ props.content.clone() }</p>
+        </div>
+    </li>
+    }
+}
+
+#[derive(Properties, PartialEq)]
+pub struct SidebarIconStruct { 
+    #[prop_or_default]
+    label: String,
+
+}
+
+#[function_component]
+fn SidebarIcon(props: &SidebarIconStruct) -> Html {
+    html! {
+    <li class="has-tooltip">
+        <a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a>
+        <span class="tooltip right-tooltip">{ props.label.clone() }</span>
+    </li>
+    }
+}
+
+
+
+
+#[function_component]
+fn RightTooltip() -> Html {
+    html! {
+    <span class="tooltip right-tooltip">{"07 Febuary 2023 at 23:09 GMT"}</span>
+    }
+}
+
+#[function_component]
+fn ExpandableTextarea() -> Html {
+    html! {
+    // The textarea div cannot be void or else it cannot be edited.
+    <div 
+    class="expandable-textarea"
+    id="message-box"
+    role="textbox"
+    contenteditable="true"
+    placeholder="send a message">
+    </div>
     }
 }
 
 // #[function_component]
-// fn RoundButton(props: &Props) -> Html {
-//     html! { 
+// fn RoundButton() -> Html {
+//     html! {
 //     <button class="round-button">
-//         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg>
+//         <FaPushpinIcon />
 //     </button>
 //     }
 // }
 
+
 #[function_component]
-fn GroupIcon(props: &Props) -> Html {
-    html! { 
-    <a href="#" class="active"><img src="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" alt=""/></a>
+fn Modal() -> Html {
+    html! {
+    <div id="modal" class="modal"> 
+    <h2>{"Oops!"}</h2>
+        <p>{"Something went wrong..."}</p>
+        <ButtonText />
+        <ButtonDanger />
+    </div> 
     }
 }
 
 
 
-#[function_component]
-fn InfoChannel(props: &Props) -> Html {
-    html! { 
-    <a class="li">
-        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg></span>
-        <text>{"rules"}</text>
-    </a>
-    }
-}
 
 #[function_component]
-fn TextChannel(props: &Props) -> Html {
-    html! { 
-    <a class="li">
-        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M181.3 32.4c17.4 2.9 29.2 19.4 26.3 36.8L197.8 128h95.1l11.5-69.3c2.9-17.4 19.4-29.2 36.8-26.3s29.2 19.4 26.3 36.8L357.8 128H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H347.1L325.8 320H384c17.7 0 32 14.3 32 32s-14.3 32-32 32H315.1l-11.5 69.3c-2.9 17.4-19.4 29.2-36.8 26.3s-29.2-19.4-26.3-36.8l9.8-58.7H155.1l-11.5 69.3c-2.9 17.4-19.4 29.2-36.8 26.3s-29.2-19.4-26.3-36.8L90.2 384H32c-17.7 0-32-14.3-32-32s14.3-32 32-32h68.9l21.3-128H64c-17.7 0-32-14.3-32-32s14.3-32 32-32h68.9l11.5-69.3c2.9-17.4 19.4-29.2 36.8-26.3zM187.1 192L165.8 320h95.1l21.3-128H187.1z"/></svg></span>
-        <text>{"general"}</text>
-    </a>
-    }
-}
+fn ContextMenu() -> Html {
+    html! {
+    <div id="contextMenu" class="context-menu" style="display: none"> 
+        <ul class="menu"> 
+            <ContextMenuMessage />
 
-#[function_component]
-fn VoiceChannel(props: &Props) -> Html {
-    html! { 
-    <a class="li">
-        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M176 0C123 0 80 43 80 96V256c0 53 43 96 96 96s96-43 96-96V96c0-53-43-96-96-96zM48 216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 89.1 66.2 162.7 152 174.4V464H104c-13.3 0-24 10.7-24 24s10.7 24 24 24h72 72c13.3 0 24-10.7 24-24s-10.7-24-24-24H200V430.4c85.8-11.7 152-85.3 152-174.4V216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 70.7-57.3 128-128 128s-128-57.3-128-128V216z"/></svg></span>
-        <text>{"girlies-call"}</text>
-    </a>
-    }
-}
-
-
-// fn determine_password_safety(password: String) -> u32{ 
-//     let score: u32;
-
-//     let MINIMUM_LENGTH: u32 = 12;
-//     let CHAR_VALUE: u32 = 4;
-
-//     let symbols = ['!', '@', '#', '$', '%', '^', '(', ')', '-', '_', '+', '=',
-//                                ':', '[', ']', '`', '~', '?', '<', '>', ',', '.', '/'];
-//     let low_alpha: [char; 26] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-//                                 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
-//                                 'y', 'z'];
-//     let up_alpha: [char; 26] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
-//                                 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-//                                 'Y', 'Z'];
-//     let digit: [char; 10] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-
-//     let allowed = [symbols, low_alpha, up_alpha, digit];
-
-//     score += password.len() * CHAR_VALUE;
-
-//     return score;
-// }
-
-
-#[function_component]
-fn App() -> Html {
-    html! { 
-    <app class="ctp-mocha">
-        <div class="error-message">
-            <p>{ "A fatal error occured" }</p>
-            <h1>{ "Please use a larger screen" }</h1>
-            <p style="margin-bottom: 0.75rem;">{ "Our web app does not work on smaller screen sizes, if you would like to use it on mobile: we have an app for iOS and Android." }</p>
-
-            <p>{ " Our exact cutoff is 900 pixels in width and 450 pixels in height." }</p>
-
-            <br/>
-
-            <p><a href="#">{"iOS App Store"}</a> {" | "} <a href="#">{"Google Play"}</a></p>
-        </div>
-
-        <nav role="groups">
-
-            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" style="margin-top: 10px; margin-left: 10px;">/*<!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->*/
-            <path d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/></svg></a>
-
-            // dm icons go here
+            <ul class="menu dev-mode"> 
+                <li class=""><button href="#"><label for="name_muted_checkbox">{"Mute Channel"}</label> <input id="name_muted_checkbox" type="checkbox" /></button></li> 
+                <li class="trash"><button href="#">{"Copy Text"} <FaCopy /></button></li> 
+                <li class="trash"><button href="#">{"Copy Link"} <FaLink /></button></li> 
+                <li class="danger"><button href="#">{"Delete Message"} <FaTrash /></button></li> 
+            </ul> 
 
             <hr />
-
-            // group icons go here
-
-            <GroupIcon />
-            <GroupIcon />
-            <GroupIcon />
-
-            <a href="#" style="background: transparent;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="margin-left: 12px; margin-top: 9px;"><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg></a>
-        </nav>
-
-        <nav role="channels">
-
-            <details>
-            <summary>{"General"}</summary>
-            <ul>
-                <InfoChannel />
-                <TextChannel />
-                <TextChannel />
-                <VoiceChannel />
-            </ul>
-            </details>
-
-            <br />
-            <p>{ "Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. "}</p>
-        </nav>
-
-        <DrawHeader />
-
-        <main>
-
-            <div class="messages">
-
-                <div style="min-height: 90vh; display: flex;">
-                    <div style="margin-top: auto;">
-                    <text class="h1">{"This is the begining"}</text>
-                    <text>{"of your ✨magical✨ conversation!"}</text>
-                    //<text>{"(Thoigh of course it won't ALWAYS go that way, so heres some options)"}</text>
-
-                //  <button class="button-rect button-danger">{"Block User"}</button>
-                    <button class="button-rect-small button-rect button-cta">{"Send Friend Request"}</button>
-                    //<button class="button-rect-small button-rect button-neutral">{"Reject Message Request"}</button>
-                    <button class="button-rect-small button-rect button-danger">{"Block User"}</button>
-
-
-                    </div>
-                </div>
-
-                // <MessageRoot content="text" author="khaim" icon="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
-                // <Message content="text" />
-
-                // <button class="button-rect button-danger">{"Delete Account"}</button>
-                // <button class="button-rect button-cta">{"Create Account"}</button>
-                // <button class="button-rect button-neutral">{"edit username"}</button>
-                // <button class="button-rect button-text">{"edit username"}</button>
-
-                // <input type="checkbox" class="switch" checked=true />
-                // <input type="checkbox" class="switch" />
-                // <input type="checkbox" class="switch" disabled=true checked=true />
-                // <input type="checkbox" class="switch" disabled=true />
-
-                // <input type="checkbox" checked=true />
-                // <input type="checkbox" />
-                // <input type="checkbox" disabled=true checked=true />
-                // <input type="checkbox" disabled=true />
-
-                // <input type="radio" for="test1" checked=true />
-                // <input type="radio" for="test1" />
-                // <input type="radio" for="test1" disabled=true checked=true />
-                // <input type="radio" for="test1" disabled=true />
-                
-            </div>
-            
-            <div class="message-box-area">
-                <button class="round-button">
-                    <FaPlusIcon />
-                </button>
-                <textarea placeholder="Send a message... " name="message-box" id="message-box" cols="30" rows="2"></textarea>
-
-                <button class="round-button">
-                    <FaSendIcon />
-                </button>
-            </div>
-        </main>
-
-        <div role="user-profile" class="user-profile">
-            <img class="left" src="https://link.storjshare.io/raw/jvxikkhiqnksyeatwcn3iigoa3ta/techlgbt/accounts/avatars/109/504/275/977/175/789/original/a3e6266b885c9b43.png" />
-            <content>
-                <a>{"Username"}</a>
-                <text class="status">{"status"}</text>
-
-                <button class="round-button" style="float: right; margin-top: -2.5rem;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M481.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-30.9 28.1c-7.7 7.1-11.4 17.5-10.9 27.9c.1 2.9 .2 5.8 .2 8.8s-.1 5.9-.2 8.8c-.5 10.5 3.1 20.9 10.9 27.9l30.9 28.1c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-39.7-12.6c-10-3.2-20.8-1.1-29.7 4.6c-4.9 3.1-9.9 6.1-15.1 8.7c-9.3 4.8-16.5 13.2-18.8 23.4l-8.9 40.7c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-8.9-40.7c-2.2-10.2-9.5-18.6-18.8-23.4c-5.2-2.7-10.2-5.6-15.1-8.7c-8.8-5.7-19.7-7.8-29.7-4.6L69.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l30.9-28.1c7.7-7.1 11.4-17.5 10.9-27.9c-.1-2.9-.2-5.8-.2-8.8s.1-5.9 .2-8.8c.5-10.5-3.1-20.9-10.9-27.9L8.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l39.7 12.6c10 3.2 20.8 1.1 29.7-4.6c4.9-3.1 9.9-6.1 15.1-8.7c9.3-4.8 16.5-13.2 18.8-23.4l8.9-40.7c2-9.1 9-16.3 18.2-17.8C213.3 1.2 227.5 0 242 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l8.9 40.7c2.2 10.2 9.4 18.6 18.8 23.4c5.2 2.7 10.2 5.6 15.1 8.7c8.8 5.7 19.7 7.7 29.7 4.6l39.7-12.6c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM242 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/></svg>
-                </button>
-            </content>
-        </div>
-    </app>
+            <ul class="menu dev-mode"> 
+                <li class="trash"><button href="#">{"Copy GUID"} <FaFingerprint /></button></li> 
+                <li class="trash"><button href="#">{"Inspect Element"} <FaHtmlIcon /></button></li> 
+            </ul> 
+        </ul> 
+    </div> 
     }
 }
 
-pub fn khaim_debug() { 
-    yew::Renderer::<AppComponent>::new().render();
+#[function_component]
+fn ContextMenuMessage() -> Html {
+    html! {
+        <ul class="menu"> 
+            <li class="trash"><button href="#">{"Add Reaction"} <FaChevronRight /></button></li> 
+            <li class="trash"><button href="#">{"Bookmark Message"} <FaBookmarkEmpty /></button></li> 
+            <li class="trash"><button href="#">{"Reply"} <FaReply /></button></li> 
+        </ul> 
+    }
 }
 
-// pub fn render_app() {
-//     yew::Renderer::<App>::new().render();
-// }
+#[function_component]
+fn ContextMenuManageMessage() -> Html {
+    html! {
+    <ul class="menu"> 
+        <li class="trash"><button href="#">{"Inspect Element"}</button></li> 
+    </ul> 
+    }
+}
+
+#[function_component]
+fn ContextMenuChannel() -> Html {
+    html! {
+    <ul class="menu"> 
+        <li class="trash"><button href="#">{"Inspect Element"}</button></li> 
+    </ul> 
+    }
+}
+
+#[function_component]
+fn ContextMenuManageChannel() -> Html {
+    html! {
+        <ul class="menu"> 
+            <li class="trash"><button href="#">{"Inspect Element"}</button></li> 
+        </ul> 
+    }
+}
+
+#[function_component]
+fn ButtonCta() -> Html {
+    html! {
+        <button class="button-rect button-cta">{"CTA Button"}</button>
+    }
+}
+
+#[function_component]
+fn ButtonNormal() -> Html {
+    html! {
+    <button class="button-rect button-normal">{"Normal Button UwU"}</button>
+    }
+}
+
+#[function_component]
+fn ButtonDanger() -> Html {
+    html! {
+    <button class="button-rect button-danger">{"Danger Button"}</button>
+    }
+}
+
+#[function_component]
+fn ButtonDangerWait() -> Html {
+    html! {
+    <button class="button-rect button-danger-wait">{"Danger Wait Button"}</button>
+    }
+}
+
+#[function_component]
+fn ButtonText() -> Html {
+    html! {
+    <button class="button-rect button-text">{"Text Button"}</button>
+    }
+}
+
+#[function_component]
+fn Checkbox() -> Html {
+    html! {
+    <input type="checkbox" />
+    }
+}
+
+#[function_component]
+fn Switch() -> Html {
+    html! {
+    <input type="checkbox" class="switch" />
+    }
+}
+
+// <input type="checkbox" class="switch" />
+// <input type="checkbox" class="switch" checked=true />
+// <input type="checkbox" class="switch" disabled=true />
+// <input type="checkbox" class="switch" disabled=true checked=true />
+
+#[function_component]
+fn RadioButton() -> Html {
+    html! {
+    <div class="yew-makes-me-do-this-gross-uneeded-div-vomit-emoji">
+        <div class="radio-option"><input type="radio" id="html" name="fav_language" value="HTML" />
+        <label for="html">{"HTML"}</label></div>
+    </div>
+    }
+}
+
+#[function_component]
+fn Slider() -> Html {
+    html! {
+    <input type="range" min="1" max="100" value="50" class="slider"/>
+    }
+}
+
+pub fn render_app() {
+    // yew::Renderer::<App>::new().render();
+    yew::Renderer::<App>::new().render();
+}
