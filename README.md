@@ -5,13 +5,7 @@
 
 [![Code Style: Beautiful](repo-style/badges/code-style.png)](CODESTYLE.md) ![Build: 0.1.0](repo-style/badges/version.png) ![Stability: Great](repo-style/badges/stability.png) ![Code Health: Good](repo-style/badges/code-health.png) ![Security: Terrible](repo-style/badges/security.png) ![Contibuters: 2](repo-style/badges/contributers.png) ![Documentation: Poor](repo-style/badges/documentation.png)
 
-On first run: 
-`rustup default nightly`
-`rustup target add wasm32-unknown-unknown`
-`cargo run`
-
-Everyt time to be served: 
-`trunk serve`
+For instructions on how to set up bonfire, please look at our [Setup Guide](SETUP.md)
 
 ## Primary Goals
 
@@ -35,11 +29,6 @@ XMPP is great: so great in fact, we want to make Bonfire interoperable with XMPP
 
 Tryo - admin, project manager, coordinator, art, etc    
 Khaim - lead programmer
-
-## For Testing
-
-`trunk serve`
-
 
 ## Versioning
 
