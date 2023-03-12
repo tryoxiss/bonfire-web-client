@@ -1,1 +1,0 @@
-this directory contains misc files relating to bonfire that are not code. They can be ui mockups, images, ASCII art, etc. These will eventually be sorted out, but this is what we have for now.
