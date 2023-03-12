@@ -58,5 +58,3 @@ Our numbering system is:
 Releases are named 
 bonfire-server-VERSION-os.zip (containing the release files including a readme inside)
 the version is 1.3.9 for example, NOT our internal colon seperated system for windows compatability. 
-
-For LTS releases we use `bonfire-EDITION.LTS`, for example `bonfire-2023.LTS`, often with a .zip file extension.
