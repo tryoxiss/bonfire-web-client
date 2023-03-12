@@ -16,7 +16,10 @@ mod backend;
 // We may end up seperating just a client and keeping this as just the server implementation.
 
 fn main() { 
-    webapp::render_app();
+    // webapp::render_app();
+    // yew::start_app::<AppComponent>();
+
+    webapp::khaim_debug();
 }
 
 // for login code: don't write out own, use an existing crate (obv)
