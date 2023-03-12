@@ -294,8 +294,6 @@ main li {
     border-radius: var(--border-ui-box-radius);
     margin: 0.5rem 0px;
 
-    width: calc(100% - 8rem);
-
     resize: none !important;
     font-family: inherit;
     font-size: inherit;
@@ -303,12 +301,16 @@ main li {
 
     display: block;
     width: calc(100% - 1rem - (var(--round-button-size) * var(--message-box-buttons)));
+    /* width: calc(100% - 1rem - 8rem); */
     overflow-y: scroll;
-    resize: both;
+    overflow-x: hidden;
+    resize: none;
 
     max-height: var(--textarea-max-height);
     min-height: 40px;
     line-height: 20px;
+
+    word-wrap: break-word;
 }
 
 .expandable-textarea:empty::after { 

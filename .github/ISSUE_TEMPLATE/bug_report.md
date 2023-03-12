@@ -30,6 +30,8 @@ If applicable, add screenshots to help explain your problem.
 
 **Hardware:** (optional)
  - Device: [e.g. iPhone6]
+    // On WINDOWS: -> Settings -> System -> at the top right below your device name.
+    // ![](/misc/help/how-to-find-device-model-windows-11.png)
  - OS: [e.g. iOS8.1]
  - Browser [e.g. stock browser, safari]
  - Version [e.g. 22]
