@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ channel }} in {{ group }} :: Bonfire</title>
+    <title id="document_title">{{ channel }} in {{ group }} :: Bonfire</title>
     <!-- <title>#channel in GroupName :: Bonfire</title> -->
     <!-- <title>@username@instance.tld :: Bonfire</title> -->
 
@@ -88,21 +88,56 @@ function rightClick(e) {
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="https://unpkg.com/tippy.js@6"></script>
 <script>
+
 let checkForNewTooltips = setTimeout(renderTooltips, 50);
 
 function renderTooltips() { 
     // With the above scripts loaded, you can call `tippy()` with a CSS
     // selector and a `content` prop:
 
-    tippy('.has-tooltip', {
-        content: 'My tooltip!',
-        animation: 'fade',
+    tippy('[data-tippy-content]', {
+        // content: 'My tooltip!',
+        animation: 'shift-away-subtle',
         theme: 'dark',
         placement: 'right',
     });
 
     // checkForNewTooltips = setTimeout(renderTooltips, 50);
 }
+</script>
+
+<script>
+var allowTabFocus = false;
+
+$(window).on('keydown', function(e) {
+	console.log(e);
+  $('*').removeClass('tab-focus');
+  if(e.keyCode === 9) {
+  	allowTabFocus = true;
+  }
+});
+
+$('*').on('focus', function() {
+	if(allowTabFocus) {
+    $(this).addClass('tab-focus');
+  }
+});
+
+$(window).on('mousedown', function() {
+	$('*').removeClass('tab-focus');
+  allowTabFocus = false;
+})
+</script>
+<script>
+
+// function setTitle() { 
+//     document.title = `@doggo@instance.tld :: Bonfire`
+// }
+
+// // setTitle()
+
+// let checkForNewChanges = setTimeout(setTitle, 50);
+
 </script>
 </body>
 </html>

@@ -1,0 +1,33 @@
+<BONFIRE SVG>
+
+[[Bonfire Server Team]]
+- Version 0.1.2
+
+[core]
+- Programming: 
+    - khaim0919
+    - tryoxiss
+
+[libraries]
+yew: 
+    - name: Yew
+    - use: web framework
+    - link: 
+
+rocket: 
+    - name: rocket.rs
+    - use: Backend Processing Library
+    - link: 
+
+language: 
+    - name: Rust
+    - link: 
+
+tippyjs: 
+    - name: tippy.js
+    - use: tooltips
+    - link: https://atomiks.github.io/tippyjs/
+
+[special thanks]
+- You!
+    - yes, you. All of the people who use or develop bonfire. Your helping create a more open web.

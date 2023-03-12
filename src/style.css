@@ -307,7 +307,7 @@ main li {
     resize: none;
 
     max-height: var(--textarea-max-height);
-    min-height: 40px;
+    min-height: var(--round-button-size);
     line-height: 20px;
 
     word-wrap: break-word;
@@ -334,6 +334,9 @@ main li {
  * 
  * In this case, it should be fine as the cursor indicator is present but avoid
  * doing this in any other case unless you re-implement a focus state. 
+ * 
+ * And no, since this is conteneditable :focus-visible is the defult and won't
+ * work because of that.
  */
 .expandable-textarea:focus { 
     outline: 0; /* See above warning */
@@ -1008,3 +1011,9 @@ a.author:hover {
 .tippy-box[data-theme~='dark'][data-placement^='right'] > .tippy-arrow::before {
     border-right-color: rgb(17, 17, 27);
 }
+
+.tippy-box[data-theme~='dark'] > .tippy-arrow::before {
+    transform: scale(0.75);
+}
+
+.tippy-box[data-animation=shift-away-subtle][data-state=hidden]{opacity:0}.tippy-box[data-animation=shift-away-subtle][data-state=hidden][data-placement^=top]{transform:translateY(5px)}.tippy-box[data-animation=shift-away-subtle][data-state=hidden][data-placement^=bottom]{transform:translateY(-5px)}.tippy-box[data-animation=shift-away-subtle][data-state=hidden][data-placement^=left]{transform:translateX(5px)}.tippy-box[data-animation=shift-away-subtle][data-state=hidden][data-placement^=right]{transform:translateX(-5px)}

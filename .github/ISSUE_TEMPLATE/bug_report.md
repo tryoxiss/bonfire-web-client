@@ -32,6 +32,7 @@ If applicable, add screenshots to help explain your problem.
  - Device: [e.g. iPhone6]
     // On WINDOWS: -> Settings -> System -> at the top right below your device name.
     // ![](/misc/help/how-to-find-device-model-windows-11.png)
+    // If you have a self built, you most likely will not have a model name.
  - OS: [e.g. iOS8.1]
  - Browser [e.g. stock browser, safari]
  - Version [e.g. 22]

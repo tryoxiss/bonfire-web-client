@@ -19,6 +19,8 @@ impl Component for App {
     type Properties = ();
 
     fn create(_ctx: &Context<Self>) -> Self {
+        println!("Creating app (1/2)");
+        println!("Mounting app (2/2)");
         Self { 
             count: 0,
             content: vec![1]
@@ -26,6 +28,7 @@ impl Component for App {
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
+        println!("Updating App");
         match msg {
             Msg::AddOne => {
                 self.count += 10;
@@ -36,9 +39,10 @@ impl Component for App {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
+        println!("Rendering App");
         let link = ctx.link();
         html! { 
-<app class="ctp-mocha" logged_in_account="GUID" theme="ctp-mocha" app="Bonfire Server offical" version="0:1:14::beta" repository="github.com/tryoxiss/bonfire-server" main_authors="Khaim0919, Tryoxiss" licence="AGPL 3.0 (https://github.com/tryoxiss/bonfire-server/blob/main/LICENCE)">
+<app class="ctp-mocha" logged_in_account="GUID" theme="ctp-mocha" app="Bonfire Server offical" version="0:1:14::beta" repository="github.com/tryoxiss/bonfire-server" main_authors="Khaim0919, Tryoxiss" licence="AGPL 3.0 (https://github.com/tryoxiss/bonfire-server/blob/main/LICENCE)" data-channel="Bonfire::Channel" data-group="Bonfire::Group">
 
     <div class="absolute-pane">
         // <Modal />
@@ -89,7 +93,7 @@ impl Component for App {
         <header class="med-padding">
             <h1><span class="muted">{"@"}</span><span>{"doggo"}</span><span class="muted">{"@instance.tld"}</span></h1>
             <vr/>
-            <span style="margin-left: auto;"><button class="heaer-button"><FaPushpinIcon /></button></span>
+            <span style="margin-left: auto;"><button class="header-button" id="pinned-messages"><FaPushpinIcon /></button></span>
         </header>
 
         <ul>
@@ -248,7 +252,7 @@ fn MessageRoot(props: &Message) -> Html {
         <div class="content">
             <header>
                 <a class="author">{ props.author_name.clone()}</a>
-                <time class="has-tooltip">{ props.datetime_full.clone() }</time>
+                <time class="has-tooltip" data-tippy-content={props.datetime_full.clone()}>{ props.datetime_full.clone() }</time>
             </header>
             <div class="content">
                 <p>{ props.content.clone() }</p>
@@ -262,7 +266,7 @@ fn MessageRoot(props: &Message) -> Html {
 fn MessageConsecutive(props: &Message) -> Html {
     html! {
     <li>
-    <time class="has-tooltip">{ props.time.clone() }</time>
+    <time class="has-tooltip" data-tippy-content={props.datetime_full.clone()}>{ props.time.clone() }</time>
         <div class="content">
         <p>{ props.content.clone() }</p>
         </div>
@@ -280,7 +284,7 @@ pub struct SidebarIconStruct {
 fn SidebarIcon(props: &SidebarIconStruct) -> Html {
     html! {
     <li class="has-tooltip">
-        <a href="#1" data-tippy-content="Tooltip" style="background-image: url(https://picsum.photos/id/237/200/300);"></a>
+        <a href="#1" data-tippy-content="Meeeowww" style="background-image: url(https://picsum.photos/id/237/200/300);"></a>
     </li>
     }
 }
@@ -455,6 +459,10 @@ fn Slider() -> Html {
     html! {
     <input type="range" min="1" max="100" value="50" class="slider"/>
     }
+}
+
+fn construct_packet() { 
+
 }
 
 pub fn render_app() {
