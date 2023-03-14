@@ -60,3 +60,12 @@ bonfire-server-VERSION-os.zip (containing the release files including a readme i
 the version is 1.3.9 for example, NOT our internal colon seperated system for windows compatability. 
 
 For LTS releases we use `bonfire-EDITION.LTS`, for example `bonfire-2023.LTS`, often with a .zip file extension.
+
+## Random info we have nowhere else to put righjt now
+
+We will use ports `:987X`, where `X` can be any number from `0` -- `9`. (At least for now, but they are unclaimed). 
+
+Current name ideas for the protocol are: 
+- oim:// - open instant messaging
+- ocp:// - open chat protocol
+- sdm:// - secure distributed messaging
