@@ -85,3 +85,17 @@ Variables are in `snake_case`.
 
 ## Comments
 Comments starting with //# are header comments. This means they tell you information about the block of code until the next empty line. This is mostly useful in Structs where we can use them to show our categorisation of variables. 
+
+## Constructors and Functions
+All functions and constructors must have type hints for what is expected unless multiple are allowed. 
+```py
+def function(String hello, world):
+```
+
+In constructors if you are passing in a variable to set, you use the same name that is in the class. **THIS IS SUBJECT TO CHANGE**
+```py
+class Cart:
+    def __init__(self, array products, float total):
+        self.products = products;
+        self.total = total;
+```
