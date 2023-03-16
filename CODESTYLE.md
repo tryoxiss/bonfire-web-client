@@ -1,5 +1,8 @@
 We follow our Beautiful Code Style for all source code. Below is a basic list of what that means. 
 
+> **Everything here is subject to change!**
+> This is fairly final but anything here can change at any time. If something changes: just use it for new pieces of code. Don't worry about updating the old unless you are going back there anyway. If your bored or want some simple work and want to help out, that can be a great thing to do though!
+
 Below are some very basics: 
 ```rust
 fn main(param1, param2) { // do not space pad brackets.
@@ -87,15 +90,17 @@ Variables are in `snake_case`.
 Comments starting with //# are header comments. This means they tell you information about the block of code until the next empty line. This is mostly useful in Structs where we can use them to show our categorisation of variables. 
 
 ## Constructors and Functions
-All functions and constructors must have type hints for what is expected unless multiple are allowed. 
+All functions and constructors must be explicitly typed unless multiple are allowed. 
+
 ```py
-def function(String hello, world):
+def function(hello: String, world):
 ```
 
-In constructors if you are passing in a variable to set, you use the same name that is in the class. **THIS IS SUBJECT TO CHANGE**
+In constructors if you are passing in a variable to set, you use the same name that is in the class. 
+
 ```py
 class Cart:
-    def __init__(self, array products, float total):
+    def __init__(self, products: list, total: float):
         self.products = products;
         self.total = total;
 ```
