@@ -66,6 +66,7 @@ For LTS releases we use `bonfire-EDITION.LTS`, for example `bonfire-2023.LTS`, o
 We will use ports `:987X`, where `X` can be any number from `0` -- `9`. (At least for now, but they are unclaimed). 
 
 Current name ideas for the protocol are: 
-- oim:// - open instant messaging
+- oimp:// - open instant messaging protocol
+- ximp:// - Extensible Instant Messaging Protol
 - ocp:// - open chat protocol
 - sdm:// - secure distributed messaging
