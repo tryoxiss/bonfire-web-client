@@ -5,6 +5,8 @@ use std::time::{Duration, SystemTime};
 //# DEBUG
 use rand::prelude::*;
 
+struct Guid { guid: u128 }
+
 enum Msg {
     AddOne,
 }
@@ -12,6 +14,13 @@ enum Msg {
 struct App {
     count: i128,
     content: Vec<i32>,
+
+    // theme: String,
+    account: Guid,
+    profile: Guid,
+
+    // metadata
+    // version: String,
 }
 
 impl Component for App {
@@ -23,7 +32,13 @@ impl Component for App {
         println!("Mounting app (2/2)");
         Self { 
             count: 0,
-            content: vec![1]
+            content: vec![1],
+
+            // theme: "ctp-mocha",
+            account: Guid { guid: 1 },
+            profile: Guid { guid: 1 },
+            // version: meeoww
+
         }
     }
 

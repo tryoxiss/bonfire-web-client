@@ -11,7 +11,7 @@ def slash_command(function):
         # to make it easier to work with <3
         args = message.split(" ")
         args.pop(0)
-        print(args)
+        # print(args)
         function(args)
 
     return wrapper

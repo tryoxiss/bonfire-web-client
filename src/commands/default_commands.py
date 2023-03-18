@@ -30,7 +30,7 @@ def ban(args): # /ban {user} [duration] [reason] -- UNFINISHED
     else: 
         client.print(f"Banned {user} for {reason}. This ban will expire in {expires}")
 
-ban("/ban @username 3d this meowing user fucked up some shit.")
+# ban("/ban @username 3d this meowing user fucked up some shit.")
 
 @slash_command
 def shrug(args): 
@@ -39,3 +39,45 @@ def shrug(args):
     message += " ¯\_(ツ)_/¯"
 
     client.message_box_content(message)
+
+
+
+@slash_command
+def e(args): 
+    message = ct.args_to_string(0, args)
+    emote(f"/emote {message}")
+
+@slash_command
+def emote(args): 
+    message = ct.args_to_string(0, args)
+
+    EMOTE = args[0]
+    kaomoji = ""
+
+    match EMOTE: 
+        case "sob":
+            kaomoji = "(╥﹏╥)"
+        case "blush": 
+            kaomoji = "(⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)"
+        case "greet":
+            kaomoji = "(*・ω・)ﾉ"
+        case "sorry": 
+            kaomoji = "(シ_ _)シ"
+        case "hug": 
+            kaomoji = "(つ≧▽≦)つ"
+        case "sleep": 
+            kaomoji = "(－ω－) zzZ"
+        case "spell": 
+            kaomoji = "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆"
+
+    # IDEAS: Greet, Love, Happy, Etc. 
+    # List: http://kaomoji.ru/en/
+
+    emote = f"{kaomoji}"
+
+    message += f" {emote}"
+
+    client.message_box_content(message)
+
+emote("/emote blush thats really emberassing madeline-chan")
+e("/e blush how could you do this to meee")
