@@ -1,4 +1,5 @@
 from commands_core import slash_command, client
+# from commands_core import command_tools as ct
 
 # Welcome to the command script template! We hope this helps ease you into botting
 # or at least makes it a bit easier to get started!
@@ -12,7 +13,11 @@ from commands_core import slash_command, client
 # function be be processed.
 
 @slash_command # <-- This is important, as it does a lot of heavy lifting for you and tells your client to treat it as a slash command.
-def my_command(args): # /your_command_name {reqired} [optional] [optional]
+def my_command(args):
+
+    # Define your arguments. This is how the end user knows what to put in each field.
+    __ARGUMENTS__ = ["Argument 1", "Argument 2", "Argument 3"]
+
     client.print("Hello World!") # Print a bot message
 
     # In most IDE's, including the simple one we have with our official client, 
