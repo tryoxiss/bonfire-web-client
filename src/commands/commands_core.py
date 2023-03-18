@@ -37,23 +37,34 @@ class client:
     def set_nick(string: str,  user: int): 
         pass
 
-    def meow(n): 
-        print("meow" * n)
-
-
-
 
     def CREATE(packet: str): 
+        # Packet with the operation CREATE, 
+        # i.e. you intend to create content on the server.
         pass
 
     def EDIT(packet: str): 
+        # Packet with the operation EDIT
+        # i.e. you intend to edit content on the server.
         pass
 
     def REMOVE(packet: str): 
+        # Packet with the operation REMOVE
+        # i.e. you intend to remove content on the server from anyones view
+        # except your own. Useful when you may want to restore content.
         pass
 
     def DELETE(packet: str): 
+        # Packet with the operation DELETE
+        # i.e. you intend to permently delete content on the server
         pass
 
-    def VIEW(packet: str): 
+    def VIEW(packet: str):
+        # Packet with the operation VIEW
+        # i.e. you intend to display the requested content to the end user. 
         pass
+
+    def REQUEST(packet: str): 
+        # Packet with the operation REQUEST
+        # i.e. you intend to only process the requested content on the backend.
+        pass 
