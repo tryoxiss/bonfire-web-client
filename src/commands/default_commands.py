@@ -42,27 +42,14 @@ def ban(args): # /ban {user} [duration] [reason] -- UNFINISHED
         reason = expires + " " + reason
         expires = "never"
 
-    print(expires)
-
-    # strptime(start_date, "%m/%d/%y")
-
-    lifted_on = datetime.today() + timedelta(days=expires)
-    # lifted_on = date.strptime("%m/%d/%y")
+    lifted_on = datetime.today() + timedelta(days=expires, hours=1)
 
     if expires == "never": 
         client.print(f"Banned {user} for \"{reason}\"")
     else: 
         client.print(f"Banned {user} for \"{reason}\". This ban will be lifed on {lifted_on.strftime('%d/%b/%Y at %H:00')}.")
 
-# ban("/ban @username 3d this meowing user fucked up some shit.")
-
-@slash_command
-def shrug(args): 
-    message = ct.args_to_string(0, args)
-
-    message += " ¯\_(ツ)_/¯"
-
-    client.message_box_content(message)
+    client.CREATE(content=reason, expires=expires)
 
 @slash_command
 def whois(args): 
@@ -83,7 +70,9 @@ def emote(args):
     message = ct.args_to_string(1, args)
 
     match EMOTE: 
-        case "sob":
+        case "shrug": 
+            kaomoji = "¯\_(ツ)_/¯"
+        case "cry":
             kaomoji = "(╥﹏╥)"
         case "blush": 
             kaomoji = "(⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)"
@@ -101,18 +90,62 @@ def emote(args):
             kaomoji = "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆"
         case "magic": 
             kaomoji = "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆"
+        case "joy": 
+            kaomoji = "(* ^ ω ^)"
+        case "sparkles-joy": 
+            kaomoji = "☆*:.｡.o(≧▽≦)o.｡.:*☆"
+        case "sparkles": 
+            kaomoji = "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧"
+        case "love": 
+            kaomoji = "(≧◡≦) ♡"
+        case "deevious": 
+            kaomoji = "(・`ω´・)"
+        case "angry": 
+            kaomoji = "ヽ(`⌒´メ)ノ"
+        case "sob": 
+            kaomoji = ".･ﾟﾟ･(／ω＼)･ﾟﾟ･."
+        case "hurt": 
+            kaomoji = "☆⌒(>。<)"
+        case "scared": 
+            kaomoji = "..・ヾ(。＞＜)シ"
+        case "wow": 
+            kaomoji = "w(°ｏ°)w"
+        case "wave": 
+            kaomoji = "ヾ(・ω・*)"
+        case "sparkle-hug": 
+            kaomoji = "(つ✧ω✧)つ"
+        case "nyoom": 
+            kaomoji = "─=≡Σ((( つ＞＜)つ"
+        case "sleep": 
+            kaomoji = "(－ω－) zzZ"
+        case "sing": 
+            kaomoji = "(￣▽￣)/♫•*¨*•.¸¸♪"
+        case "facepalm": 
+            kaomoji = "(－‸ლ)"
+        case "tableflip": 
+            kaomoji = " ( ╯°□°)╯ ┻━━┻"
+        case "unflip": 
+            kaomoji = "(╮°-°)╮┳━━┳"
+        case "innocent": 
+            kaomoji = "(◕‿◕✿)"
+        case "lazy": 
+            kaomoji = "_(:3 」∠)_"
+
+        case _:
+            client.print(f"No kaomoji \"{EMOTE}\" found.")
 
     # IDEAS: Greet, Love, Happy, Etc. 
     # List: http://kaomoji.ru/en/
 
     emote = f"{kaomoji}"
-
     message += f" {emote}"
 
     client.message_box_content(message)
 
 
-
+###############################################################################
+# BEGIN DEBUG BLOCK                                                           #
+###############################################################################
 
 while IS_DEBUG_MODE:
     # WHITE: \033[37m

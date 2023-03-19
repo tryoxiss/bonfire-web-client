@@ -38,7 +38,7 @@ class client:
         pass
 
 
-    def CREATE(packet: str): 
+    def CREATE(**packet): 
         # Packet with the operation CREATE, 
         # i.e. you intend to create content on the server.
         pass
@@ -61,12 +61,15 @@ class client:
 
     def VIEW(packet: str):
         # Packet with the operation VIEW
-        # i.e. you intend to display the requested content to the end user. 
+        # i.e. you intend to display the requested content to the end user or 
+        # process it for the end user.
         pass
 
     def REQUEST(packet: str): 
-        # Packet with the operation REQUEST
-        # i.e. you intend to only process the requested content on the backend.
+        # Packet send function with no defined operation.
+        # This operation adds no data header, meaning you need to add it
+        # yourself. This is often used with operation REQUEST for things
+        # like server pings.
         pass 
 
 class command_tools: 
