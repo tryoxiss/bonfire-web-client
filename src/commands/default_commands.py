@@ -1,6 +1,8 @@
 from commands_core import slash_command, client
 from commands_core import command_tools as ct
+import re as regex
 
+IS_DEBUG_MODE = True
 
 @slash_command
 def ban(args): # /ban {user} [duration] [reason] -- UNFINISHED
@@ -12,23 +14,30 @@ def ban(args): # /ban {user} [duration] [reason] -- UNFINISHED
     reason = ""
     reason = ct.args_to_string(2, args)
 
-    if ("f" or "_" or "*" or "p" or "perm" or "permenet" or "forv" or "forever" or "never") in args[1]: 
-        expires = "never"
-    elif "y" in args[1]: 
-        pass
-    elif "w" in args[1]: 
-        pass
-    elif "d" in args[1]: 
-        pass
-    elif "h" in args[1]: 
-        pass
+    if regex.search("[0-9]+[y, d, w, m]", expires.lower()):
+        expires = expires.lower()
+
+        # Now get the time in days, as the server-side ban engne 
+        # wants it in DAYS only. Yes, this creates some bugs. For example
+        # 12 months is 360 days, not 365 like you might expect.
+        # But its close enough for real world use cases.
+        if   "y" in expires:  # Year
+            time = int(expires.rstrip("y") * 365)
+        elif "m" in expires: # Month
+            time = int(expires.rstrip("m") * 30)
+        elif "w" in expires: # Week
+            time = int(expires.rstrip("w") * 7)
+        elif "d" in expires: # Day
+            time = int(expires.rstrip("d"))     
+        expires = time
     else: 
-        client.print("Invalid unit. Valid units are `y` (years), `w` (weeks), `d` (days), and `h` (hours). Additionally you can provide `f`, `_`, `*`, or `p` to ban them permenetly until revoked manually.")
+        reason = expires + " " + reason
+        expires = "never"
 
     if expires == "never": 
-        client.print(f"Banned {user} for {reason}")
+        client.print(f"Banned {user} for \"{reason}\"")
     else: 
-        client.print(f"Banned {user} for {reason}. This ban will expire in {expires}")
+        client.print(f"Banned {user} for \"{reason}\". This ban will expire in {expires}")
 
 # ban("/ban @username 3d this meowing user fucked up some shit.")
 
@@ -40,8 +49,12 @@ def shrug(args):
 
     client.message_box_content(message)
 
+@slash_command
+def whois(args): 
+    pass
 
 
+#// EMOTE BLOCK
 @slash_command
 def e(args): 
     message = ct.args_to_string(0, args)
@@ -49,15 +62,17 @@ def e(args):
 
 @slash_command
 def emote(args): 
-    message = ct.args_to_string(0, args)
-
     EMOTE = args[0]
     kaomoji = ""
+
+    message = ct.args_to_string(1, args)
 
     match EMOTE: 
         case "sob":
             kaomoji = "(╥﹏╥)"
         case "blush": 
+            kaomoji = "(⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)"
+        case "shy": 
             kaomoji = "(⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)"
         case "greet":
             kaomoji = "(*・ω・)ﾉ"
@@ -69,6 +84,8 @@ def emote(args):
             kaomoji = "(－ω－) zzZ"
         case "spell": 
             kaomoji = "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆"
+        case "magic": 
+            kaomoji = "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆"
 
     # IDEAS: Greet, Love, Happy, Etc. 
     # List: http://kaomoji.ru/en/
@@ -79,5 +96,17 @@ def emote(args):
 
     client.message_box_content(message)
 
-emote("/emote blush thats really emberassing madeline-chan")
-e("/e blush how could you do this to meee")
+
+
+
+while IS_DEBUG_MODE:
+    # WHITE: \033[37m
+    user_input = input(f"{ct.gray}Input: {ct.white}")
+    if user_input.startswith("/"): 
+        command_func = user_input.lstrip("/").split(" ")
+        globals()[command_func[0]](user_input)
+
+    elif user_input.startswith("exit") or user_input.startswith("quit"):
+        exit(1)
+    else:
+        print(user_input)

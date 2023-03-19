@@ -17,19 +17,18 @@ def slash_command(function):
     return wrapper
 
 
-
 class client: 
     def __init__(): 
         print("No __init__ needed!")
     
     def print(string: str): # Print a bot message/command response
-        print("Changed message content to: " + string)
+        print(string)
 
     def message(): # Print a message as the bot
         pass
 
     def message_box_content(string: str): # Edits the message box content when enter is pressed. Used for commands like /shrug.
-        print(string)
+        print(f"{command_tools.gray}Changed message content to:{command_tools.white} " + string)
         pass
 
     def get_message_list(channel: int): 
@@ -71,6 +70,9 @@ class client:
         pass 
 
 class command_tools: 
+    gray = "\033[90m"
+    white = "\033[37m"
+
     def args_to_string(lstrip: int, args): # Strip is number removed from the start
         string = args
 
