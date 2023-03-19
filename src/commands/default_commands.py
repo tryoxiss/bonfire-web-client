@@ -1,6 +1,7 @@
 from commands_core import slash_command, client
 from commands_core import command_tools as ct
 import re as regex
+from datetime import timedelta, datetime
 
 IS_DEBUG_MODE = True
 
@@ -17,27 +18,41 @@ def ban(args): # /ban {user} [duration] [reason] -- UNFINISHED
     if regex.search("[0-9]+[y, d, w, m]", expires.lower()):
         expires = expires.lower()
 
+        # Round up to the next closet hour, and checked for unbans every hour.
+        # So if you ban someone at 21:15 or 21:59 on January 4th for 1 day 
+        # they would both be banned until 22:00 on January 5th that same year.
+        # 
+        # This is for performance and ease of math and use, as checking a lot
+        # is quite frankly not worth the computing power when almost nobody is 
+        # going to sit there for the minute thier ban is lifted.
+
         # Now get the time in days, as the server-side ban engne 
         # wants it in DAYS only. Yes, this creates some bugs. For example
         # 12 months is 360 days, not 365 like you might expect.
         # But its close enough for real world use cases.
         if   "y" in expires:  # Year
-            time = int(expires.rstrip("y") * 365)
+            expires = int(expires.rstrip("y")) * 365
         elif "m" in expires: # Month
-            time = int(expires.rstrip("m") * 30)
+            expires = int(expires.rstrip("m")) * 30
         elif "w" in expires: # Week
-            time = int(expires.rstrip("w") * 7)
+            expires = int(expires.rstrip("w")) * 7
         elif "d" in expires: # Day
-            time = int(expires.rstrip("d"))     
-        expires = time
+            expires = int(expires.rstrip("d"))
     else: 
         reason = expires + " " + reason
         expires = "never"
 
+    print(expires)
+
+    # strptime(start_date, "%m/%d/%y")
+
+    lifted_on = datetime.today() + timedelta(days=expires)
+    # lifted_on = date.strptime("%m/%d/%y")
+
     if expires == "never": 
         client.print(f"Banned {user} for \"{reason}\"")
     else: 
-        client.print(f"Banned {user} for \"{reason}\". This ban will expire in {expires}")
+        client.print(f"Banned {user} for \"{reason}\". This ban will be lifed on {lifted_on.strftime('%d/%b/%Y at %H:00')}.")
 
 # ban("/ban @username 3d this meowing user fucked up some shit.")
 
