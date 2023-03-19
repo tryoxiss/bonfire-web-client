@@ -98,7 +98,7 @@ def emote(args):
             kaomoji = "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧"
         case "love": 
             kaomoji = "(≧◡≦) ♡"
-        case "deevious": 
+        case "devious": 
             kaomoji = "(・`ω´・)"
         case "angry": 
             kaomoji = "ヽ(`⌒´メ)ノ"
