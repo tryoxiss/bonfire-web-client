@@ -2,6 +2,7 @@ from commands_core import slash_command, client
 from commands_core import command_tools as ct
 import re as regex
 from datetime import timedelta, datetime
+import uuid as guid
 
 IS_DEBUG_MODE = True
 
@@ -42,10 +43,11 @@ def ban(args): # /ban {user} [duration] [reason] -- UNFINISHED
         reason = expires + " " + reason
         expires = "never"
 
-    lifted_on = datetime.today() + timedelta(days=expires, hours=1)
+    if expires != "never":
+        lifted_on = datetime.today() + timedelta(days=expires, hours=1)
 
     if expires == "never": 
-        client.print(f"Banned {user} for \"{reason}\"")
+        client.print(f"Banned {user} for \"{reason}\" indefintely.")
     else: 
         client.print(f"Banned {user} for \"{reason}\". This ban will be lifed on {lifted_on.strftime('%d/%b/%Y at %H:00')}.")
 
@@ -120,6 +122,8 @@ def emote(args):
             kaomoji = "(－ω－) zzZ"
         case "sing": 
             kaomoji = "(￣▽￣)/♫•*¨*•.¸¸♪"
+        case "song": 
+            kaomoji = "(￣▽￣)/♫•*¨*•.¸¸♪"
         case "facepalm": 
             kaomoji = "(－‸ლ)"
         case "tableflip": 
@@ -130,15 +134,13 @@ def emote(args):
             kaomoji = "(◕‿◕✿)"
         case "lazy": 
             kaomoji = "_(:3 」∠)_"
-
         case _:
             client.print(f"No kaomoji \"{EMOTE}\" found.")
 
     # IDEAS: Greet, Love, Happy, Etc. 
     # List: http://kaomoji.ru/en/
 
-    emote = f"{kaomoji}"
-    message += f" {emote}"
+    message += f" {kaomoji}"
 
     client.message_box_content(message)
 
@@ -148,12 +150,10 @@ def emote(args):
 ###############################################################################
 
 while IS_DEBUG_MODE:
-    # WHITE: \033[37m
     user_input = input(f"{ct.gray}Input: {ct.white}")
     if user_input.startswith("/"): 
         command_func = user_input.lstrip("/").split(" ")
         globals()[command_func[0]](user_input)
-
     elif user_input.startswith("exit") or user_input.startswith("quit"):
         exit(1)
     else:

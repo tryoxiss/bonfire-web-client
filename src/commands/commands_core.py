@@ -1,3 +1,5 @@
+import uuid as guid
+
 # This file contains botting functions you will likely need!
 
 def slash_command(function):
@@ -86,50 +88,26 @@ class command_tools:
 
         return string
     
-    def validate_guid(guid: str, base: int) -> int: 
-        binary_guid = []
+    def process_user(identifer: str, **request) -> dict: 
+        # identifier can be either a GUID or an @username.
+        if identifer.startswith("@"): MODE = "HANDLE"
+        else:                         MODE = "GUID"
 
-        binary_char_dyslexic = { 
-            "0": b"00000",
-            "1": b"00001",
-            "2": b"00010",
-            "3": b"00011",
-            "4": b"00100",
-            "5": b"00101",
-            "6": b"00110",
-            "7": b"00111",
-            "8": b"01000",
-            "9": b"01001",
 
-            "a": b"01010",
-            "b": b"01011",
-            "c": b"01100",
-            "d": b"01101",
-            "e": b"01110",
-            "f": b"01111",
-            "g": b"10000",
-            "h": b"10001",
-            "j": b"10010",
-            "k": b"10011",
-            "m": b"10100",
-            "n": b"10101",
-            "p": b"10110",
-            "q": b"10111",
-            "r": b"11000",
-
-            "s": b"11001",
-            "t": b"11010",
-            "u": b"11011",
-            "v": b"11100",
-            "w": b"11101",
-            "x": b"11110",
-            "y": b"11111",
+        profile = { 
+            'guid': 0,
+            'handle': '@username',
+            'instane': 'instace.tld',
+            'display_name': "Display Name",
         }
 
+        return profile
+    
+    def handle_guid(guid: str, base: int) -> int: 
+        binary_guid = []
+
         if base == 32: 
-            for i in len(guid): 
-                binary_guid[i] = binary_char_dyslexic[guid[i]]
-                pass
+            pass
         elif base == 16:
             pass
         elif base == 10:
@@ -138,3 +116,28 @@ class command_tools:
             pass
         else: 
             client.print("GUID is not a valid base. Please use a base 16, 32, 64, or 10 GUID, either colon or hyphen seperated.")
+
+    # https://stackoverflow.com/questions/26929227/base-converter-in-python
+    # def base_convert(base_to: str, number: int):
+    #     if base_to == "32-obvious":
+    #         digits = {c: i for i, c in enumerate('0123456789abcdefghijklmnopqrstuv')}
+    #     if base_to == "32-dyslexic":
+    #         digits = {c: i for i, c in enumerate('0123456788abcdefghijkmnpqrstuvwx')}
+    #     if base_to == "16":
+    #         digits = {c: i for i, c in enumerate('0123456789abcdef')}
+
+    #     return sum(digits[digit] * (base_to ** i)
+    #             for i, digit in enumerate(reversed(str(number))))
+
+
+    # https://stackoverflow.com/questions/28824874/pythonic-way-to-do-base-conversion
+    def base_convert(n, from_base=10, to_base=10):
+        match to_base:
+            case 16:
+                convert_string = "0123456789ABCDEF"
+            case "32-obvious":
+                convert_string = "0123456789abcdefghijlmnopqrstuvw"
+            case "32-dyslexic":
+                convert_string = "0123456789abcdefghijkmnpqrstuvwx"
+        
+        return n
