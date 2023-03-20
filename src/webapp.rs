@@ -132,6 +132,8 @@ impl Component for App {
             })
             }
 
+            <ButtonDangerWait />
+
         </ul>
 
         <div class="message-area placeholder-message">

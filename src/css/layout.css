@@ -1,0 +1,361 @@
+/* Bonfire Layoout Code
+ * -----------------------------------------------
+ * Major changes will break things. Please only 
+ * edit variables unless you know what you are 
+ * doing. 
+ */
+
+:root { 
+    --groups-bar-width: 4rem;
+    --channels-bar-width: clamp(12rem, 13.5vw, 30rem);
+
+    --border-icon-radius: 1000rem; /* Always circle or capsule */
+    --border-ui-box-radius: 6px;
+
+    --textarea-max-height: 70vh;
+
+    --round-button-size: 2.25rem;
+
+    --large-margin: 0.75rem;
+    --large-padding: 0.75rem;
+
+    --standard-margin: 0.5rem;
+    --standard-padding: 0.5rem;
+
+    --small-margin: 0.25rem;
+    --small-padding: 0.25rem;
+
+    --message-spacing: 0.5rem;
+}
+
+*, *::before, *::after { 
+    box-sizing: border-box;
+    -webkit-margin-collapse: collapse;
+    margin-collapse: collapse;
+    margin: 0;
+}
+
+app { 
+    display: grid;
+
+    grid-template-columns: var(--groups-bar-width) var(--channels-bar-width) 1fr;
+    grid-template-rows: 1fr var(--groups-bar-width);
+
+    grid-template-areas: 
+    "groups channels messages"
+    "profile profile messages";
+
+    height: 100dvh;
+}
+
+:not(.allow-rich-formatting) ul { 
+    list-style: none;
+    margin-left: -2.5rem;
+}
+
+:not(.allow) :is(h1, h2, h3, h4, h5, h6) { 
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.pfp { 
+    width: 3rem;
+    height: 3rem;
+    background-size: cover;
+    border-radius: var(--border-icon-radius);
+}
+
+.content text { 
+    display: block;
+}
+
+[role="groups"] { grid-area: groups; }
+[role="channels"] { grid-area: channels; }
+main { grid-area: messages; }
+[role="profile"] { grid-area: profile; }
+
+[role="groups"] { 
+    display: flex;
+    flex-direction: column;
+}
+
+[role="groups"] ul { 
+    /* I don't know why, I can't know why, I shouldn't have to wonder why,
+    but the icons are cut in half when we don't multiply by 2 */
+    width: calc(var(--groups-bar-width) * 2);
+
+    overflow-x: visible;
+}
+
+[role="groups"] ul:nth-of-type(1) { 
+    height: max-content;
+    max-height: 15rem;
+}
+
+[role="groups"] ul:nth-of-type(2) { 
+    flex-grow: 1;
+}
+
+[role="groups"] * { 
+    background-size: cover;
+
+    display: block;
+
+    width: calc((var(--groups-bar-width) / 4) * 3);
+    height: calc((var(--groups-bar-width) / 4) * 3);
+
+    overflow-y: scroll;
+}
+
+[role="groups"] li { 
+    margin: calc(var(--groups-bar-width) / 8)
+}
+
+[role="groups"] hr, .absolute-pane hr { 
+    /* width: 80%; */
+    height: 0px;
+    padding: 0;
+
+    border: 1px solid var(--channels-bar-color);
+}
+
+main { 
+    display: grid;
+    grid-template-rows: 2.5rem 1fr auto;
+
+    overflow: hidden;
+}
+
+main > ul { 
+    padding: 0 3rem;
+}
+
+main time { 
+    margin-left: var(--standard-margin);
+    font-size: 0.8rem;
+    margin-top: 3px;
+    opacity: 0;
+}
+
+.author { 
+    margin-bottom: 0.5rem;
+}
+
+main ul { 
+    overflow: scroll;
+}
+
+main li:hover time { 
+    margin-left: var(--standard-margin);
+    font-size: 0.8rem;
+    margin-top: 3px;
+    opacity: 1;
+}
+
+main li { 
+    display: grid;
+
+    grid-template-columns: 4rem 1fr;
+    margin: var(--message-spacing) 0px;
+}
+
+.message-area { 
+    display: flex;
+    background: transparent;
+}
+
+.expandable-textarea {
+    --message-box-buttons: 1;
+
+    margin: 0.5rem 0px;
+
+    resize: none;
+    font-family: inherit;
+    font-size: inherit;
+    padding: var(--standard-padding);
+
+    display: block;
+    width: calc(100% - 1rem - (var(--round-button-size) * var(--message-box-buttons)));
+    /* width: calc(100% - 1rem - 8rem); */
+    overflow-y: scroll;
+    overflow-x: hidden;
+    resize: none;
+
+    max-height: var(--textarea-max-height);
+    min-height: var(--round-button-size);
+    line-height: 20px;
+
+    word-wrap: break-word;
+}
+
+.expandable-textarea:empty::after { 
+    --placeholder-message: "Send a message...";
+    content: var(--placeholder-message);
+}
+
+header { 
+    display: flex;
+    font-family: var(--display-font);
+}
+
+.med-padding /* DEPRECATE MAYBE?*/ { 
+    padding: var(--standard-padding);
+}
+
+vr { 
+    border-left: 1px solid var(--border-color);
+    border-right: transparent;
+
+    margin: 0px var(--standard-margin);
+
+    height: 90%;
+}
+
+button { 
+    cursor: pointer;
+}
+
+svg { 
+    margin-top: 2px;
+
+    width: 1rem;
+    height: 1rem;
+}
+
+main li { 
+    margin: var(--standard-margin);
+}
+
+.button-rect-large { 
+    padding: .5rem 1rem;
+}
+
+.button-rect { 
+    padding: .35rem 1rem;
+    font-size: 1rem;
+    margin: var(--small-margin);
+}
+
+.button-rect-small { 
+    padding: .25rem 0.75rem;
+    font-size: 0.9rem;
+    margin: 0.5rem 0.35rem;
+}
+
+.button-danger-wait {
+    background-size: 200% 100%;
+    -webkit-transition: background-position 2s;
+    -moz-transition: background-position 2s;
+    transition: background-position 2s;
+
+    text-shadow: 0px 0px 4px var(--ui-box-color);
+}
+
+.button-danger-wait:hover {
+    background-position: -100% 0%;
+}
+
+@media (max-width: 800px) {
+    body {
+    flex-direction: column;
+    }
+}
+
+.radio-option { 
+    display: flex;
+}
+
+
+.radio-option > * { 
+    display: block;
+}
+
+.radio-option label { 
+    flex-grow: 1;
+}
+
+.context-menu { 
+    display: flex;
+    flex-direction: column;
+
+    margin: var(--small-margin);
+    padding: var(--standard-padding);
+    padding-left: 2.5rem;
+}
+
+.context-menu li { 
+    margin: 0;
+    display: block;
+}
+.context-menu a { 
+    display: flex;
+}
+
+.context-menu svg { 
+    margin-left: auto;
+}
+
+.context-menu input { 
+    margin-left: 0 !important;
+    margin-right: -3px;
+}
+
+.context-menu label { 
+    flex-grow: 1;
+}
+
+.absolute-pane { 
+    position: absolute;
+}
+
+.absolute-pane > * { 
+    display: none;
+}
+
+.absolute-pane > .visible { 
+    display: block;
+}
+
+.absolute-pane /*in the ass to get working*/ { 
+    position: absolute;
+    isolation: isolate;
+    z-index: 9999;
+
+    pointer-events: none;
+
+    width: 100vw;
+    height: 100vh;
+}
+
+.absolute-pane > * { 
+    pointer-events: all;
+}
+
+.absolute-pane button { 
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.25rem var(--standard-padding);
+    height: auto;
+}
+
+.modal { 
+    display: block;
+
+    width: var(--context-menu-width);
+
+    display: flex;
+    flex-direction: column;
+
+    margin: var(--small-margin);
+    padding: var(--standard-padding);
+    padding-left: 2.5rem;
+}
+
+
+.absolute-pane svg, .absolute-pane input { 
+    margin-left: auto;
+}
+
+.context-menu button { 
+    display: flex;
+}
