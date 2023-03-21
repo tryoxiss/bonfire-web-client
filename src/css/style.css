@@ -467,12 +467,21 @@ a:hover {
 }
 
 a.author { 
-    color: var(--app-fg);
+    /* This is actually the color. It needs to be done this way to allow gradient roles. */
+    background: var(--app-fg); 
+    /* background: linear-gradient(to right, red, blue) */
+
+    /* color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text; */
 }
 
 a.author:hover { 
+    color: transparent;
+    /* background: inherit; */
     opacity: 1;
-    text-decoration: underline;
+    /* text-decoration: underline 2px solid var(--main-fg); */
+    text-decoration: underline 2px solid var(--accent-fg);
 }
 
 .tippy-box[data-theme~='dark'] {

@@ -574,3 +574,10 @@ hr {
     border-radius: var(--border-radius);
     padding: var(--small-padding);
 }
+
+a.author { 
+    color: transparent;
+
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+}
