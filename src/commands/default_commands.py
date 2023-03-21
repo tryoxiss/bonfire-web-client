@@ -9,7 +9,7 @@ IS_DEBUG_MODE = True
 @slash_command
 def ban(args): # /ban {user} [duration] [reason] -- UNFINISHED
 
-    __ARGUMENTS__ = ["User (@mention or guid)", "Duration (One Unit Only)", "Reason"]
+    __ARGUMENTS__ = ["@mention or guid", "Duration (optional)", "Reason"]
 
     user = args[0]
     expires = args[1]
@@ -55,17 +55,25 @@ def ban(args): # /ban {user} [duration] [reason] -- UNFINISHED
 
 @slash_command
 def whois(args): 
+    __ARGUMENTS__ = ["User (@mention or guid)"]
     pass
 
+@slash_command
+def clear(args): 
+    __ARGUMENTS__ = ["Messages to delete"]
+    pass
 
 #// EMOTE BLOCK
 @slash_command
 def e(args): 
+    __ARGUMENTS__ = ["Emote", "Message"]
     message = ct.args_to_string(0, args)
     emote(f"/emote {message}")
 
 @slash_command
 def emote(args): 
+    __ARGUMENTS__ = ["Emote", "Message"]
+
     EMOTE = args[0]
     kaomoji = ""
 

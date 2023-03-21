@@ -111,7 +111,7 @@ impl Component for App {
             <span style="margin-left: auto;"><button class="header-button" id="pinned-messages"><FaPushpinIcon /></button></span>
         </header>
 
-        <ul>
+        <ul class="main-content">
             <MessageRoot content="Hello world" author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
             <MessageConsecutive content="Hello world" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
             <MessageConsecutive content="Oooh treats!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
@@ -131,8 +131,6 @@ impl Component for App {
                 }
             })
             }
-
-            <ButtonDangerWait />
 
         </ul>
 

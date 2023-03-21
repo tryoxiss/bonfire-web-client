@@ -35,7 +35,7 @@ supported on the web client version*/
     --group-bar-color: rgb(255, 255, 255, .3);
     --border-color: rgb(17, 17, 27);
     --channels-bar-color: rgb(255, 255, 255, .6);
-    --main-content-color: rgb(255, 255, 255);
+    --main-content-bg-color: rgb(7, 7, 17);
     --ui-box-color: rgb(225, 225, 225, .6);
     --overlay-color: rgb(7, 7, 17);
     --overlay-darken-color: rgb(0, 0, 0, 0.45);
@@ -117,7 +117,6 @@ hr {
 
 
 main { 
-    background-color: var(--main-content-color);
     scrollbar-color: var(--ctp-mocha-sapphire) var(--ctp-mocha-base);
     scrollbar-width: 6px;
 }

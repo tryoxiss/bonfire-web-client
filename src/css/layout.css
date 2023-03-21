@@ -7,14 +7,6 @@
 
 :root { 
     --groups-bar-width: 4rem;
-    --channels-bar-width: clamp(12rem, 13.5vw, 30rem);
-
-    --border-icon-radius: 1000rem; /* Always circle or capsule */
-    --border-ui-box-radius: 6px;
-
-    --textarea-max-height: 70vh;
-
-    --round-button-size: 2.25rem;
 
     --large-margin: 0.75rem;
     --large-padding: 0.75rem;
@@ -24,8 +16,6 @@
 
     --small-margin: 0.25rem;
     --small-padding: 0.25rem;
-
-    --message-spacing: 0.5rem;
 }
 
 *, *::before, *::after { 
@@ -358,4 +348,229 @@ main li {
 
 .context-menu button { 
     display: flex;
+}
+
+app, .absolute-pane { 
+    overflow: hidden;
+}
+
+
+/* slider base code from https://www.w3schools.com/howto/howto_js_rangeslider.asp */
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 5px;  
+    background: var(--input-bg);
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%; 
+    background: var(--accent-fg);
+    cursor: pointer;
+    border: 0;
+    outline: 0;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: var(--accent-fg);
+  cursor: pointer;
+  border: 0;
+    outline: 0;
+}
+
+
+@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+input[type=checkbox], 
+input[type=radio] { 
+    appearance: none;
+    
+    height: 21px;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+    border: 1px solid var(--bc, var(--border));
+    background: var(--b, var(--background));
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
+}
+input[type=checkbox]:after,
+input[type=radio]:after {
+    content: "";
+
+        /* content: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';  */
+
+    display: block;
+    left: 0;
+    top: 0;
+    position: absolute;
+
+    transition: transform var(--d-t, 0.3s) var(--d-t-e, ease), opacity var(--d-o, 0.2s);
+}
+input[type=checkbox]:checked,
+    input[type=radio]:checked {
+    --b: var(--active);
+    --bc: var(--active);
+    --d-o: .3s;
+    --d-t: .6s;
+    --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
+}
+input[type=checkbox]:disabled,
+input[type=radio]:disabled {
+    --b: var(--disabled);
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+input[type=checkbox]:disabled:checked,
+input[type=radio]:disabled:checked {
+    --b: var(--disabled-inner);
+    --bc: var(--border);
+}
+input[type=checkbox]:disabled + label,
+input[type=radio]:disabled + label {
+    cursor: not-allowed;  
+}
+input[type=checkbox]:hover:not(:checked):not(:disabled),
+input[type=radio]:hover:not(:checked):not(:disabled) {
+    --bc: var(--border-hover);
+}
+input[type=checkbox]:focus,
+input[type=radio]:focus {
+    box-shadow: 0 0 0 var(--focus);
+}
+input[type=checkbox]:not(.switch),
+input[type=radio]:not(.switch) {
+    width: 21px;
+}
+input[type=checkbox]:not(.switch):after,
+input[type=radio]:not(.switch):after {
+    opacity: var(--o, 0);
+}
+input[type=checkbox]:not(.switch):checked,
+input[type=radio]:not(.switch):checked {
+    --o: 1;
+}
+input[type=checkbox] + label,
+input[type=radio] + label {
+    font-size: 14px;
+    line-height: 21px;
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+    margin-left: 4px;
+}
+
+input[type=checkbox]:not(.switch) {
+    border-radius: var(--border-radius);
+}
+input[type=checkbox]:not(.switch):after {
+    width: 5px;
+    height: 9px;
+    border: 2px solid var(--active-inner);
+    border-top: 0;
+    border-left: 0;
+    left: 7px;
+    top: 4px;
+    transform: rotate(var(--r, 20deg));
+}
+input[type=checkbox]:not(.switch):disabled:after { 
+    --active-inner: var(--active)
+}
+input[type=checkbox]:not(.switch):checked {
+    --r: 43deg;
+}
+input[type=checkbox].switch {
+    width: 38px;
+    border-radius: 11px;
+}
+input[type=checkbox].switch:after {
+    left: 2px;
+    top: 2px;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    background: var(--ab, var(--inactive-inner));
+    transform: translateX(var(--x, 0));
+}
+input[type=checkbox].switch:checked {
+    --ab: var(--active-inner);
+    --x: 17px;
+}
+input[type=checkbox].switch:disabled:not(:checked):after {
+    opacity: 0.6;
+}
+label { 
+    cursor: pointer;
+}
+input[type=radio] {
+    border-radius: 50%;
+    margin-right: var(--small-margin);
+}
+input[type=radio]:not(:checked) {
+    border: 1px solid var(--muted-fg);
+}
+input[type=radio]:after {
+    width: 5px;
+    height: 9px;
+    border: 2px solid var(--active-inner);
+    border-top: 0;
+    border-left: 0;
+    left: 7px;
+    top: 4px;
+    transform: rotate(var(--r, 20deg));
+}
+input[type=radio]:checked {
+    --r: 43deg;
+  --s: .5;
+}
+}
+
+/* mine again :3 (also its now sorted again) */
+
+.radio-option { 
+    padding: var(--standard-padding);
+    margin: var(--small-margin);
+
+    display: flex;
+
+    border-radius: var(--border-radius);
+    background: var(--box-fg);
+}
+
+hr { 
+    /* width: 80%; */
+    height: 0px;
+    margin: 0.15rem;
+    padding: 0;
+
+    border: 1px solid var(--border-fg);
+}
+
+[role="groups"] hr { 
+    margin: 10% 0.5rem;
+}
+
+.message-box .expandable-textarea:empty::after { 
+    --placeholder-message: "Send a message...";
+}
+
+.message-box .expandable-textarea:not(:empty)::after { 
+    --placeholder-message: "";
+}
+
+.context-menu { 
+    --context-menu-width: calc(var(--channels-bar-width) + 2rem);
+
+    border-radius: var(--border-radius);
+    padding: var(--small-padding);
 }

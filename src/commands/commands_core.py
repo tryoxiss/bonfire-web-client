@@ -40,34 +40,83 @@ class client:
         pass
 
 
+    def CONNECT(): 
+        """
+        Used to establishing connections. Does nothing and will not be 
+        added here as bots have no need to do this.
+        """
+        pass
+
     def CREATE(**packet): 
-        # Packet with the operation CREATE, 
-        # i.e. you intend to create content on the server.
+        """
+        An advanced function to send a CREATE request to the server. Create 
+        requests create content on the server such as a message, oreaction,
+        vote, etc.
+        """
+        pass
+
+    def NOTIFY(packet: str):
+        """
+        An advanced function to send a NOTIFY request to the server. Notify 
+        requests notify or communicate with the client or server, but for 
+        one-time  packets that do not need to be stored: such as voice data, 
+        establishing a one-time connection, etc.
+        """
         pass
 
     def EDIT(packet: str): 
-        # Packet with the operation EDIT
-        # i.e. you intend to edit content on the server.
+        """
+        An advanced function to send a EDIT request to the server. Edit 
+        requests edit existing contnt on the server: think of editing a
+        message or wiki page that already exists.
+        """
         pass
 
     def REMOVE(packet: str): 
-        # Packet with the operation REMOVE
-        # i.e. you intend to remove content on the server from anyones view
-        # except your own. Useful when you may want to restore content.
+        """
+        An advanced function to send a REMOVE request to the server. Remove
+        requests remove the content from anyone but the owners view, but 
+        does not delete any data. Useful if you want to possibly restore
+        something later.
+
+        Remove is a shorthand for editing the privacy.
+        """
         pass
 
     def DELETE(packet: str): 
-        # Packet with the operation DELETE
-        # i.e. you intend to permently delete content on the server
+        """
+        An advanced function to send a DELETE request to the server. Delete
+        requests permently delete content from the server. 
+        """
         pass
 
-    def VIEW(packet: str):
-        # Packet with the operation VIEW
-        # i.e. you intend to display the requested content to the end user or 
-        # process it for the end user.
+    def DESTORY(packet: str): 
+        """
+        An advanced function to send a DESTROY request to the server. Destroy
+        requests don't just delete the content, they also whipe over it with
+        all 0's (in binary) making the data almost entirely unreocverable,
+        even with physical access to the server. 
+        
+        Please think carefully if you really need this kind of request, as your 
+        data will likely be written over soon anyway and this degrades server 
+        architecture much faster than it otherwise would. Not all instances
+        allow sending DESTROY requests and will instead change them to DELETE.
+        """
         pass
 
-    def REQUEST(packet: str): 
+    def GET(packet: str):
+        """
+        An advanced function to send a GET request to the server. Get requests
+        retrieve data and return it to you. You can specify what paramaters you
+        want to receive. If none are specified, it returns the entire message.
+        """
+        pass
+
+    def REQUEST(packet: str):
+        """
+        An advanced function to send ANY type of request. Thos function adds
+        no data header, letting you create it on your own entirely. 
+        """
         # Packet send function with no defined operation.
         # This operation adds no data header, meaning you need to add it
         # yourself. This is often used with operation REQUEST for things

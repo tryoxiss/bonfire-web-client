@@ -1,9 +1,7 @@
-
 /* THEME STYLES: This is here because it is the defult, normally this would be 
 an external stylesheet on the users computer in the app. Custom themes are not 
 supported on the web client version*/
 [theme*="ctp-mocha"] {
-
     /* Colors source: https://github.com/catppuccin/catppuccin#-palette */
 
     /* The following variables are NOT used by code and can be whatever you want. */
@@ -17,66 +15,120 @@ supported on the web client version*/
     --sapphire: rgb(116, 199, 236);
     --blue: rgb(137, 180, 250);
     --violet: rgb(180, 190, 254);
-    
+
     /* All the rest of the variables ARE used by code and changing thier 
      * names WILL break things. */
-    --accent-color-rgb: var(--sapphire);
-    --accent-color: var(--sapphire);
-    --hilight-color: rgb(116, 199, 236, 0.5);
 
-    --color-danger: var(--red);
-    --color-danger-disabled: rgb(243, 139, 168, 0.25);
+    /* STILL NEED TO GO THROUGH THESE AND USE ALL THE VARIABLES. 
+    FOR EXAMPLE: fg isn't used in most places, but I need to 
+    make it be used. */
 
-    --color-warning: var(--yellow);
-    --color-safe: var(--green);
-    --color-cta: var(--accent-color);
+    --font-main: 'Noto Sans', sans-serif;
+    --font-display: ; /* Used in header bars */
+    --font-code: 'Hack', monospace;
+    --font-small: var(--font-main); /* If you want a diffrent font for small text */
 
-    /* TIPPY NEEDS HARD-CODED VALUES AND WILL NOT ACCEPT VARIABLES */
-    --group-bar-color: rgb(17, 17, 27);
-    --border-color: rgb(17, 17, 27);
-    --channels-bar-color: rgb(24, 24, 37);
-    --ui-box-color: rgb(24, 24, 37);
-    --overlay-color: rgb(7, 7, 17);
-    --overlay-darken-color: rgb(0, 0, 0, 0.45);
-
-    --color-base: rgb(30, 30, 46);
-
-    --text-color: rgb(198, 208, 245);
-    --text-muted: rgb(161, 168, 201);
-    --link-color: var(--sapphire);
-    --link-text-decoration: none;
-
-    --main-font: 'Noto Sans', sans-serif;
-    /* 'Atkinson Hyperlegible', */
-    --display-font: var(--main-font);
-    --code-font: 'Hack', monospace;
+    --font-size: 1rem;
+    --font-size-small: 0.8rem; 
 
     --message-spacing: 0.5rem;
 
-    --popup-delay: 1000ms; 
-}
+    --link-decoration: ;
 
-::selection { 
-    background-color: var(--hilight-color);
-}
+    /* ABBRIVIATION KEYS
+     * -----------------
+     * bg = background (gradients allowed)
+     * fg = foreground (text, generally. everything has this field even if unused)
+     * fg will be overridden sometimes with the text muted color.
+     */
 
-a { 
-    color: var(--link-color);
-    text-decoration: var(--link-text-decoration);
-}
+    --border-fg: rgb(24, 24, 37);
+    --border-fg-2: rgb(17, 17, 27);
+    --border-icon-radius: 100vmax; /* Always circle or capsule */
+    --border-radius: 6px;
 
-body { 
-    background-color: var(--group-bar-color);
+    --accent-fg: var(--sapphire);
+    --accent-bg: rgb(116, 199, 236, 0.25); /* Hilight color */
+
+    --danger-fg: var(--red);
+    --danger-bg: rgb(243, 139, 168, 0.25);
+
+    --safe-fg: ;
+    --safe-bg: ;
+    /* Color that is used to shift emphisis away from less important text, for
+     * example placeholder text, the @ or # before channel names, etc. */
+    --muted-fg: rgb(161, 168, 201); 
+
+    /* Solid color, gradient, or image. If using a gradient or image, please 
+     * keep in mind that every element (that total to the entire screen) have 
+     * thier own backgrounds so we reccommend you lower the opacity of the 
+     * other -bg colors. */
+    --app-bg: url('https://images.nintendolife.com/09c615c4bd601/hollow-knight.original.jpg');
+    --app-fg: rgb(198, 208, 245);
+
+    --groups-bar-bg: rgb(17, 17, 27);
+    --groups-bar-fg: inherit; /* None */
+
+    --channels-bar-bg: rgb(24, 24, 37, 1);
+    --channels-bar-fg: inherit;
+
+    --main-bg: rgb(30, 30, 46, 1);
+    --main-fg: inherit;
+
+    --header-bar-bg: var(--channels-bar-bg);
+    --header-bar-fg: inherit;
+
+    --message-area-fg: inherit;
+    --message-area-bg: var(--main-bg);
+
+    --box-fg: inherit;
+    --box-bg: rgb(24, 24, 37);
+
+    --input-fg: var(--accent-fg);
+    --input-bg: rgb(17, 17, 27);
+
+    /* Popup menus, etc. Not tooltips sadly b/c tippy dosen't like variables. */
+    --overlay-bg: rgb(30, 30, 46);
+    --overlay-fg: rgb(7, 7, 17);
+
+    /* The color that fills the screen behind the dialogue or popup. It is 
+     * reccommended it be semi-transparent with rgb(r, g, b, opacity) */
+    --dialogue-darken: rgb(0, 0, 0, 0.45);
+    --dialogue-blur: ; /* Background blur for dialogues */
+
+
+    /* More layout-ie things */
+    --channels-bar-width: clamp(12rem, 13.5vw, 30rem);
+
+    --textarea-max-height: 70vh;
+
+    --round-button-size: 2.25rem;
+
+/* ************************************************************* */
+
+    /* TIPPY NEEDS HARD-CODED VALUES AND WILL NOT ACCEPT VARIABLES */
+    /* --color-app-background: linear-gradient(to bottom, var(--sapphire), var(--blue), var(--violet)); */
+
+    /* 'Atkinson Hyperlegible', */
 }
 
 app { 
-    background-color: var(--color-base);
-    font-family: var(--main-font);
-    color: var(--text-color);
+    background: var(--app-bg);
+    font-family: var(--font-main);
+    color: var(--app-fg);
 }
 
-app, .absolute-pane { 
-    overflow: hidden;
+::selection { 
+    background: var(--accent-bg);
+}
+
+a { 
+    color: var(--accent-fg);
+    text-decoration: var(--link-decoration);
+}
+
+.main-content { 
+    background: var(--main-bg);
 }
 
 nav * { 
@@ -89,28 +141,16 @@ nav *::-webkit-scrollbar {
 }
 
 [role="groups"] { 
-    background-color: var(--group-bar-color);
+    background: var(--groups-bar-bg);
+    color: var(--groups-bar-fg);
 }
 
 [role="groups"] li { 
     border-radius: var(--border-icon-radius);
 }
 
-hr { 
-    /* width: 80%; */
-    height: 0px;
-    margin: 0.15rem;
-    padding: 0;
-
-    border: 1px solid var(--border-color);
-}
-
-[role="groups"] hr { 
-    margin: 10% 0.5rem;
-}
-
 [role="channels"] { 
-    background-color: var(--channels-bar-color);
+    background: var(--channels-bar-bg);
 }
 
 
@@ -118,14 +158,15 @@ hr {
 main { 
     scrollbar-color: var(--ctp-mocha-sapphire) var(--ctp-mocha-base);
     scrollbar-width: 6px;
+    background: var(--main-content-color);
 }
 
 main > header { 
-    background-color: var(--channels-bar-color);
+    background: var(--header-bar-bg);
 }
 
-main time { 
-    color: var(--text-muted);
+time { 
+    color: var(--muted-fg);
 }
 
 .author { 
@@ -133,35 +174,29 @@ main time {
 }
 
 main ul { 
-    scrollbar-color: var(--accent-color) var(--base-color);
+    scrollbar-color: var(--accent-fg) var(--base-color);
     scrollbar-width: 6px;
 }
 
-main li:hover time { 
-    color: var(--text-muted);
+li:hover time { 
+    color: var(--muted-fg);
 }
 
 .message-area { 
-    border-top: 1px solid var(--ui-box-color);
+    border-top: 1px solid var(--border-fg);
+    background: var(--message-area-bg);
 }
 
 .expandable-textarea {
     --message-box-buttons: 1;
 
-    background-color: var(--ui-box-color);
-    border-radius: var(--border-ui-box-radius);
-}
-
-.expandable-textarea:empty::after { 
-    --placeholder-message: "Send a message...";
-    content: var(--placeholder-message);
+    background: var(--box-bg);
+    border-radius: var(--border-radius);
 }
 
 .expandable-textarea::after { 
-    --placeholder-message: "";
-    content: "";
-
-    color: var(--text-muted);
+    content: var(--placeholder-message);
+    color: var(--muted-fg);
 }
 
 
@@ -185,23 +220,32 @@ header {
 }
 
 [role="profile"] { 
-    background-color: var(--channels-bar-color);
+    background: var(--channels-bar-bg);
 }
 
 .muted { 
-    color: var(--text-muted);
+    color: var(--muted-fg);
 }
 
 header vr + * {
     margin-left: auto;
 } 
 
+svg { 
+    fill: var(--app-fg);
+}
+
+*:hover > svg { 
+    fill: var(--accent-fg);
+}
+
 button { 
-    background-color: var(--ui-box-color);
+    background: var(--box-bg);
     border: 0;
 }
 
-.header-button { 
+header button { 
+    background: transparent;
     width: 1.5rem;
     height: 1.5rem;
 }
@@ -215,61 +259,51 @@ button {
     border-radius: 500rem;
 }
 
-svg { 
-    fill: var(--text-color);
-}
-
-*:hover > svg { 
-    fill: var(--accent-color);
-}
-
 .button-rect { 
-    border-radius: var(--border-ui-box-radius);
-    color: var(--text-color);
+    border-radius: var(--border-radius);
+    color: var(--app-fg);
 }
 
 .button-normal:hover { 
-    color: var(--accent-color);
+    background: var(--accent-bg);
 }
 
 .button-cta { 
-    background-color: var(--accent-color);
-    color: var(--ui-box-color);
-    /* border: 1px solid var(--accent-color); */
-}
-
-.button-danger-wait {
-    background-image: linear-gradient(to right, var(--ui-box-color) 50%, var(--color-danger-disabled) 50%);
-    color: var(--color-danger);
-    text-shadow: 0px 0px 4px var(--ui-box-color);
-}
-
-.button-danger-wait:hover {
-    color: var(--color-danger);
-}
-
-.button-danger { 
-    color: var(--color-danger);
-    text-shadow: 0px 0px 4px var(--ui-box-color);
-}
-
-.button-danger:hover { 
-    color: var(--color-danger);
-    background-color: var(--color-danger-disabled);
+    /* background: var(--accent-fg); */
+    border: 1px solid var(--accent-fg);
 }
 
 .button-cta:hover { 
-    opacity: .7;
+    background-color: var(--accent-bg);
+}
+
+.button-danger-wait {
+    background-image: linear-gradient(to right, var(--box-bg) 50%, var(--danger-bg) 50%);
+    color: var(--danger-fg);
+    text-shadow: 0px 0px 4px var(--box-bg);
+}
+
+.button-danger-wait:hover {
+    color: var(--danger-fg);
+}
+
+.button-danger { 
+    color: var(--danger-fg);
+    text-shadow: 0px 0px 4px var(--box-bg);
+}
+
+.button-danger:hover { 
+    background: var(--danger-bg);
 }
 
 .button-text { 
-    background-color: transparent;
-    color: var(--text-color);
+    background: transparent;
+    color: var(--app-fg);
 }
 
 .button-text:hover { 
     text-decoration: underline;
-    color: var(--text-color);
+    color: var(--app-fg);
 }
 
 /* ********* COPYPASTA STARTS ************ */
@@ -280,221 +314,31 @@ svg {
 /* TODO: Not yet sortted into "layout" and "visual" */
 
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
+    input[type=checkbox]:disabled,
+    input[type=radio]:disabled {
+        --active-inner: var(--mocha-blue);
+        opacity: .6;
+    }
 
-input[type=checkbox]:disabled,
-input[type=radio]:disabled {
-    --active-inner: var(--mocha-blue);
-} 
+    input[type=checkbox],
+    input[type=radio] {
+    --active: var(--input-fg);
+    --active-inner: var(--input-bg);
+    --inactive-inner: var(--input-fg); 
+    --border: var(--input-bg); 
+    --border-hover: var(--input-fg);
+    --background: var(--input-bg); 
 
-input[type=checkbox],
-input[type=radio] {
-  --active: var(--accent-color);
-  --active-inner: var(--ui-box-color);
-  --inactive-inner: var(--accent-color); 
-  --border: var(--ui-box-color); 
-  --border-hover: var(--accent-color);
-  --background: var(--ui-box-color); 
-
-  --disabled: var(--group-bar-color);
-  --disabled-inner: var(--group-bar-color);
-
-    appearance: none;
-    
-    height: 21px;
-    display: inline-block;
-    vertical-align: top;
-    position: relative;
-    margin: 0;
-    cursor: pointer;
-    border: 1px solid var(--bc, var(--border));
-    background: var(--b, var(--background));
-    transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
+    --disabled: var(--active-bg);
+    --disabled-inner: var(--groups-bar-bg);
+    }
 }
-input[type=checkbox]:after,
-input[type=radio]:after {
-    content: "";
-
-        /* content: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';  */
-
-    display: block;
-    left: 0;
-    top: 0;
-    position: absolute;
-
-    transition: transform var(--d-t, 0.3s) var(--d-t-e, ease), opacity var(--d-o, 0.2s);
-}
-input[type=checkbox]:checked,
-    input[type=radio]:checked {
-    --b: var(--active);
-    --bc: var(--active);
-    --d-o: .3s;
-    --d-t: .6s;
-    --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
-}
-input[type=checkbox]:disabled,
-input[type=radio]:disabled {
-    --b: var(--disabled);
-    cursor: not-allowed;
-    opacity: 0.9;
-}
-input[type=checkbox]:disabled:checked,
-input[type=radio]:disabled:checked {
-    --b: var(--disabled-inner);
-    --bc: var(--border);
-}
-input[type=checkbox]:disabled + label,
-input[type=radio]:disabled + label {
-    cursor: not-allowed;  
-}
-input[type=checkbox]:hover:not(:checked):not(:disabled),
-input[type=radio]:hover:not(:checked):not(:disabled) {
-    --bc: var(--border-hover);
-}
-input[type=checkbox]:focus,
-input[type=radio]:focus {
-    box-shadow: 0 0 0 var(--focus);
-}
-input[type=checkbox]:not(.switch),
-input[type=radio]:not(.switch) {
-    width: 21px;
-}
-input[type=checkbox]:not(.switch):after,
-input[type=radio]:not(.switch):after {
-    opacity: var(--o, 0);
-}
-input[type=checkbox]:not(.switch):checked,
-input[type=radio]:not(.switch):checked {
-    --o: 1;
-}
-input[type=checkbox] + label,
-input[type=radio] + label {
-    font-size: 14px;
-    line-height: 21px;
-    display: inline-block;
-    vertical-align: top;
-    cursor: pointer;
-    margin-left: 4px;
-}
-
-input[type=checkbox]:not(.switch) {
-    border-radius: var(--border-ui-box-radius);
-}
-input[type=checkbox]:not(.switch):after {
-    width: 5px;
-    height: 9px;
-    border: 2px solid var(--active-inner);
-    border-top: 0;
-    border-left: 0;
-    left: 7px;
-    top: 4px;
-    transform: rotate(var(--r, 20deg));
-}
-input[type=checkbox]:not(.switch):checked {
-    --r: 43deg;
-}
-input[type=checkbox].switch {
-    width: 38px;
-    border-radius: 11px;
-}
-input[type=checkbox].switch:after {
-    left: 2px;
-    top: 2px;
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    background: var(--ab, var(--inactive-inner));
-    transform: translateX(var(--x, 0));
-}
-input[type=checkbox].switch:checked {
-    --ab: var(--active-inner);
-    --x: 17px;
-}
-input[type=checkbox].switch:disabled:not(:checked):after {
-    opacity: 0.6;
-}
-
-label { 
-    cursor: pointer;
-}
-
-input[type=radio] {
-    border-radius: 50%;
-    margin-right: var(--small-margin);
-}
-input[type=radio]:not(:checked) {
-    border: 1px solid var(--text-muted);
-}
-input[type=radio]:after {
-    width: 5px;
-    height: 9px;
-    border: 2px solid var(--active-inner);
-    border-top: 0;
-    border-left: 0;
-    left: 7px;
-    top: 4px;
-    transform: rotate(var(--r, 20deg));
-}
-input[type=radio]:checked {
-    --r: 43deg;
-  --s: .5;
-}
-}
-
-/* mine again :3 (also its now sorted again) */
-
-.radio-option { 
-    padding: var(--standard-padding);
-    margin: var(--small-margin);
-
-    display: flex;
-
-    border-radius: var(--border-ui-box-radius);
-    background-color: var(--ui-box-color);
-}
-
 
 /* ADD CLASSES */
 
 .my-message {}
 .bot-message {}
 .ping-message {}
-
-
-
-/* slider base code from https://www.w3schools.com/howto/howto_js_rangeslider.asp */
-/* TODO: Not yet sortted into "layout" and "visual" */
-
-input[type="range"] {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 4px;
-    border-radius: 5px;  
-    background: var(--ui-box-color);
-    outline: none;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%; 
-    background: var(--accent-color);
-    cursor: pointer;
-    border: 0;
-    outline: 0;
-}
-
-input[type="range"]::-moz-range-thumb {
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  background: var(--accent-color);
-  cursor: pointer;
-  border: 0;
-    outline: 0;
-}
-
 
 
 /* How to style select?? also we need colors and ranges and sliders */
@@ -522,7 +366,7 @@ see this stack overflow question: https://stackoverflow.com/questions/7208786/ho
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: white;
+  background: white;
   padding: 0 10px;
   font-weight: bold;
 }
@@ -540,7 +384,7 @@ see this stack overflow question: https://stackoverflow.com/questions/7208786/ho
 
 .styledSelect:active,
 .styledSelect.active {
-  background-color: #eee;
+  background: #eee;
 }
 
 .options {
@@ -554,7 +398,7 @@ see this stack overflow question: https://stackoverflow.com/questions/7208786/ho
   padding: 0 0;
   list-style: none;
   border: 1px solid #ccc;
-  background-color: white;
+  background: white;
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -567,7 +411,7 @@ see this stack overflow question: https://stackoverflow.com/questions/7208786/ho
 }
 
 .options li:hover {
-  background-color: #39f;
+  background: #39f;
   color: white;
 }
 
@@ -576,61 +420,54 @@ see this stack overflow question: https://stackoverflow.com/questions/7208786/ho
 .context-menu { 
     --context-menu-width: calc(var(--channels-bar-width) + 2rem);
 
-    background-color: var(--group-bar-color);
+    background: var(--box-bg);
     width: var(--context-menu-width);
-
-    border-radius: var(--border-ui-box-radius);
-    padding: var(--small-padding);
 }
 
 .context-menu li:hover { 
-    background-color: var(--color-base);
-    border-radius: var(--border-ui-box-radius);
+    background: var(--overlay-bg);
+    border-radius: var(--border-radius);
 }
 
 .absolute-pane button { 
     text-align: left;
     color: inherit;
 
-    background-color: inherit;
-    border-radius: var(--border-ui-box-radius);
+    background: inherit;
+    border-radius: var(--border-radius);
 
     transition: 50ms;
 }
 
 .absolute-pane button:hover { 
-    background-color: var(--color-base);
+    background: var(--overlay-bg);
 }
 
-
 .modal { 
-    box-shadow: 4px 0px 0px 10000rem var(--overlay-darken-color);
-    background-color: var(--ui-box-color);
-    border-radius: var(--border-ui-box-radius);
+    box-shadow: 4px 0px 0px 10000rem var(--dialogue-darken);
+    background: var(--box-fg);
+    border-radius: var(--border-radius);
 }
 
 .danger, .danger svg { 
-    color: var(--color-danger);
-    fill: var(--color-danger);
+    color: var(--danger-fg);
+    fill: var(--danger-fg);
 }
 
 a { 
     text-decoration: none;
-    color: var(--accent-color);
+    color: var(--accent-fg);
+    cursor: pointer;
 }
 
 a:hover { 
     text-decoration: none;
-    color: var(--accent-color);
+    color: var(--accent-fg);
     opacity: .7;
 }
 
-a { 
-    cursor: pointer;
-}
-
 a.author { 
-    color: var(--text-color);
+    color: var(--app-fg);
 }
 
 a.author:hover { 
@@ -639,7 +476,7 @@ a.author:hover {
 }
 
 .tippy-box[data-theme~='dark'] {
-    background-color: rgb(17, 17, 27);
+    background: rgb(17, 17, 27);
     color: rgb(198, 208, 245);
     font-family: 'Noto Sans', sans-serif;
     margin-left: 0.5rem;
