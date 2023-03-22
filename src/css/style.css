@@ -481,7 +481,7 @@ a.author:hover {
     /* background: inherit; */
     opacity: 1;
     /* text-decoration: underline 2px solid var(--main-fg); */
-    text-decoration: underline 2px solid var(--accent-fg);
+    text-decoration: underline 2px solid var(--app-fg);
 }
 
 .tippy-box[data-theme~='dark'] {
