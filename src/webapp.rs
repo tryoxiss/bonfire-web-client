@@ -1,18 +1,57 @@
 
-use yew::prelude::*;
+// use yew::prelude::*;
 use std::time::{Duration, SystemTime};
 
 //# DEBUG
 use rand::prelude::*;
+// use yew::format::Json;
+use yew::prelude::*;
+// use yew::services::storage::Area;
+// use yew::services::StorageService;
 
-struct Guid { guid: u128 }
+// const KEY: &'static str = "yew.tut.database";
 
-enum Msg {
+// #[derive(Serialize, Deserialize)]
+// pub struct Database {
+//     tasks: Vec<Task>,
+// }
+// impl Database {
+//     pub fn new() -> Self {
+//         Database { tasks: Vec::new() }
+//     }
+// }
+// #[derive(Serialize, Deserialize, Debug, Clone)]
+// pub struct Task {
+//     title: String,
+//     description: String,
+// }
+// impl Task {
+//     pub fn new() -> Self {
+//         Task {
+//             title: "".to_string(),
+//             description: "".to_string(),
+//         }
+//     }
+//     pub fn is_filledin(&self) -> bool {
+//         (self.title != "") && (self.description != "")
+//     }
+// }
+pub enum Msg {
+    // AddTask,
+    // RemoveTask(usize),
+    // SetTitle(String),
+    // SetDescription(String),
     AddOne,
 }
 
+
+struct Guid { guid: u128 }
+
+
+
 struct App {
     count: i128,
+
     content: Vec<i32>,
 
     // theme: String,
@@ -21,6 +60,11 @@ struct App {
 
     // metadata
     // version: String,
+
+    // link: ComponentLink<Self>,
+    // storage: StorageService,
+    // database: Database,
+    // temp_task: Task,
 }
 
 impl Component for App {
@@ -30,14 +74,24 @@ impl Component for App {
     fn create(_ctx: &Context<Self>) -> Self {
         println!("Creating app (1/2)");
         println!("Mounting app (2/2)");
+
+        // let storage = StorageService::new(Area::Local);
+        // let Json(database) = storage.restore(KEY);
+        // let database = database.unwrap_or_else(|_| Database::new());
         Self { 
-            count: 0,
+            count: 1,
+
             content: vec![1],
 
             // theme: "ctp-mocha",
             account: Guid { guid: 1 },
             profile: Guid { guid: 1 },
             // version: meeoww
+
+            // link,
+            // storage,
+            // database,
+            // temp_task: Task::new(),
 
         }
     }

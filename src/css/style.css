@@ -23,7 +23,8 @@ supported on the web client version*/
     FOR EXAMPLE: fg isn't used in most places, but I need to 
     make it be used. */
 
-    --font-main: 'Noto Sans', sans-serif;
+    /* 'Atkinson Hyperlegible', */
+    --font-main: 'Atkinson Hyperlegible', 'Noto Sans', sans-serif;
     --font-display: ; /* Used in header bars */
     --font-code: 'Hack', monospace;
     --font-small: var(--font-main); /* If you want a diffrent font for small text */
@@ -48,10 +49,10 @@ supported on the web client version*/
     --border-radius: 6px;
 
     --accent-fg: var(--sapphire);
-    --accent-bg: rgb(116, 199, 236, 0.25); /* Hilight color */
+    --accent-bg: rgb(116, 199, 236, 1); /* Hilight color */
 
     --danger-fg: var(--red);
-    --danger-bg: rgb(243, 139, 168, 0.25);
+    --danger-bg: rgb(243, 139, 168, 1);
 
     --safe-fg: ;
     --safe-bg: ;
@@ -62,17 +63,21 @@ supported on the web client version*/
     /* Solid color, gradient, or image. If using a gradient or image, please 
      * keep in mind that every element (that total to the entire screen) have 
      * thier own backgrounds so we reccommend you lower the opacity of the 
-     * other -bg colors. */
-    --app-bg: url('https://images.nintendolife.com/09c615c4bd601/hollow-knight.original.jpg');
+     * other -bg colors. 
+     */
+
+    
+
+    --app-bg: url('https://images.unsplash.com/photo-1531366936337-7c912a4589a7');;
     --app-fg: rgb(198, 208, 245);
 
-    --groups-bar-bg: rgb(17, 17, 27);
-    --groups-bar-fg: inherit; /* None */
+    --groups-bar-bg: rgb(17, 17, 27, 1);
+    /* --groups-bar-fg: inherit; No foreground for the groups bar */
 
     --channels-bar-bg: rgb(24, 24, 37, 1);
     --channels-bar-fg: inherit;
 
-    --main-bg: rgb(30, 30, 46, 1);
+    --main-bg: rgb(30, 30, 46, 0.75);
     --main-fg: inherit;
 
     --header-bar-bg: var(--channels-bar-bg);
@@ -103,19 +108,14 @@ supported on the web client version*/
     --textarea-max-height: 70vh;
 
     --round-button-size: 2.25rem;
-
-/* ************************************************************* */
-
     /* TIPPY NEEDS HARD-CODED VALUES AND WILL NOT ACCEPT VARIABLES */
-    /* --color-app-background: linear-gradient(to bottom, var(--sapphire), var(--blue), var(--violet)); */
-
-    /* 'Atkinson Hyperlegible', */
 }
 
 app { 
     background: var(--app-bg);
     font-family: var(--font-main);
     color: var(--app-fg);
+    background-size: cover;
 }
 
 ::selection { 
@@ -512,3 +512,7 @@ a.author:hover {
 }
 
 .tippy-box[data-animation=shift-away-subtle][data-state=hidden]{opacity:0}.tippy-box[data-animation=shift-away-subtle][data-state=hidden][data-placement^=top]{transform:translateY(5px)}.tippy-box[data-animation=shift-away-subtle][data-state=hidden][data-placement^=bottom]{transform:translateY(-5px)}.tippy-box[data-animation=shift-away-subtle][data-state=hidden][data-placement^=left]{transform:translateX(5px)}.tippy-box[data-animation=shift-away-subtle][data-state=hidden][data-placement^=right]{transform:translateX(-5px)}
+
+pre, code { 
+    border-radius: var(--border-radius);
+}

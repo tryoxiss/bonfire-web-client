@@ -176,6 +176,8 @@ main li {
     line-height: 20px;
 
     word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
 }
 
 .expandable-textarea:empty::after { 
