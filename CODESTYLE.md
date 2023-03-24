@@ -89,7 +89,7 @@ Optimisation is kind of a weird case (of which we cover more below), since it is
 
 When all major optimisations have been exausted, and the problem persists, we start profiling code to figure out the issue: often the problem can be solved by optimising one or two bottleneacks. These are often things done very frequently, so they get more optimisation anyway. 
 
-One amazing example of this is [Fast Inverse Square Root](https://en.wikipedia.org/wiki/Fast_inverse_square_root), the square root was bottleneaking incredibly common actions in Quake III Arena, so they found a clean and elegant solution to speed them all up by nearly 40%, with no additional developement involvement. All future optimisations changed, was to use the `Q_sqrt()` function instead of the `sqrt()` function except when 100% percision was needed.
+One amazing example of this is [Fast Inverse Square Root](https://en.wikipedia.org/wiki/Fast_inverse_square_root), the square root was bottleneaking incredibly common actions in Quake III Arena, so they found a clean and elegant solution to speed them all up by nearly 400%, with no additional developement involvement. All future optimisations changed, was to use the `Q_rsqrt()` function instead of the `1 / sqrt(x)` function.
 
 This both solved the performance problem, without making it harder to develop. This is also the reason we comment and extract code so heavily: *we don't need to know how things get done, unless they cause issues, and by extracting it to its own function we can build quicker*.
 
