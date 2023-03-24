@@ -85,7 +85,9 @@ Anything that may be confusing or non-obvious should be commented.
 
 ## Optimization
 
-Optimisation is kind of a weird case (of which we cover more below), since it is inherntly changing the code to perform better. In general, it is best to optimise as you go with minor things such as getting more common conditions out first, not repating variables, etc. When a performance problem begins to exist, we do **major optimisations first**. These are things that can often solve the problem on its own like data structures. 
+Optimisation is kind of a weird case (of which we cover more below), since it is inherntly changing the code to perform better. In general, it is best to optimise as you go with minor obvious things such as getting more faling points out first: allowing for less compairons, not repating variables, etc. This is just obvious things however: We DO NOT prematurely optimise unless it can be done in a zero-readability sacrafice way. In other words: we do not change the code on a fundenemntal level until its needed.
+
+When a performance problem begins to exist, we do **major optimisations first**. These are things that can often solve the problem on its own like data structures. 
 
 When all major optimisations have been exausted, and the problem persists, we start profiling code to figure out the issue: often the problem can be solved by optimising one or two bottleneacks. These are often things done very frequently, so they get more optimisation anyway. 
 
