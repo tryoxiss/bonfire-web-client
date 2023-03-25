@@ -178,6 +178,8 @@ main li {
     word-wrap: break-word;
     overflow-wrap: break-word;
     word-break: break-all;
+
+    cursor: text;
 }
 
 .expandable-textarea:empty::after { 
@@ -582,4 +584,281 @@ a.author {
 
     background-clip: text !important;
     -webkit-background-clip: text !important;
+    background: linear-gradient(to right, var(--color-1), var(--color-2), var(--color-1));
+    background-size: 200%;
+}
+
+@keyframes mymove {
+    from { 
+        background-position: 0%;
+    }
+
+    to { 
+        background-position: 200%;
+    }
+}
+
+.author.can-gradient-slide:hover {
+    animation: mymove 5s infinite;
+}
+
+.author:hover { 
+    color: transparent;
+    opacity: 1;
+}
+
+::selection { 
+    background: var(--accent-bg);
+}
+
+app { 
+    background: var(--app-bg);
+    font-family: var(--font-main);
+    color: var(--app-fg);
+    background-size: cover;
+}
+
+a { 
+    color: var(--accent-fg);
+    text-decoration: var(--link-decoration);
+}
+
+.main-content { 
+    background: var(--main-bg);
+}
+
+nav * { 
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+nav *::-webkit-scrollbar {
+  display: none;
+}
+
+[role="groups"] { 
+    background: var(--groups-bar-bg);
+    color: var(--groups-bar-fg);
+}
+
+[role="groups"] li { 
+    border-radius: var(--border-icon-radius);
+}
+
+[role="channels"] { 
+    background: var(--channels-bar-bg);
+}
+
+main { 
+    scrollbar-color: var(--ctp-mocha-sapphire) var(--ctp-mocha-base);
+    background: var(--main-content-color);
+}
+
+main > header { 
+    background: var(--header-bar-bg);
+}
+
+time { 
+    color: var(--muted-fg);
+}
+
+main ul { 
+    scrollbar-color: var(--accent-fg) var(--base-color);
+}
+
+li:hover time { 
+    color: var(--muted-fg);
+}
+
+.message-area { 
+    border-top: 1px solid var(--border-fg);
+    background: var(--message-area-bg);
+}
+
+.expandable-textarea {
+    background: var(--box-bg);
+    border-radius: var(--border-radius);
+}
+
+.expandable-textarea::after { 
+    content: var(--placeholder-message);
+    color: var(--muted-fg);
+}
+
+header button { 
+    background: transparent;
+    width: calc(var(--groups-bar-width) / 4 * 1.5 );
+    height: calc(var(--groups-bar-width) / 4 * 1.5 );
+}
+
+.round-button { 
+    width: var(--round-button-size);
+    height: var(--round-button-size);
+
+    margin: var(--standard-margin);
+
+    border-radius: var(--border-icon-radius);
+}
+
+
+header { 
+    font-family: var(--display-font);
+}
+
+[role="profile"] { 
+    background: var(--channels-bar-bg);
+}
+
+.muted { 
+    color: var(--muted-fg);
+}
+
+header vr + * {
+    margin-left: auto;
+} 
+
+svg { 
+    fill: var(--app-fg);
+}
+
+*:hover > svg { 
+    fill: var(--accent-fg);
+}
+
+button { 
+    background: var(--box-bg);
+    border: 0;
+}
+
+.button-rect { 
+    border-radius: var(--border-radius);
+    color: var(--app-fg);
+}
+
+.button-normal:hover { 
+    background: var(--accent-bg);
+}
+
+.button-cta { 
+    /* background: var(--accent-fg); */
+    border: 1px solid var(--accent-fg);
+}
+
+.button-cta:hover { 
+    background-color: var(--accent-bg);
+}
+
+.button-danger-wait {
+    background-image: linear-gradient(to right, var(--box-bg) 50%, var(--danger-bg) 50%);
+    color: var(--danger-fg);
+}
+
+.button-danger-wait:hover {
+    color: var(--danger-fg);
+}
+
+.button-danger { 
+    color: var(--danger-fg);
+}
+
+.button-danger:hover { 
+    background: var(--danger-bg);
+}
+
+.button-text { 
+    background: transparent;
+    color: var(--app-fg);
+}
+
+.button-text:hover { 
+    text-decoration: underline;
+    color: var(--app-fg);
+}
+
+/* ********* COPYPASTA STARTS ************ */
+
+/* FROM CSSTRICKS @ https://css-tricks.com/custom-styling-form-inputs-with-modern-css-features/ OR https://codepen.io/aaroniker/pen/ZEYoxEY (it's literally 1:1 minus some variables and pickey tweaks) */
+
+/* TODO: Fix the colors, they are just temperary rn */
+/* TODO: Not yet sortted into "layout" and "visual" */
+
+@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+    input[type=checkbox]:disabled,
+    input[type=radio]:disabled {
+        --active-inner: var(--mocha-blue);
+        opacity: .6;
+    }
+
+    input[type=checkbox],
+    input[type=radio] {
+    --active: var(--input-fg);
+    --active-inner: var(--input-bg);
+    --inactive-inner: var(--input-fg); 
+    --border: var(--input-bg); 
+    --border-hover: var(--input-fg);
+    --background: var(--input-bg); 
+
+    --disabled: var(--active-bg);
+    --disabled-inner: var(--groups-bar-bg);
+    }
+}
+
+
+.context-menu { 
+    --context-menu-width: calc(var(--channels-bar-width) + 2rem);
+
+    background: var(--box-bg);
+    width: var(--context-menu-width);
+}
+
+.context-menu li:hover { 
+    background: var(--overlay-bg);
+    border-radius: var(--border-radius);
+}
+
+.absolute-pane button { 
+    text-align: left;
+    color: inherit;
+
+    background: inherit;
+    border-radius: var(--border-radius);
+
+    transition: 50ms;
+}
+
+.absolute-pane button:hover { 
+    background: var(--overlay-bg);
+}
+
+.modal { 
+    box-shadow: 4px 0px 0px 10000rem var(--dialogue-darken);
+    background: var(--box-fg);
+    border-radius: var(--border-radius);
+}
+
+.danger, .danger svg { 
+    color: var(--danger-fg);
+    fill: var(--danger-fg);
+}
+
+a { 
+    text-decoration: none;
+    color: var(--accent-fg);
+    cursor: pointer;
+}
+
+a:hover { 
+    text-decoration: none;
+    color: var(--accent-fg);
+    opacity: .7;
+}
+
+pre, code { 
+    border-radius: var(--border-radius);
+}
+
+header, 
+h1,   h2,  h3,  h4,  h5,  h6,
+.h1, .h2, .h3, .h4, .h5, .h6  { 
+    font-family: var(--font-display );
 }

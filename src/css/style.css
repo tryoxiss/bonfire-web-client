@@ -1,33 +1,41 @@
 /* THEME STYLES: This is here because it is the defult, normally this would be 
 an external stylesheet on the users computer in the app. Custom themes are not 
 supported on the web client version*/
-[theme*="ctp-mocha"] {
+[theme~="ctp-mocha"] {
     /* Colors source: https://github.com/catppuccin/catppuccin#-palette */
 
-    /* The following variables are NOT used by code and can be whatever you want. */
-    --red: rgb(243, 139, 168);
-    --maroon: rgb(235, 160, 172);
-    --orange: rgb(250, 179, 135);
-    --yellow: rgb(249, 226, 175);
-    --green: rgb(166, 227, 161);
-    --teal: rgb(148, 226, 213);
-    --sky: rgb(137, 220, 235);
-    --sapphire: rgb(116, 199, 236);
-    --blue: rgb(137, 180, 250);
-    --violet: rgb(180, 190, 254);
+    /* Default colors for roles and other uses. */
+    /* For roles and such custom clors are also allowed, but you can force them
+     * to fall back to your defaults if you woud like (Not Reccommended). 
+     * This can be adjusted per-group of course. 
+     * 
+     * Thesse are also used if you want to color channels, etc. */
+    --default-red-1: rgb(243, 139, 168);
+    --default-red-2: rgb(235, 160, 172);
 
-    /* All the rest of the variables ARE used by code and changing thier 
+    --default-orange-1: rgb(250, 179, 135);
+    --default-orange-2: rgb(255, 210, 183);
+
+    --default-yellow-1: rgb(249, 226, 175);
+    --default-yellow-2: rgb(255, 239, 204);
+
+    --default-green-1: rgb(166, 227, 161);
+    --default-green-2: rgb(148, 226, 213);
+
+    --default-blue-1: rgb(137, 220, 235);
+    --default-blue-2: rgb(116, 199, 236);
+
+    --default-violet-1: rgb(137, 180, 250);
+    --default-violet-2: rgb(180, 190, 254);
+
+    /* All the rest of the variables ARE used by code and changing their 
      * names WILL break things. */
-
-    /* STILL NEED TO GO THROUGH THESE AND USE ALL THE VARIABLES. 
-    FOR EXAMPLE: fg isn't used in most places, but I need to 
-    make it be used. */
 
     /* 'Atkinson Hyperlegible', */
     --font-main: 'Atkinson Hyperlegible', 'Noto Sans', sans-serif;
-    --font-display: ; /* Used in header bars */
+    --font-display: inherit; /* Used in header bars */
     --font-code: 'Hack', monospace;
-    --font-small: var(--font-main); /* If you want a diffrent font for small text */
+    --font-small: inherit; /* If you want a diffrent font for small text */
 
     --font-size: 1rem;
     --font-size-small: 0.8rem; 
@@ -48,17 +56,19 @@ supported on the web client version*/
     --border-icon-radius: 100vmax; /* Always circle or capsule */
     --border-radius: 6px;
 
-    --accent-fg: var(--sapphire);
-    --accent-bg: rgb(116, 199, 236, 1); /* Hilight color */
+    --accent-fg: rgb(116, 199, 236);
+    --accent-bg: rgb(116, 199, 236, 0.25); /* Hilight color */
 
-    --danger-fg: var(--red);
-    --danger-bg: rgb(243, 139, 168, 1);
+    --danger-fg: rgb(243, 139, 168);
+    --danger-bg: rgb(243, 139, 168, 0.25);
 
-    --safe-fg: ;
-    --safe-bg: ;
+    --safe-fg: rgb(166, 227, 161);
+    --safe-bg: rgb(166, 227, 161, 0.25);
+
     /* Color that is used to shift emphisis away from less important text, for
      * example placeholder text, the @ or # before channel names, etc. */
-    --muted-fg: rgb(161, 168, 201); 
+    /* --muted-fg: rgb(161, 168, 201);  */
+    --muted-fg: rgb(198, 208, 245, 0.5);
 
     /* Solid color, gradient, or image. If using a gradient or image, please 
      * keep in mind that every element (that total to the entire screen) have 
@@ -66,8 +76,7 @@ supported on the web client version*/
      * other -bg colors. 
      */
 
-    
-
+    /* From unsplash.com */
     --app-bg: url('https://images.unsplash.com/photo-1531366936337-7c912a4589a7');;
     --app-fg: rgb(198, 208, 245);
 
@@ -77,7 +86,7 @@ supported on the web client version*/
     --channels-bar-bg: rgb(24, 24, 37, 1);
     --channels-bar-fg: inherit;
 
-    --main-bg: rgb(30, 30, 46, 0.75);
+    --main-bg: rgb(30, 30, 46, 1);
     --main-fg: inherit;
 
     --header-bar-bg: var(--channels-bar-bg);
@@ -92,7 +101,7 @@ supported on the web client version*/
     --input-fg: var(--accent-fg);
     --input-bg: rgb(17, 17, 27);
 
-    /* Popup menus, etc. Not tooltips sadly b/c tippy dosen't like variables. */
+    /* Popup menus, etc. Not tooltips sadly because tippy dosen't like variables. */
     --overlay-bg: rgb(30, 30, 46);
     --overlay-fg: rgb(7, 7, 17);
 
@@ -101,72 +110,15 @@ supported on the web client version*/
     --dialogue-darken: rgb(0, 0, 0, 0.45);
     --dialogue-blur: ; /* Background blur for dialogues */
 
-
     /* More layout-ie things */
     --channels-bar-width: clamp(12rem, 13.5vw, 30rem);
-
     --textarea-max-height: 70vh;
-
     --round-button-size: 2.25rem;
     /* TIPPY NEEDS HARD-CODED VALUES AND WILL NOT ACCEPT VARIABLES */
 }
 
-app { 
-    background: var(--app-bg);
-    font-family: var(--font-main);
-    color: var(--app-fg);
-    background-size: cover;
-}
-
-::selection { 
-    background: var(--accent-bg);
-}
-
-a { 
-    color: var(--accent-fg);
-    text-decoration: var(--link-decoration);
-}
-
-.main-content { 
-    background: var(--main-bg);
-}
-
-nav * { 
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-
-nav *::-webkit-scrollbar {
-  display: none;
-}
-
-[role="groups"] { 
-    background: var(--groups-bar-bg);
-    color: var(--groups-bar-fg);
-}
-
-[role="groups"] li { 
-    border-radius: var(--border-icon-radius);
-}
-
-[role="channels"] { 
-    background: var(--channels-bar-bg);
-}
-
-
-
 main { 
-    scrollbar-color: var(--ctp-mocha-sapphire) var(--ctp-mocha-base);
     scrollbar-width: 6px;
-    background: var(--main-content-color);
-}
-
-main > header { 
-    background: var(--header-bar-bg);
-}
-
-time { 
-    color: var(--muted-fg);
 }
 
 .author { 
@@ -174,31 +126,12 @@ time {
 }
 
 main ul { 
-    scrollbar-color: var(--accent-fg) var(--base-color);
     scrollbar-width: 6px;
-}
-
-li:hover time { 
-    color: var(--muted-fg);
-}
-
-.message-area { 
-    border-top: 1px solid var(--border-fg);
-    background: var(--message-area-bg);
 }
 
 .expandable-textarea {
     --message-box-buttons: 1;
-
-    background: var(--box-bg);
-    border-radius: var(--border-radius);
 }
-
-.expandable-textarea::after { 
-    content: var(--placeholder-message);
-    color: var(--muted-fg);
-}
-
 
 /* ☢️ You're playing a dangrous game, girl!
  * -----------------------------------------
@@ -214,124 +147,8 @@ li:hover time {
 .expandable-textarea:focus { 
     outline: 0; /* See above warning */
 }
-
-header { 
-    font-family: var(--display-font);
-}
-
-[role="profile"] { 
-    background: var(--channels-bar-bg);
-}
-
-.muted { 
-    color: var(--muted-fg);
-}
-
-header vr + * {
-    margin-left: auto;
-} 
-
-svg { 
-    fill: var(--app-fg);
-}
-
-*:hover > svg { 
-    fill: var(--accent-fg);
-}
-
-button { 
-    background: var(--box-bg);
-    border: 0;
-}
-
-header button { 
-    background: transparent;
-    width: 1.5rem;
-    height: 1.5rem;
-}
-
-.round-button { 
-    width: var(--round-button-size);
-    height: var(--round-button-size);
-
-    margin: var(--standard-margin);
-
-    border-radius: 500rem;
-}
-
-.button-rect { 
-    border-radius: var(--border-radius);
-    color: var(--app-fg);
-}
-
-.button-normal:hover { 
-    background: var(--accent-bg);
-}
-
-.button-cta { 
-    /* background: var(--accent-fg); */
-    border: 1px solid var(--accent-fg);
-}
-
-.button-cta:hover { 
-    background-color: var(--accent-bg);
-}
-
-.button-danger-wait {
-    background-image: linear-gradient(to right, var(--box-bg) 50%, var(--danger-bg) 50%);
-    color: var(--danger-fg);
+.button-danger-wait, .button-danger {
     text-shadow: 0px 0px 4px var(--box-bg);
-}
-
-.button-danger-wait:hover {
-    color: var(--danger-fg);
-}
-
-.button-danger { 
-    color: var(--danger-fg);
-    text-shadow: 0px 0px 4px var(--box-bg);
-}
-
-.button-danger:hover { 
-    background: var(--danger-bg);
-}
-
-.button-text { 
-    background: transparent;
-    color: var(--app-fg);
-}
-
-.button-text:hover { 
-    text-decoration: underline;
-    color: var(--app-fg);
-}
-
-/* ********* COPYPASTA STARTS ************ */
-
-/* FROM CSSTRICKS @ https://css-tricks.com/custom-styling-form-inputs-with-modern-css-features/ OR https://codepen.io/aaroniker/pen/ZEYoxEY (it's literally 1:1 minus some variables and pickey tweaks) */
-
-/* TODO: Fix the colors, they are just temperary rn */
-/* TODO: Not yet sortted into "layout" and "visual" */
-
-@supports (-webkit-appearance: none) or (-moz-appearance: none) {
-    input[type=checkbox]:disabled,
-    input[type=radio]:disabled {
-        --active-inner: var(--mocha-blue);
-        opacity: .6;
-    }
-
-    input[type=checkbox],
-    input[type=radio] {
-    --active: var(--input-fg);
-    --active-inner: var(--input-bg);
-    --inactive-inner: var(--input-fg); 
-    --border: var(--input-bg); 
-    --border-hover: var(--input-fg);
-    --background: var(--input-bg); 
-
-    --disabled: var(--active-bg);
-    --disabled-inner: var(--groups-bar-bg);
-    }
 }
 
 /* ADD CLASSES */
@@ -341,146 +158,18 @@ header button {
 .ping-message {}
 
 
-/* How to style select?? also we need colors and ranges and sliders */
+.author { 
+    /* Set --color-1 and --color-2 in the html like so: 
+     * style="--color-1: red; --color-2: purple;" 
+     * to not have a gradient, make both colors the SAME. */
+    /* --color-1: purple;
+    --color-2: blue; */
 
-/* Select dropdowns are generated by the brower/os and NOT by the html/css, so we need this to style it.
-see this stack overflow question: https://stackoverflow.com/questions/7208786/how-to-style-the-option-of-an-html-select-element */
-
-.s-hidden {
-  visibility: hidden;
-  padding-right: 10px;
+    --color-1: var(--app-fg);
+    --color-2: var(--app-fg);
 }
 
-.select {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  font: normal 11px/22px Arial, Sans-Serif;
-  color: black;
-  border: 1px solid #ccc;
-}
-
-.styledSelect {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: white;
-  padding: 0 10px;
-  font-weight: bold;
-}
-
-.styledSelect:after {
-  content: "";
-  width: 0;
-  height: 0;
-  border: 5px solid transparent;
-  border-color: black transparent transparent transparent;
-  position: absolute;
-  top: 9px;
-  right: 6px;
-}
-
-.styledSelect:active,
-.styledSelect.active {
-  background: #eee;
-}
-
-.options {
-  display: none;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  left: 0;
-  z-index: 999;
-  margin: 0 0;
-  padding: 0 0;
-  list-style: none;
-  border: 1px solid #ccc;
-  background: white;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.options li {
-  padding: 0 6px;
-  margin: 0 0;
-  padding: 0 10px;
-}
-
-.options li:hover {
-  background: #39f;
-  color: white;
-}
-
-/* Sorted again <3 */
-
-.context-menu { 
-    --context-menu-width: calc(var(--channels-bar-width) + 2rem);
-
-    background: var(--box-bg);
-    width: var(--context-menu-width);
-}
-
-.context-menu li:hover { 
-    background: var(--overlay-bg);
-    border-radius: var(--border-radius);
-}
-
-.absolute-pane button { 
-    text-align: left;
-    color: inherit;
-
-    background: inherit;
-    border-radius: var(--border-radius);
-
-    transition: 50ms;
-}
-
-.absolute-pane button:hover { 
-    background: var(--overlay-bg);
-}
-
-.modal { 
-    box-shadow: 4px 0px 0px 10000rem var(--dialogue-darken);
-    background: var(--box-fg);
-    border-radius: var(--border-radius);
-}
-
-.danger, .danger svg { 
-    color: var(--danger-fg);
-    fill: var(--danger-fg);
-}
-
-a { 
-    text-decoration: none;
-    color: var(--accent-fg);
-    cursor: pointer;
-}
-
-a:hover { 
-    text-decoration: none;
-    color: var(--accent-fg);
-    opacity: .7;
-}
-
-a.author { 
-    /* This is actually the color. It needs to be done this way to allow gradient roles. */
-    background: var(--app-fg); 
-    /* background: linear-gradient(to right, red, blue) */
-
-    /* color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text; */
-}
-
-a.author:hover { 
-    color: transparent;
-    /* background: inherit; */
-    opacity: 1;
-    /* text-decoration: underline 2px solid var(--main-fg); */
+.author:hover { 
     text-decoration: underline 2px solid var(--app-fg);
 }
 
@@ -512,7 +201,3 @@ a.author:hover {
 }
 
 .tippy-box[data-animation=shift-away-subtle][data-state=hidden]{opacity:0}.tippy-box[data-animation=shift-away-subtle][data-state=hidden][data-placement^=top]{transform:translateY(5px)}.tippy-box[data-animation=shift-away-subtle][data-state=hidden][data-placement^=bottom]{transform:translateY(-5px)}.tippy-box[data-animation=shift-away-subtle][data-state=hidden][data-placement^=left]{transform:translateX(5px)}.tippy-box[data-animation=shift-away-subtle][data-state=hidden][data-placement^=right]{transform:translateX(-5px)}
-
-pre, code { 
-    border-radius: var(--border-radius);
-}
