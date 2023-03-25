@@ -7,14 +7,14 @@ This document outlines and should help you with setting up your own instnace, or
 No production versions yet, sorry!
 
 Though we will likely include intructions for: 
-- Docker Container (if/when we have one)
 - CentOS
 - Fedora Server
 - Ubuntu Server
 
 ## Set up for developemnt
 
-On first run: 
+We now have a nice shell script for setting up your dev enviornment. You will want to run it the first time you open the project, after cloning. Other than that just run `trunk serve` in the directory to serve the page.
+
 `rustup default nightly` (ew, whatever yew won't work without it)
 `rustup target add wasm32-unknown-unknown`
 `cargo run`
