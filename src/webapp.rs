@@ -1,47 +1,12 @@
 
-// use yew::prelude::*;
-use std::time::{Duration, SystemTime};
+use yew::prelude::*;
+// use std::time::{Duration, SystemTime};
 
 //# DEBUG
-use rand::prelude::*;
-// use yew::format::Json;
-use yew::prelude::*;
-// use yew::services::storage::Area;
-// use yew::services::StorageService;
+// use rand::prelude::*;
 
-// const KEY: &'static str = "yew.tut.database";
-
-// #[derive(Serialize, Deserialize)]
-// pub struct Database {
-//     tasks: Vec<Task>,
-// }
-// impl Database {
-//     pub fn new() -> Self {
-//         Database { tasks: Vec::new() }
-//     }
-// }
-// #[derive(Serialize, Deserialize, Debug, Clone)]
-// pub struct Task {
-//     title: String,
-//     description: String,
-// }
-// impl Task {
-//     pub fn new() -> Self {
-//         Task {
-//             title: "".to_string(),
-//             description: "".to_string(),
-//         }
-//     }
-//     pub fn is_filledin(&self) -> bool {
-//         (self.title != "") && (self.description != "")
-//     }
-// }
 pub enum Msg {
-    // AddTask,
-    // RemoveTask(usize),
-    // SetTitle(String),
-    // SetDescription(String),
-    AddOne,
+    UpdateContent,
 }
 
 
@@ -50,9 +15,8 @@ struct Guid { guid: u128 }
 
 
 struct App {
-    count: i128,
-
-    content: Vec<i32>,
+    expandable_textarea_ref: NodeRef,
+    content: String,
 
     // theme: String,
     account: Guid,
@@ -79,9 +43,8 @@ impl Component for App {
         // let Json(database) = storage.restore(KEY);
         // let database = database.unwrap_or_else(|_| Database::new());
         Self { 
-            count: 1,
-
-            content: vec![1],
+            expandable_textarea_ref: NodeRef::default(),
+            content: String::new(),
 
             // theme: "ctp-mocha",
             account: Guid { guid: 1 },
@@ -99,17 +62,17 @@ impl Component for App {
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         println!("Updating App");
         match msg {
-            Msg::AddOne => {
-                self.count += 10;
-                self.content.push(1);
-                true // re-render component
+            Msg::UpdateContent => {
+                if let Some(div) = self.expandable_textarea_ref.cast::<web_sys::HtmlElement>() {
+                    self.content = div.inner_text();
+                }
+                true
             }
         }
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         println!("Rendering App");
-        let link = ctx.link();
         html! { 
 <app class="ctp-mocha" logged_in_account="GUID" theme="ctp-mocha" app="Bonfire Server offical" version="0:1:14::beta" repository="github.com/tryoxiss/bonfire-server" main_authors="Khaim0919, Tryoxiss" licence="AGPL 3.0 (https://github.com/tryoxiss/bonfire-server/blob/main/LICENCE)" data-channel="Bonfire::Channel" data-group="Bonfire::Group">
 
@@ -169,31 +132,32 @@ impl Component for App {
             <MessageRoot content="Hello world" author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
             <MessageConsecutive content="Hello world" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
             <MessageConsecutive content="Oooh treats!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+
+            <MessageRoot content="Attribution: please keep until we have a proper credts popup." author_name="Doggo" time="20:47" datetime_full="24 March 2023 at 20:47" />
+            <MessageConsecutive content="Icons are from font awesome free. https://fontawesome.com/v6/icons/ (Attribution Required)" time="20:47" datetime_full="24 March 2023 at 20:47" />
+            <MessageConsecutive content="Default background image is by Lightscape and is from unsplash. https://unsplash.com/photos/LtnPejWDSAY (No attribution required, its just the reasonable person thing to do)" time="20:47" datetime_full="24 March 2023 at 20:47" />
             
-            {
-
-            for self.content.iter().map(|_x| {
-
-                if rand::random() {
-                    html! { 
-                        <MessageRoot author_name="Doggo" content="*nom nom nom*" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-                    }
-                } else {
-                    html! { 
-                        <MessageConsecutive content="yummy!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-                    }
-                }
-            })
-            }
+            <MessageRoot author_name="Doggo" content="aaaaa" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            <MessageConsecutive content="yummy!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+                    
+            <p>{ self.content.clone() }</p>
 
         </ul>
 
         <div class="message-area placeholder-message">
             <button class="round-button"><FaPlusIcon /></button>
 
-            <ExpandableTextarea />
+            //<ExpandableTextarea />
+            <div 
+            ref={self.expandable_textarea_ref.clone()}
+            class="expandable-textarea"
+            id="message-box"
+            role="textbox"
+            contenteditable="true"
+            placeholder="send a message">
+            </div>
 
-            <button class="round-button" onclick={link.callback(|_| Msg::AddOne)}><FaSendIcon /></button>
+            <button class="round-button" onclick={ctx.link().callback(|_| Msg::UpdateContent)}><FaSendIcon /></button>
         </div>
 
     </main>
@@ -320,7 +284,7 @@ fn MessageRoot(props: &Message) -> Html {
 
         <div class="content">
             <header>
-                <a class="author">{ props.author_name.clone()}</a>
+                <a class="author can-gradient-slide">{ props.author_name.clone()}</a>
                 <time class="has-tooltip" data-tippy-content={props.datetime_full.clone()}>{ props.datetime_full.clone() }</time>
             </header>
             <div class="content">
@@ -362,13 +326,7 @@ fn SidebarIcon(props: &SidebarIconStruct) -> Html {
 fn ExpandableTextarea() -> Html {
     html! {
     // The textarea div cannot be void or else it cannot be edited.
-    <div 
-    class="expandable-textarea"
-    id="message-box"
-    role="textbox"
-    contenteditable="true"
-    placeholder="send a message">
-    </div>
+    
     }
 }
 
@@ -531,7 +489,7 @@ fn Slider() -> Html {
 }
 
 // Constructer for most recent editions packets
-fn construct_packet() { 
+// fn construct_packet() { 
     /* LOGIC FLOW:
     if no connection established: 
         establish connection
@@ -563,12 +521,12 @@ fn construct_packet() {
     
     send package
      */
-}
+// }
 
-fn construct_packet_e2023() { 
-    // since e2023 is the most recent we just call the standard contructor
-    construct_packet() 
-}
+// fn construct_packet_e2023() { 
+//     // since e2023 is the most recent we just call the standard contructor
+//     construct_packet() 
+// }
 
 pub fn render_app() {
     // yew::Renderer::<App>::new().render();
