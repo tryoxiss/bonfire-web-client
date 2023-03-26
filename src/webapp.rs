@@ -64,6 +64,7 @@ impl Component for App {
         match msg {
             Msg::UpdateContent => {
                 if let Some(div) = self.expandable_textarea_ref.cast::<web_sys::HtmlElement>() {
+                    // self.content = div.inner_html();
                     self.content = div.inner_text();
                 }
                 true
@@ -139,8 +140,8 @@ impl Component for App {
             
             <MessageRoot author_name="Doggo" content="aaaaa" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
             <MessageConsecutive content="yummy!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-                    
-            <p>{ self.content.clone() }</p>
+               
+            <MessageRoot author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" content={self.content.clone()} />
 
         </ul>
 
@@ -276,6 +277,20 @@ pub struct Message {
     unix_time: i64,
 }
 
+// fn send_message() { 
+     /*
+        Sanatise Content
+        
+        Create Element
+
+        Fihure out type (Root or Consec)
+
+        Render to DOM
+
+        (ALLOWING HTML CONTENT INSIDE IT)
+      */
+// }
+
 #[function_component]
 fn MessageRoot(props: &Message) -> Html {
     html! {
@@ -288,7 +303,9 @@ fn MessageRoot(props: &Message) -> Html {
                 <time class="has-tooltip" data-tippy-content={props.datetime_full.clone()}>{ props.datetime_full.clone() }</time>
             </header>
             <div class="content">
-                <p>{ props.content.clone() }</p>
+                {html! { 
+                    props.content.clone()
+                }}  
             </div>
         </div>
     </li>
