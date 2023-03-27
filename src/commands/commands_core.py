@@ -18,6 +18,14 @@ def slash_command(function):
 
     return wrapper
 
+# UNTESTED FUNCTION
+def command_alias(function):
+    def wrapper(message):
+        @slash_command
+        function(message)
+
+    return wrapper
+
 
 class client: 
     def __init__(): 
