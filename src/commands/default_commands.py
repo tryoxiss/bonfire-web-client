@@ -1,20 +1,25 @@
-from commands_core import slash_command, client
-from commands_core import command_tools as ct
+from commands_header import slash_command, client
+from commands_header import command_tools as ct
 import re as regex
 from datetime import timedelta, datetime
-import uuid as guid
 
 IS_DEBUG_MODE = True
 
-@slash_command
-def ban(args): # /ban {user} [duration] [reason] -- UNFINISHED
+# _duration: str = ""
+# THIS IS A TERRIBLE WAY OF DOING THIS! I want to allow for bans with both 
+# no duration and no message, and adding the default empty string is the
+# only real way to do that :/
 
+@slash_command
+def ban(user: str, _duration: str = "", *reason): # _ means OPTIONAL __NOT__ UNUSED
     __ARGUMENTS__ = ["@mention or guid", "Duration (optional)", "Reason"]
 
-    user = args[0]
-    expires = args[1]
-    reason = ""
-    reason = ct.args_to_string(2, args)
+    expires = _duration
+    str_reason = ""
+
+    str_reason = ct.args_to_string(reason)
+    
+    print(str_reason)
 
     if regex.search("[0-9]+[y, d, w, m]", expires.lower()):
         expires = expires.lower()
@@ -39,45 +44,36 @@ def ban(args): # /ban {user} [duration] [reason] -- UNFINISHED
             expires = int(expires.rstrip("w")) * 7
         elif "d" in expires: # Day
             expires = int(expires.rstrip("d"))
+        
+        reason = str_reason
     else: 
-        reason = expires + " " + reason
+        reason = expires + " " + str_reason
         expires = "never"
 
-    if expires != "never":
-        lifted_on = datetime.today() + timedelta(days=expires, hours=1)
+    reason = reason.rstrip(" ").lstrip(" ")
 
     if expires == "never": 
         client.print(f"Banned {user} for \"{reason}\" indefintely.")
     else: 
+        lifted_on = datetime.today() + timedelta(days=expires, hours=1)
         client.print(f"Banned {user} for \"{reason}\". This ban will be lifed on {lifted_on.strftime('%d/%b/%Y at %H:00')}.")
 
     client.CREATE(content=reason, expires=expires)
 
-@slash_command
-def whois(args): 
-    __ARGUMENTS__ = ["User (@mention or guid)"]
-    pass
 
+#// EMOTE BLOCK (NOT WORKING)
 @slash_command
-def clear(args): 
-    __ARGUMENTS__ = ["Messages to delete"]
-    pass
-
-#// EMOTE BLOCK
-@slash_command
-def e(args): 
+def e(*message): 
     __ARGUMENTS__ = ["Emote", "Message"]
-    message = ct.args_to_string(0, args)
+    message = ct.args_to_string(message)
     emote(f"/emote {message}")
 
 @slash_command
-def emote(args): 
+def emote(EMOTE, *message): 
     __ARGUMENTS__ = ["Emote", "Message"]
 
-    EMOTE = args[0]
     kaomoji = ""
-
-    message = ct.args_to_string(1, args)
+    message = ct.args_to_string(message)
 
     match EMOTE: 
         case "shrug": 
@@ -99,6 +95,8 @@ def emote(args):
         case "spell": 
             kaomoji = "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆"
         case "magic": 
+            kaomoji = "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆"
+        case "cast": 
             kaomoji = "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆"
         case "joy": 
             kaomoji = "(* ^ ω ^)"

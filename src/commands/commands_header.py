@@ -1,31 +1,34 @@
 import uuid as guid
+import time
+
+"""
+commands_header is a python file that contains functions required or useful
+or writing slash commands for codename bonfire.
+
+Alternate names: 
+commands.h.py
+"""
 
 # This file contains botting functions you will likely need!
 
 def slash_command(function):
-    def wrapper(message):
-        # Mostly a cosmedic decorator to tell the rust
-        # that the function is a slash command, and to
-        # add it to the index.
+    def wrapper(*args):
+        # Mostly a cosmedic decorator to tell the rust that the function is a
+        # slash command, and to add it to the index.
         #
-        # This also seperates the arguments into an
-        # array and removes the inital command name
-        # to make it easier to work with <3
-        args = message.split(" ")
+        # This also deals with some argument backend that needs to be done for 
+        # every command. 
+        args = args[0].split(" ")
         args.pop(0)
-        # print(args)
-        function(args)
-
+        function(*args)
     return wrapper
 
-# UNTESTED FUNCTION
-def command_alias(function):
-    def wrapper(message):
-        @slash_command
-        function(message)
-
+def speed_test(function):
+    def wrapper(*args):
+        start_time = time.time_ns()
+        function(*args)
+        print(f"This command took {round((time.time_ns() - start_time) / 1_000_000, 2)}ms to complete!")
     return wrapper
-
 
 class client: 
     def __init__(): 
@@ -33,6 +36,11 @@ class client:
     
     def print(string: str): # Print a bot message/command response
         print(string)
+    
+    # :/ no, this does nothing right now.
+    def input(string: str): 
+        string = input()
+        return string
 
     def message(): # Print a message as the bot
         pass
@@ -131,17 +139,33 @@ class client:
         # like server pings.
         pass 
 
+
+
+### MIGHT REMOVE THE USER CLASS
+class user: 
+    """
+    Hands user related actions.
+    """
+    def get_guid16(username): 
+        pass
+
+    def get_account(identifier): 
+        """
+        The identifier can be an @ or GUID16
+        """
+        pass
+
+
+
 class command_tools: 
     gray = "\033[90m"
-    white = "\033[37m"
+    white = "\033[97m"
 
-    def args_to_string(lstrip: int, args): # Strip is number removed from the start
-        string = args
+    def args_to_string(args): # Strip is number removed from the start
+        string = ""
 
-        for i in range(lstrip):
-            string.pop(0)
-
-        string = ' '.join(string)
+        for i in range(len(args)): 
+            string += args[i] + " "
 
         return string
     
