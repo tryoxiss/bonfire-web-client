@@ -20,6 +20,35 @@ def slash_command(function):
         # every command. 
         args = args[0].split(" ")
         args.pop(0)
+
+        for i in range(len(*args)): 
+            pass
+            
+        ### LOGIC: 
+        # - Handle Flags (identify, create, and then put into kwargs)
+        #   - Cannot be in or after when a string is needed *UNLESS the tring 
+        #     is "quoted"
+        #   - must be after positional arguments, before a  multi-word string
+        #     paramater
+        #   - Identify quoted strings and remove quotes
+        # - Combine Strings (IF DESIRED BY METADATA VARIABLE 
+        #   (__COMBINE_STRINGS__ = True : Combine them! default: False))
+        # - identify types
+        #   - check for valid types 
+        #       - Int: 0-9, replacng "_", " ", ",", "." with "" or "_" to make 
+        #         it code readable
+        #       - Float: 0-9, ",", "." -- replace them both is a "". If multple
+        #         exist:
+        #           - Replace the more common one with "".
+        #           - If theres exactly one of each, whicever one comes last 
+        #             (right most), becomes the decmal, and the other becomes ""
+        #           - If more than one of both "," and "." exists: throw an error
+        #             and say you could not identify the decimal point. 
+        #   - convert to correct types (if none specified: String)
+        # - 
+
+        help(function)
+
         function(*args)
     return wrapper
 
