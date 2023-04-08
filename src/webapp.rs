@@ -75,7 +75,7 @@ impl Component for App {
     fn view(&self, ctx: &Context<Self>) -> Html {
         println!("Rendering App");
         html! { 
-<app class="ctp-mocha" logged_in_account="GUID" theme="ctp-mocha" app="Bonfire Server offical" version="0:1:14::beta" repository="github.com/tryoxiss/bonfire-server" main_authors="Khaim0919, Tryoxiss" licence="AGPL 3.0 (https://github.com/tryoxiss/bonfire-server/blob/main/LICENCE)" data-channel="Bonfire::Channel" data-group="Bonfire::Group">
+<app class="reduced-motion dyslexic-font" theme="ctp-mocha" metadata-app="Bonfire Server offical" metadata-version="0:1:14::beta" metadata-repository="github.com/tryoxiss/bonfire-server" metadata-main_authors="Khaim0919, Tryoxiss" metadata-licence="AGPL 3.0 (https://github.com/tryoxiss/bonfire-server/blob/main/LICENCE)">
 
     <div class="absolute-pane">
         // <Modal />
@@ -163,7 +163,7 @@ impl Component for App {
 
     </main>
 
-    <div role="profile"></div>
+    <MyProfile />
 </app>
         }
     }
@@ -290,6 +290,21 @@ pub struct Message {
         (ALLOWING HTML CONTENT INSIDE IT)
       */
 // }
+
+#[function_component]
+fn MyProfile(props: &Message) -> Html {
+    html! {
+    <div role="profile">
+        <div style="background-image: url(https://picsum.photos/id/237/200/300);" class="pfp">
+            <svg xmlns="http://www.w3.org/2000/svg" data-tippy-content="Idle" viewBox="0 0 384 512"><path d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg>
+        </div>
+        <div class="content">
+            <text>{"doggo"}</text>
+            <text class="muted">{"This is my status"}</text>
+        </div>
+    </div>
+    }
+}
 
 #[function_component]
 fn MessageRoot(props: &Message) -> Html {

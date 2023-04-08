@@ -117,6 +117,10 @@ supported on the web client version*/
     /* TIPPY NEEDS HARD-CODED VALUES AND WILL NOT ACCEPT VARIABLES */
 }
 
+.dyslexic-font { 
+    --font-main: 'Atkinson Hyperlegible';
+}
+
 main { 
     scrollbar-width: 6px;
 }
@@ -167,6 +171,9 @@ main ul {
 
     --color-1: var(--app-fg);
     --color-2: var(--app-fg);
+
+    /* --color-1: var(--default-blue-1);
+    --color-2: var(--default-violet-2); */
 }
 
 .author:hover { 

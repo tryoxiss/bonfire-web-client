@@ -1,0 +1,79 @@
+# This localisation file contains information about how to translate data. 
+# Strings can contain variables surrounded by [] in some cases/ 
+# This is NOT a yaml file (but we use the extension as it is very simillar syntactically).
+# This is a lace (.lce) file, our own custom localisation and translation system.
+# We don't have a full spec, and probably won't for a while, but feel free to ask
+# @tryoxiss any questions you have about it!
+#
+# 
+# For example: 
+# Sent on [time:datetime_full]
+# Some can take arguments, for example time can take the time and check if its in the last 24 hours. the most recent viable one will always be used. 
+
+## This particular file exists to show you an example of atranslated languge.
+
+[.metadata]
+iso_code: null # wait what? https://sadale.net/70/toki-pona-has-gained-iso-639-3-language-code
+prefered_code: en-UWU
+region: "The Woworld"
+fallback_display_name: "Enguwuish?"
+pack_credits: [
+  "tryoxiss (translator)",
+]
+
+[messages]
+sent_time(scope:24h): "tuwuday at [time:time_hh_mm]"
+sent_time(scope:48h): "yestuwuday at [time:time_hh_mm]"
+sent_time: "Sent owon [time:date_full] at [time:time_hh_mm]"
+placeholder: "Send a message towo [bonfire:channel]"
+
+[groups]
+group_members_total: "[:n] Possible Chairs"
+group_members_online: "[:n] Peowople to get PETTIES from!!11!"
+
+[permissions]
+require_e2e: "Rewire end-towo-end encwyption?"
+view_channel: "Invade Bedroom"
+view_audit_log: "See Feeding Histry"
+view_message_history: "View Battle Plan"
+
+manage_channel: "Take Ownership of room"
+manage_roles: "Manage Battle Sstrategies"
+manage_emoji: "Manage Petting Methods"
+manage_webhooks: "Manage Auto-Affirmations"
+manage_bots: "Manage auto-petters"
+manage_guild: "Manage Household"
+manage_alias: "Manage Petnames"
+manage_messages: "Manage Battle Plans"
+manage_threads: "Manage Unit Plans"
+manage_events: "Manage Feeding Time"
+
+edit_alias: "Change Petname"
+kick: "Evict Meanie >:3" &assosiate tips:tip_kick
+ban: "PERMENETLY Evict Meanie >:3"
+mute_others: "Silence Hooman"
+move_members: "Remove from MY spot!!"
+force_voice_mute: "Voice Mute Members"
+force_voice_deafen: "Deafen Users"
+
+add_react: "Allow Petting!"
+
+[tips]
+tip_kick: "If sowomeone being meanie use button to evict from my house!!"
+
+[language options]
+language_english-SIMPLIFIED: "Inferwior English"
+language_en-UK_name: "Beiwitish ENgwish (ugwy)"
+language_tokipona: "Other Cute Wanguge!"
+
+# Variable sections (TOUCHING MAY BREAK LANGUAGE PACKS THAT USE THEM. The main tochuing use is to change the date or time format.)
+# The dictionary is reserved for autofilled sections, you just need to define what your sorcing it from. 
+[DICTIONARY] {
+
+[time]
+time_hh_mm: os.time(HH:MM)
+
+[bonfire]
+channel: bonfire.channel::current
+
+}
