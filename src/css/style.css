@@ -137,6 +137,12 @@ main ul {
     --message-box-buttons: 1;
 }
 
+ul { list-style:disc; } /* TO ALL UL LEVELS */
+ol { list-style: decimal; }
+ol > ol { list-style: lower-alpha; }
+ol > ol > ol { list-style: decimal; }
+ol > ol > ol > ol { list-style: lower-roman; }
+
 /* ☢️ You're playing a dangrous game, girl!
  * -----------------------------------------
  * Removing the outline on content makes it harder for people who navigate with 
