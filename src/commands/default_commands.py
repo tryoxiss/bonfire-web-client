@@ -1,4 +1,4 @@
-from commands_header import slash_command, client
+from commands_header import slash_command, client, speed_test
 from commands_header import command_tools as ct
 import re as regex
 from datetime import timedelta, datetime
@@ -11,7 +11,7 @@ IS_DEBUG_MODE = True
 # only real way to do that :/
 
 @slash_command
-def ban(user: str, _duration: str = "", *reason): # _ means OPTIONAL __NOT__ UNUSED
+def ban(user: str, _duration: str = "", *reason, **flags): # _ means OPTIONAL __NOT__ UNUSED
     __ARGUMENTS__ = ["@mention or guid", "Duration (optional)", "Reason"]
 
     expires = _duration
@@ -34,14 +34,10 @@ def ban(user: str, _duration: str = "", *reason): # _ means OPTIONAL __NOT__ UNU
         # wants it in DAYS only. Yes, this creates some bugs. For example
         # 12 months is 360 days, not 365 like you might expect.
         # But its close enough for real world use cases.
-        if   "y" in expires:  # Year
-            expires = int(expires.rstrip("y")) * 365
-        elif "m" in expires: # Month
-            expires = int(expires.rstrip("m")) * 30
-        elif "w" in expires: # Week
-            expires = int(expires.rstrip("w")) * 7
-        elif "d" in expires: # Day
-            expires = int(expires.rstrip("d"))
+        if   "y" in expires: expires = int(expires.rstrip("y")) * 365 # Year
+        elif "m" in expires: expires = int(expires.rstrip("m")) * 30  # Month
+        elif "w" in expires: expires = int(expires.rstrip("w")) * 7   # Week
+        elif "d" in expires: expires = int(expires.rstrip("d"))       # Day
         
         reason = str_reason
     else: 
@@ -58,6 +54,25 @@ def ban(user: str, _duration: str = "", *reason): # _ means OPTIONAL __NOT__ UNU
 
     client.CREATE(content=reason, expires=expires)
 
+@slash_command
+def help(command, *string, **flags): 
+    client.print(help(command))
+
+@slash_command
+def updateyourdamnclient(*string, **flags): 
+
+    feature_1 = "meowing amazing"
+    feature_2 = "meoww?"
+    version = "1.0.2"
+    client.announce(f"""
+    UPDATE YOUR DAMN CLIENT! The most recent is version {version} and has many improvements, such as:
+    - {feature_1}
+    - {feature_2}
+    - better performance
+    - improved security
+
+    *Your unwillingness to update your apps will be your downfall, especially if you use windows.* It's not just features, it's security too (*Gives Evil Stare*)
+    """)
 
 #// EMOTE BLOCK (NOT WORKING)
 @slash_command
@@ -67,98 +82,77 @@ def e(*message):
     emote(f"/emote {message}")
 
 @slash_command
-def emote(EMOTE, *message): 
+def emote(EMOTE, *message, **flags): 
     __ARGUMENTS__ = ["Emote", "Message"]
 
     kaomoji = ""
     message = ct.args_to_string(message)
 
-    match EMOTE: 
-        case "shrug": 
-            kaomoji = "¯\_(ツ)_/¯"
-        case "cry":
-            kaomoji = "(╥﹏╥)"
-        case "blush": 
-            kaomoji = "(⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)"
-        case "shy": 
-            kaomoji = "(⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)"
-        case "greet":
-            kaomoji = "(*・ω・)ﾉ"
-        case "sorry": 
-            kaomoji = "(シ_ _)シ"
-        case "hug": 
-            kaomoji = "(つ≧▽≦)つ"
-        case "sleep": 
-            kaomoji = "(－ω－) zzZ"
-        case "spell": 
-            kaomoji = "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆"
-        case "magic": 
-            kaomoji = "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆"
-        case "cast": 
-            kaomoji = "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆"
-        case "joy": 
-            kaomoji = "(* ^ ω ^)"
-        case "sparkles-joy": 
-            kaomoji = "☆*:.｡.o(≧▽≦)o.｡.:*☆"
-        case "sparkles": 
-            kaomoji = "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧"
-        case "love": 
-            kaomoji = "(≧◡≦) ♡"
-        case "devious": 
-            kaomoji = "(・`ω´・)"
-        case "angry": 
-            kaomoji = "ヽ(`⌒´メ)ノ"
-        case "sob": 
-            kaomoji = ".･ﾟﾟ･(／ω＼)･ﾟﾟ･."
-        case "hurt": 
-            kaomoji = "☆⌒(>。<)"
-        case "scared": 
-            kaomoji = "..・ヾ(。＞＜)シ"
-        case "wow": 
-            kaomoji = "w(°ｏ°)w"
-        case "wave": 
-            kaomoji = "ヾ(・ω・*)"
-        case "sparkle-hug": 
-            kaomoji = "(つ✧ω✧)つ"
-        case "nyoom": 
-            kaomoji = "─=≡Σ((( つ＞＜)つ"
-        case "sleep": 
-            kaomoji = "(－ω－) zzZ"
-        case "sing": 
-            kaomoji = "(￣▽￣)/♫•*¨*•.¸¸♪"
-        case "song": 
-            kaomoji = "(￣▽￣)/♫•*¨*•.¸¸♪"
-        case "facepalm": 
-            kaomoji = "(－‸ლ)"
-        case "tableflip": 
-            kaomoji = " ( ╯°□°)╯ ┻━━┻"
-        case "unflip": 
-            kaomoji = "(╮°-°)╮┳━━┳"
-        case "innocent": 
-            kaomoji = "(◕‿◕✿)"
-        case "lazy": 
-            kaomoji = "_(:3 」∠)_"
-        case _:
-            client.print(f"No kaomoji \"{EMOTE}\" found.")
+    index = { 
+        # "name": "replace with",
+        "shrug": "¯\_(ツ)_/¯",
+        "cast": "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆",
+        "spell": "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆",
+        "magic": "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆",
+        "cry": "(╥﹏╥)",
+        "blush": "(⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)",
+        "shy": "(⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)",
+        "greet": "(*・ω・)ﾉ",
+        "sorry": "(シ_ _)シ",
+        "hug": "(つ≧▽≦)つ",
+        "sleep": "(－ω－) zzZ",
+        "joy": "(* ^ ω ^)",
+        "sparkles-joy": "☆*:.｡.o(≧▽≦)o.｡.:*☆",
+        "sparkles": "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧",
+        "love": "(≧◡≦) ♡",
+        "devious": "(・`ω´・)",
+        "angry": "ヽ(`⌒´メ)ノ",
+        "sob": ".･ﾟﾟ･(／ω＼)･ﾟﾟ･.",
+        "hurt": "☆⌒(>。<)",
+        "scared": "..・ヾ(。＞＜)シ",
+        "wow": "w(°ｏ°)w",
+        "wave": "ヾ(・ω・*)",
+        "exited-hug": "(つ✧ω✧)つ",
+        "nyoom": "─=≡Σ((( つ＞＜)つ",
+        "sleep": "(－ω－) zzZ",
+        "sing": "(￣▽￣)/♫•*¨*•.¸¸♪",
+        "song": "(￣▽￣)/♫•*¨*•.¸¸♪",
+        "facepalm": "(－‸ლ)",
+        "tableflip": "( ╯°□°)╯ ┻━━┻",
+        "unflip": "(╮°-°)╮┳━━┳",
+        "innocent": "(◕‿◕✿)",
+        "lazy": "_(:3 」∠)_",
+    }
+
+    if EMOTE == "--list": 
+        client.warn("This is not designed to be visually appealing yet! This is just the raw code!")
+        client.print(index)
+
+    try: 
+        message += f" {index[EMOTE]}"
+    except: 
+        client.print("So such kaomoji \"EMOTE\" found. You can add it in settings. Use the --list or -l flag to see all kaomoji in your list!")
+    
+    client.message_box_content(message)
 
     # IDEAS: Greet, Love, Happy, Etc. 
     # List: http://kaomoji.ru/en/
 
-    message += f" {kaomoji}"
-
-    client.message_box_content(message)
-
-
 ###############################################################################
 # BEGIN DEBUG BLOCK                                                           #
+# --------------------------------------------------------------------------- #
+# This cant be in the header, but copy+paste this into your file to have a    #
+# command line test interface. The dev enviornment in our official client     #
+# automatically injects this code at the end on program run.                  #
 ###############################################################################
 
-while IS_DEBUG_MODE:
-    user_input = input(f"{ct.gray}Input: {ct.white}")
+while IS_DEBUG_MODE == True:
+    user_input = input(f"{ct.gray}  Input: {ct.white}")
     if user_input.startswith("/"): 
-        command_func = user_input.lstrip("/").split(" ")
-        globals()[command_func[0]](user_input)
+        try: 
+            command_func = user_input.lstrip("/").split(" ")
+            globals()[command_func[0]](user_input)
+        except: 
+            client.error(f"No such command \"/{command_func[0]}\"")
     elif user_input.startswith("exit") or user_input.startswith("quit"):
         exit(1)
-    else:
-        print(user_input)

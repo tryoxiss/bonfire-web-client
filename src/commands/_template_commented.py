@@ -1,4 +1,4 @@
-from commands_core import slash_command, client
+from commands_header import slash_command, client
 # from commands_core import command_tools as ct # This is useful if you want to do more stuff
 
 # Welcome to the command script template! We hope this helps ease you into botting
@@ -13,7 +13,7 @@ from commands_core import slash_command, client
 # function be be processed.
 
 @slash_command # <-- This is important, as it does a lot of heavy lifting for you and tells your client to treat it as a slash command.
-def my_command(arg1, arg2, *string_collector):
+def my_command(arg1, arg2, *string_collector, **flags):
     # Define your arguments. This is how the end user knows what to put in each field. If this dosen't exist, we will instead show the variable names.
     __ARGUMENTS__ = ["Argument 1", "Argument 2", "Argument 3"] 
 
@@ -29,8 +29,6 @@ def my_command(arg1, arg2, *string_collector):
     #
     # We also have a more specific guide on comman creation here: 
     # HTTPS://LINK-TO/BONFIRE-COMMAND-TUTORIAL
-
-    # Keep in mind: arguments start at 0!
 
 # Any client.CALL_CAPS functions are *ADVANCED* and require knowlege of the protocol
 # amoung other things, and can be very dangorus if played with when you don't know

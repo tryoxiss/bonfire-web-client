@@ -666,10 +666,6 @@ main ul {
     scrollbar-color: var(--accent-fg) var(--base-color);
 }
 
-li:hover time { 
-    color: var(--muted-fg);
-}
-
 .message-area { 
     border-top: 1px solid var(--border-fg);
     background: var(--message-area-bg);
@@ -873,4 +869,48 @@ app script::before {
     border-bottom: 2px solid var(--danger-fg);
     display: block;
     content: "THIS IS A SCRIPT THAT WAS INJECTED BY SOMEONE IN THIS CHAT. We have done our best to prevent this sort of data injection and drive-by attacks, but the script may be live. Please report this vulnerability to https://github.com/tryoxiss/bonfire-server. It dosent matter if you don't know how it happened. ";
+}
+
+[role="profile"] { 
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+}
+
+[role="profile"] > * { 
+    margin: 0.5rem;
+    margin-right: 0px;
+}
+
+[role="profile"] .content { 
+    margin: 0.5rem 0px;
+    margin-right: 0.5rem;
+    padding: 0.25rem;
+}
+
+[role="profile"] .content * { 
+    margin: 0px;
+}
+
+[role="profile"]:hover { 
+    background-color: var(--main-bg);
+    cursor: pointer;
+}
+
+.pfp { 
+    position: relative;
+
+    --status-color: var(--default-yellow-1);
+}
+
+/* TODO: --border-icon-radius is DEPRCIATED. it should be replaced with whatever the new one is called. */
+.pfp svg { 
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    background-color: var(--channels-bar-bg);
+    padding: 2px;
+    border-radius: var(--border-icon-radius);
+
+    fill: var(--status-color)
 }

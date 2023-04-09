@@ -20,14 +20,69 @@ def slash_command(function):
         # every command. 
         args = args[0].split(" ")
         args.pop(0)
-        function(*args)
+            
+        ### LOGIC: 
+        # - Handle Flags (identify, create, and then put into kwargs)
+        #   - Cannot be in or after when a string is needed *UNLESS the tring 
+        #     is "quoted"
+        #   - must be after positional arguments, before a  multi-word string
+        #     paramater
+        #   - Identify quoted strings and remove quotes
+        # - Combine Strings (IF DESIRED BY METADATA VARIABLE 
+        #   (__COMBINE_STRINGS__ = True : Combine them! default: False))
+        # - identify types
+        #   - check for valid types 
+        #       - Int: 0-9, replacng "_", " ", ",", "." with "" or "_" to make 
+        #         it code readable
+        #       - Float: 0-9, ",", "." -- replace them both is a "". If multple
+        #         exist:
+        #           - Replace the more common one with "".
+        #           - If theres exactly one of each, whicever one comes last 
+        #             (right most), becomes the decmal, and the other becomes ""
+        #           - If more than one of both "," and "." exists: throw an error
+        #             and say you could not identify the decimal point. 
+        #   - convert to correct types (if none specified: String)
+
+        ## Also we want it to look at the paramaters needed and allow skipping of optional paramaters by providing null [MAYBE]
+
+        # All caps flags are handled by this and NOT PASSED ON. So for example
+        # --SPEED-TEST will also return the time the command took to run.
+
+        # client.fatal("Test Fatal")
+        # client.error("Test Error")
+        # client.warn("Test Warn")
+        # client.info("Test Info")
+        # client.print("Test Print")
+
+        # Please find a better way to name this. Or even better, don't need a variable just check in the if statement
+        SPEED_TEST_FLAG = False
+
+        if SPEED_TEST_FLAG == True: 
+            start_time = time.time_ns()
+            function(*args)
+            # client.info(f"This command took {round((time.time_ns() - start_time) / 1_000_000, 2)}ms to complete!")
+            # client.info(f"This command took {time.time_ns() - start_time} NANOSECCONDS to complete!")
+        else: 
+            function(*args)
     return wrapper
 
 def speed_test(function):
     def wrapper(*args):
-        start_time = time.time_ns()
+
+        try: 
+            start_time = time.time_ns()
+        except:
+            client.error("Failed to get the time value.")
         function(*args)
-        print(f"This command took {round((time.time_ns() - start_time) / 1_000_000, 2)}ms to complete!")
+
+        if (time.time_ns() - start_time) >= 10_000: 
+            client.info(f"This command took {round((time.time_ns() - start_time) / 1_000_000, 2)}ms to complete!")
+        elif (time.time_ns() - start_time) == 0:
+            client.warn("The speed test function seems to be bugged, since it returned 0 nanosecconds.")
+        elif (time.time_ns() - start_time) < 0:
+            client.warn("The speed test function seems to be bugged, since it returned a negative value.")
+        else: 
+            client.info(f"This command took {time.time_ns() - start_time} NANOSECCONDS to complete!")
     return wrapper
 
 class client: 
@@ -37,10 +92,34 @@ class client:
 
     def __init__(): 
         print("No __init__ needed!")
+
+    def announce(string: str): 
+        """Print a bot message for all* to see! * = sent as if it was a user account but with a bot tag."""
+        print(f"\033[0m\033[90mAnounce:{command_tools.white} {string}")
     
     def print(string: str): # Print a bot message/command response
-        print(string)
+        """Print a bot message that only the commands runner can see."""
+        print(f"\033[0m\033[90m  Print:{command_tools.white} {string}")
+
+    def fatal(string: str, *, type="", command=""): 
+        """Print an fatal error message for your bot. """
+        print(f"  \033[0m\033[41m\033[97mFatal:{command_tools.white} \033[47m\033[30m{string}{command_tools.white}")
     
+    def error(string: str, *, type="", command=""): 
+        """Print an error message for your bot. """
+        print(f"\033[0m\033[91m  Error:{command_tools.white} {string}")
+
+    def warn(string: str, *, type="", command=""): 
+        """Print an warning for your bot. Will only show up in the terminal
+        and when your debug level is set to warn or higher."""
+        print(f"\033[0m\033[93mWarning:{command_tools.white} {string}")
+
+    def info(string: str, *, type="", command=""): 
+        """Print debug info as your bot. Will only show up in the terminal
+        and when your debug level is set to info."""
+        print(f"\033[0m\033[96m   Info:{command_tools.white} {string}")
+    
+
     # :/ no, this does nothing right now.
     def input(string: str): 
         string = input()
@@ -164,8 +243,8 @@ class user:
 
 
 class command_tools: 
-    gray = "\033[90m"
-    white = "\033[97m"
+    gray = "\033[0m\033[90m"
+    white = "\033[0m\033[97m"
 
     def args_to_string(args): # Strip is number removed from the start
         string = ""
@@ -180,15 +259,12 @@ class command_tools:
         if identifer.startswith("@"): MODE = "HANDLE"
         else:                         MODE = "GUID"
 
-
-        profile = { 
+        return { 
             'guid': 0,
             'handle': '@username',
             'instane': 'instace.tld',
             'display_name': "Display Name",
         }
-
-        return profile
     
     def handle_guid(guid: str, base: int) -> int: 
         binary_guid = []
