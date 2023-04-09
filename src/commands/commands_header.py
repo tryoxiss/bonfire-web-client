@@ -31,6 +31,10 @@ def speed_test(function):
     return wrapper
 
 class client: 
+    """
+    Interact with the users client. This is the main class you will interact with. 
+    """
+
     def __init__(): 
         print("No __init__ needed!")
     
@@ -56,14 +60,16 @@ class client:
         pass
 
 
-    def CONNECT(): 
+    # *, paramater will eat ALL positional arguments, making them all 
+    # need to be keyword only
+    def CONNECT(*, edition="2023", server: str): 
         """
         Used to establishing connections. Does nothing and will not be 
         added here as bots have no need to do this.
         """
         pass
 
-    def CREATE(**packet): 
+    def CREATE(*, edition="2023", type="message", language, author, adressed, time, content: str): 
         """
         An advanced function to send a CREATE request to the server. Create 
         requests create content on the server such as a message, oreaction,
@@ -80,7 +86,7 @@ class client:
         """
         pass
 
-    def EDIT(packet: str): 
+    def EDIT(*, edition="2023", type="message", target, time, content: str): 
         """
         An advanced function to send a EDIT request to the server. Edit 
         requests edit existing contnt on the server: think of editing a
@@ -88,7 +94,7 @@ class client:
         """
         pass
 
-    def REMOVE(packet: str): 
+    def REMOVE(*, edition="2023", target): 
         """
         An advanced function to send a REMOVE request to the server. Remove
         requests remove the content from anyone but the owners view, but 
@@ -99,14 +105,14 @@ class client:
         """
         pass
 
-    def DELETE(packet: str): 
+    def DELETE(*, edition="2023", target): 
         """
         An advanced function to send a DELETE request to the server. Delete
         requests permently delete content from the server. 
         """
         pass
 
-    def DESTORY(packet: str): 
+    def DESTORY(*, edition="2023", target): 
         """
         An advanced function to send a DESTROY request to the server. Destroy
         requests don't just delete the content, they also whipe over it with
@@ -114,13 +120,13 @@ class client:
         even with physical access to the server. 
         
         Please think carefully if you really need this kind of request, as your 
-        data will likely be written over soon anyway and this degrades server 
+        data will likely be written over soon anyway, and this degrades server 
         architecture much faster than it otherwise would. Not all instances
         allow sending DESTROY requests and will instead change them to DELETE.
         """
         pass
 
-    def GET(packet: str):
+    def GET(*, edition="2023", type, range):
         """
         An advanced function to send a GET request to the server. Get requests
         retrieve data and return it to you. You can specify what paramaters you
@@ -128,7 +134,7 @@ class client:
         """
         pass
 
-    def REQUEST(packet: str):
+    def REQUEST(*, edition="2023", **keyword_args):
         """
         An advanced function to send ANY type of request. Thos function adds
         no data header, letting you create it on your own entirely. 

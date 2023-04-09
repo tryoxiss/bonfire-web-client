@@ -18,8 +18,6 @@ def ban(user: str, _duration: str = "", *reason): # _ means OPTIONAL __NOT__ UNU
     str_reason = ""
 
     str_reason = ct.args_to_string(reason)
-    
-    print(str_reason)
 
     if regex.search("[0-9]+[y, d, w, m]", expires.lower()):
         expires = expires.lower()
