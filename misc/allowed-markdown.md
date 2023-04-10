@@ -68,3 +68,8 @@ for random: content
 ---
 
 MAYBE: [[wikilink]] `[[wikilink]]` 
+
+
+## Optional find/replace (avalible everywehre)
+
+`--` = `—` (emdash)

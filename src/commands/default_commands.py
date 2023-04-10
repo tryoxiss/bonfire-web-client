@@ -1,9 +1,26 @@
-from commands_header import slash_command, client, speed_test
+from commands_header import slash_command, client, alias
 from commands_header import command_tools as ct
 import re as regex
 from datetime import timedelta, datetime
 
 IS_DEBUG_MODE = True
+
+@slash_command
+def nick(*nickname, **flags): 
+    nickname = ct.args_to_string(nickname)
+
+    if "user" in flags: 
+        client.info("We currently only handle nicknaming yoursself in this script.")
+    else: 
+        nickname = f"{nickname}"
+        client.set_nick(nickname)
+
+@slash_command
+def kick(user: str, *reason, **flags): 
+    client.REMOVE(edition="2023", 
+                  type="kick", 
+                  target="GUID", 
+                  content=reason)
 
 # _duration: str = ""
 # THIS IS A TERRIBLE WAY OF DOING THIS! I want to allow for bans with both 
@@ -13,14 +30,23 @@ IS_DEBUG_MODE = True
 @slash_command
 def ban(user: str, _duration: str = "", *reason, **flags): # _ means OPTIONAL __NOT__ UNUSED
     __ARGUMENTS__ = ["@mention or guid", "Duration (optional)", "Reason"]
+    
+    DEBUG = True # Set this based on a flag. Check with if DEBUG: client.info("String ...").
+
+    if "--debug" in flags: 
+        DEBUG = True
+        client.info("Debug flag detected: Switching to debug mode!")
 
     expires = _duration
-    str_reason = ""
 
-    str_reason = ct.args_to_string(reason)
+    reason = ct.args_to_string(reason)
+
+    if DEBUG: client.debug("Scanning time field")
 
     if regex.search("[0-9]+[y, d, w, m]", expires.lower()):
         expires = expires.lower()
+
+        if DEBUG: client.debug("Found time field")
 
         # Round up to the next closet hour, and checked for unbans every hour.
         # So if you ban someone at 21:15 or 21:59 on January 4th for 1 day 
@@ -39,12 +65,20 @@ def ban(user: str, _duration: str = "", *reason, **flags): # _ means OPTIONAL __
         elif "w" in expires: expires = int(expires.rstrip("w")) * 7   # Week
         elif "d" in expires: expires = int(expires.rstrip("d"))       # Day
         
-        reason = str_reason
+        reason = reason
+        if DEBUG: client.debug("Setting reason")
     else: 
-        reason = expires + " " + str_reason
+        if DEBUG: client.debug("No time found")
+        reason = expires + " " + reason
         expires = "never"
+        if DEBUG: client.debug("TIme set to indefinte")
 
+    if DEBUG: client.debug("Cleaning reason field")
     reason = reason.rstrip(" ").lstrip(" ")
+
+    client.info("No ban object is currently sent with the /ban command.")
+
+    # if DEBUG: client.info("Sending packet ...")
 
     if expires == "never": 
         client.print(f"Banned {user} for \"{reason}\" indefintely.")
@@ -52,43 +86,20 @@ def ban(user: str, _duration: str = "", *reason, **flags): # _ means OPTIONAL __
         lifted_on = datetime.today() + timedelta(days=expires, hours=1)
         client.print(f"Banned {user} for \"{reason}\". This ban will be lifed on {lifted_on.strftime('%d/%b/%Y at %H:00')}.")
 
-    client.CREATE(content=reason, expires=expires)
-
-@slash_command
-def help(command, *string, **flags): 
-    client.print(help(command))
-
-@slash_command
-def updateyourdamnclient(*string, **flags): 
-
-    feature_1 = "meowing amazing"
-    feature_2 = "meoww?"
-    version = "1.0.2"
-    client.announce(f"""
-    UPDATE YOUR DAMN CLIENT! The most recent is version {version} and has many improvements, such as:
-    - {feature_1}
-    - {feature_2}
-    - better performance
-    - improved security
-
-    *Your unwillingness to update your apps will be your downfall, especially if you use windows.* It's not just features, it's security too (*Gives Evil Stare*)
-    """)
 
 #// EMOTE BLOCK (NOT WORKING)
-@slash_command
-def e(*message): 
-    __ARGUMENTS__ = ["Emote", "Message"]
-    message = ct.args_to_string(message)
-    emote(f"/emote {message}")
 
 @slash_command
-def emote(EMOTE, *message, **flags): 
+def emote(EMOTE, *message, **flags):
     __ARGUMENTS__ = ["Emote", "Message"]
 
     kaomoji = ""
     message = ct.args_to_string(message)
 
     index = { 
+        # IDEAS: Greet, Love, Happy, Etc. 
+        # List: http://kaomoji.ru/en/
+
         # "name": "replace with",
         "shrug": "¯\_(ツ)_/¯",
         "cast": "(ﾉ>ω<)ﾉ :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆",
@@ -127,6 +138,7 @@ def emote(EMOTE, *message, **flags):
     if EMOTE == "--list": 
         client.warn("This is not designed to be visually appealing yet! This is just the raw code!")
         client.print(index)
+        return
 
     try: 
         message += f" {index[EMOTE]}"
@@ -135,8 +147,18 @@ def emote(EMOTE, *message, **flags):
     
     client.message_box_content(message)
 
-    # IDEAS: Greet, Love, Happy, Etc. 
-    # List: http://kaomoji.ru/en/
+
+@alias(emote)
+def e(*message): pass # Can be anything not necesarly *message
+
+@alias(emote)
+def kao(*message): pass
+
+@alias(emote)
+def kaomoji(*message): pass
+
+@alias(ban)
+def getoffmylawn(*message): pass
 
 ###############################################################################
 # BEGIN DEBUG BLOCK                                                           #
@@ -152,7 +174,14 @@ while IS_DEBUG_MODE == True:
         try: 
             command_func = user_input.lstrip("/").split(" ")
             globals()[command_func[0]](user_input)
+            # List of exceptions: https://www.programiz.com/python-programming/exceptions
+        except SyntaxError:
+            client.error("The command had an inernal syntax error.")
+        except KeyboardInterrupt: 
+            client.info("Process Stopped (KeyboardInterrupt)")
+        except MemoryError:
+            client.error("You do not have enough memory to run this command.")
         except: 
-            client.error(f"No such command \"/{command_func[0]}\"")
+            client.error(f"Either there is such command \"{user_input}\" or the command had an error it could not handle.")
     elif user_input.startswith("exit") or user_input.startswith("quit"):
         exit(1)

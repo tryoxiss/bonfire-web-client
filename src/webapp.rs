@@ -12,7 +12,10 @@ pub enum Msg {
 
 struct Guid { guid: u128 }
 
-
+// struct ChannelMessages {
+//     // channel_name: String,
+//     messages: <vec>
+// }
 
 struct App {
     expandable_textarea_ref: NodeRef,
@@ -39,9 +42,6 @@ impl Component for App {
         println!("Creating app (1/2)");
         println!("Mounting app (2/2)");
 
-        // let storage = StorageService::new(Area::Local);
-        // let Json(database) = storage.restore(KEY);
-        // let database = database.unwrap_or_else(|_| Database::new());
         Self { 
             expandable_textarea_ref: NodeRef::default(),
             content: String::new(),
@@ -66,6 +66,7 @@ impl Component for App {
                 if let Some(div) = self.expandable_textarea_ref.cast::<web_sys::HtmlElement>() {
                     // self.content = div.inner_html();
                     self.content = div.inner_text();
+                    div.set_inner_text("");
                 }
                 true
             }
@@ -130,19 +131,22 @@ impl Component for App {
         </header>
 
         <ul class="main-content">
-            <MessageRoot content="Hello world" author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-            <MessageConsecutive content="Hello world" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-            <MessageConsecutive content="Oooh treats!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            // <MessageRoot content="Hello world" author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            // <MessageConsecutive content="Hello world" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            // <MessageConsecutive content="Oooh treats!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
 
-            <MessageRoot content="Attribution: please keep until we have a proper credts popup." author_name="Doggo" time="20:47" datetime_full="24 March 2023 at 20:47" />
-            <MessageConsecutive content="Icons are from font awesome free. https://fontawesome.com/v6/icons/ (Attribution Required)" time="20:47" datetime_full="24 March 2023 at 20:47" />
-            <MessageConsecutive content="Default background image is by Lightscape and is from unsplash. https://unsplash.com/photos/LtnPejWDSAY (No attribution required, its just the reasonable person thing to do)" time="20:47" datetime_full="24 March 2023 at 20:47" />
+            // <MessageRoot content="Attribution: please keep until we have a proper credts popup." author_name="Doggo" time="20:47" datetime_full="24 March 2023 at 20:47" />
+            // <MessageConsecutive content="Icons are from font awesome free. https://fontawesome.com/v6/icons/ (Attribution Required)" time="20:47" datetime_full="24 March 2023 at 20:47" />
+            // <MessageConsecutive content="Default background image is by Lightscape and is from unsplash. https://unsplash.com/photos/LtnPejWDSAY (No attribution required, its just the reasonable person thing to do)" time="20:47" datetime_full="24 March 2023 at 20:47" />
             
-            <MessageRoot author_name="Doggo" content="aaaaa" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-            <MessageConsecutive content="yummy!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            // <MessageRoot author_name="Doggo" content="aaaaa" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            // <MessageConsecutive content="yummy!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
                
-            <MessageRoot author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" content={self.content.clone()} />
+            // <MessageRoot author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" content={self.content.clone()} />
 
+            // <br />
+
+        
         </ul>
 
         <div class="message-area placeholder-message">

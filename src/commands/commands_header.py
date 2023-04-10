@@ -12,14 +12,14 @@ commands.h.py
 # This file contains botting functions you will likely need!
 
 def slash_command(function):
-    def wrapper(*args):
+    def wrapper(*inputs):
         # Mostly a cosmedic decorator to tell the rust that the function is a
         # slash command, and to add it to the index.
         #
         # This also deals with some argument backend that needs to be done for 
         # every command. 
-        args = args[0].split(" ")
-        args.pop(0)
+        inputs = inputs[0].split(" ")
+        inputs.pop(0)
             
         ### LOGIC: 
         # - Handle Flags (identify, create, and then put into kwargs)
@@ -46,7 +46,8 @@ def slash_command(function):
         ## Also we want it to look at the paramaters needed and allow skipping of optional paramaters by providing null [MAYBE]
 
         # All caps flags are handled by this and NOT PASSED ON. So for example
-        # --SPEED-TEST will also return the time the command took to run.
+        # --SPEED will also return the time the command took to run.
+        # --DEBUG
 
         # client.fatal("Test Fatal")
         # client.error("Test Error")
@@ -59,11 +60,11 @@ def slash_command(function):
 
         if SPEED_TEST_FLAG == True: 
             start_time = time.time_ns()
-            function(*args)
+            function(*inputs)
             # client.info(f"This command took {round((time.time_ns() - start_time) / 1_000_000, 2)}ms to complete!")
             # client.info(f"This command took {time.time_ns() - start_time} NANOSECCONDS to complete!")
         else: 
-            function(*args)
+            function(*inputs)
     return wrapper
 
 def speed_test(function):
@@ -103,7 +104,7 @@ class client:
 
     def fatal(string: str, *, type="", command=""): 
         """Print an fatal error message for your bot. """
-        print(f"  \033[0m\033[41m\033[97mFatal:{command_tools.white} \033[47m\033[30m{string}{command_tools.white}")
+        print(f"  \033[0m\033[41m\033[97mFatal: {string}{command_tools.white}")
     
     def error(string: str, *, type="", command=""): 
         """Print an error message for your bot. """
@@ -116,9 +117,15 @@ class client:
 
     def info(string: str, *, type="", command=""): 
         """Print debug info as your bot. Will only show up in the terminal
-        and when your debug level is set to info."""
+        and when your debug level is set to info or higher."""
         print(f"\033[0m\033[96m   Info:{command_tools.white} {string}")
-    
+
+    def debug(string: str): 
+        """Print debug info as your bot. Will only show up in the terminal
+        and when your debug level is set to debug or the --debug (-d) flag is
+        included on run."""
+        print(f"\033[0m\033[92m  Debug:{command_tools.white} {string} ...")
+        
 
     # :/ no, this does nothing right now.
     def input(string: str): 
@@ -129,13 +136,13 @@ class client:
         pass
 
     def message_box_content(string: str): # Edits the message box content when enter is pressed. Used for commands like /shrug.
-        print(f"{command_tools.gray}Changed message content to:{command_tools.white} " + string)
+        print(f"{command_tools.gray}Changed message content to:{command_tools.white} {string}")
         pass
 
-    def get_message_list(channel: int): 
+    def get_message_list(channel: guid): 
         pass
 
-    def set_nick(string: str,  user: int): 
+    def set_nick(string: str, **flags): 
         pass
 
 
@@ -173,14 +180,16 @@ class client:
         """
         pass
 
-    def REMOVE(*, edition="2023", target): 
+    def REMOVE(*, edition="2023", target, conent=""): 
         """
         An advanced function to send a REMOVE request to the server. Remove
         requests remove the content from anyone but the owners view, but 
         does not delete any data. Useful if you want to possibly restore
         something later.
 
-        Remove is a shorthand for editing the privacy.
+        Remove is a shorthand for editing the privacy in many, but not all, 
+        cases. In cases where the content cannot be removed, (e.g., statuses, 
+        bios, etc), it will instead reset it to its default vallue.
         """
         pass
 
@@ -304,3 +313,15 @@ class command_tools:
                 convert_string = "0123456789abcdefghijkmnpqrstuvwx"
         
         return n
+
+
+
+import functools
+
+def alias(alias_function):
+    def _(_):
+        @functools.wraps(alias_function)
+        def _(*args, **kwargs):
+            return alias_function(*args, **kwargs)
+        return _
+    return _
