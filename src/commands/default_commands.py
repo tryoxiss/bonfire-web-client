@@ -33,20 +33,24 @@ def ban(user: str, _duration: str = "", *reason, **flags): # _ means OPTIONAL __
     
     DEBUG = True # Set this based on a flag. Check with if DEBUG: client.info("String ...").
 
+    # client.debug("If this prints, it works!")
+
     if "--debug" in flags: 
         DEBUG = True
-        client.info("Debug flag detected: Switching to debug mode!")
+        client.debug("Debug flag detected: Switching to debug mode!", True)
 
     expires = _duration
 
     reason = ct.args_to_string(reason)
 
-    if DEBUG: client.debug("Scanning time field")
+    client.debug("If this prints but not the others, this works", DEBUG)
+
+    client.debug("Scanning time field", DEBUG)
 
     if regex.search("[0-9]+[y, d, w, m]", expires.lower()):
         expires = expires.lower()
 
-        if DEBUG: client.debug("Found time field")
+        client.debug("Found time field", DEBUG)
 
         # Round up to the next closet hour, and checked for unbans every hour.
         # So if you ban someone at 21:15 or 21:59 on January 4th for 1 day 
@@ -66,19 +70,19 @@ def ban(user: str, _duration: str = "", *reason, **flags): # _ means OPTIONAL __
         elif "d" in expires: expires = int(expires.rstrip("d"))       # Day
         
         reason = reason
-        if DEBUG: client.debug("Setting reason")
+        client.debug("Setting reason", DEBUG)
     else: 
-        if DEBUG: client.debug("No time found")
+        client.debug("No time found", DEBUG)
         reason = expires + " " + reason
         expires = "never"
-        if DEBUG: client.debug("TIme set to indefinte")
+        client.debug("TIme set to indefinte", DEBUG)
 
-    if DEBUG: client.debug("Cleaning reason field")
+    client.debug("Cleaning reason field", DEBUG)
     reason = reason.rstrip(" ").lstrip(" ")
 
     client.info("No ban object is currently sent with the /ban command.")
 
-    # if DEBUG: client.info("Sending packet ...")
+    # if DEBUG: client.info("Sending packet", DEBUG)
 
     if expires == "never": 
         client.print(f"Banned {user} for \"{reason}\" indefintely.")
@@ -180,7 +184,7 @@ while IS_DEBUG_MODE == True:
         except KeyboardInterrupt: 
             client.info("Process Stopped (KeyboardInterrupt)")
         except MemoryError:
-            client.error("You do not have enough memory to run this command.")
+            client.error("You do not have enough memory to run this command... somehow? (these commands take like 100 bytes ._.)")
         except: 
             client.error(f"Either there is such command \"{user_input}\" or the command had an error it could not handle.")
     elif user_input.startswith("exit") or user_input.startswith("quit"):

@@ -120,12 +120,11 @@ class client:
         and when your debug level is set to info or higher."""
         print(f"\033[0m\033[96m   Info:{command_tools.white} {string}")
 
-    def debug(string: str): 
+    def debug(string: str, DEBUG=False): 
         """Print debug info as your bot. Will only show up in the terminal
         and when your debug level is set to debug or the --debug (-d) flag is
         included on run."""
-        print(f"\033[0m\033[92m  Debug:{command_tools.white} {string} ...")
-        
+        if DEBUG: print(f"\033[0m\033[92m  Debug:{command_tools.white} {string} ...")
 
     # :/ no, this does nothing right now.
     def input(string: str): 
