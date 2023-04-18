@@ -3,6 +3,8 @@ from commands_header import command_tools as ct
 import re as regex
 from datetime import timedelta, datetime
 
+# import argparse
+
 IS_DEBUG_MODE = True
 
 @slash_command
@@ -172,9 +174,12 @@ def getoffmylawn(*message): pass
 # automatically injects this code at the end on program run.                  #
 ###############################################################################
 
-while IS_DEBUG_MODE == True:
-    user_input = input(f"{ct.gray}  Input: {ct.white}")
-    if user_input.startswith("/"): 
+try: 
+    while IS_DEBUG_MODE == True: 
+        user_input = input(f"{ct.gray}  Input: {ct.white}")
+
+        if not user_input.startswith("/"): continue
+
         try: 
             command_func = user_input.lstrip("/").split(" ")
             globals()[command_func[0]](user_input)
@@ -185,7 +190,47 @@ while IS_DEBUG_MODE == True:
             client.info("Process Stopped (KeyboardInterrupt)")
         except MemoryError:
             client.error("You do not have enough memory to run this command... somehow? (these commands take like 100 bytes ._.)")
+        except AttributeError:
+            client.error("a `python:AttributeError` occured.")
+        except NotImplementedError: 
+            client.error("The feature you are trying to use here is not implemented yet.")
+            client.info("python:NotImplemented")
         except: 
-            client.error(f"Either there is such command \"{user_input}\" or the command had an error it could not handle.")
-    elif user_input.startswith("exit") or user_input.startswith("quit"):
-        exit(1)
+            client.error("An unknown error occured. This may be in your block or the commands header.")
+            # client.error(f"Either there is such command \"{user_input}\" or the command had an error it could not handle.")
+
+        if user_input.startswith("exit") or user_input.startswith("quit"): 
+            exit(1)
+except: 
+    SLASH_COMMAND_IMPORTED = False
+    CLIENT_IMPORTED = False
+    ALIAS_IMPORTED = False
+    COMMAND_TOOLS_IMPORTED = False
+
+    errors = 0
+
+    try: 
+        client.error("The command line interface loop failed.")
+    except: 
+        print("""\033[0m\033[91m  Error:\033[0m\033[97mThe client class is not imported!
+         If it IS imported, please make sure it is not renamed as that causes 
+         this diagnostic to fail, leading to false positives.""")
+        
+        exit(0)
+
+    try: 
+        @slash_command
+        def test_slash_imported_function(*arguments, **flags):
+            client.debug("Test Function")
+        test_slash_imported_function("argument")
+    except: client.error("Slash command decorator not imported!")
+    else: 
+        client.info("""All required modules appear to be imported.
+         If you got this error, that means you are likely using 
+         an unimported module.
+
+         Please check that you are not renaming any core modules 
+         as that will cause this diagnostic to fail.
+    """)
+        client.info("Exiting ... ")
+finally: print("wtf?")

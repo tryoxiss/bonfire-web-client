@@ -18,9 +18,38 @@ def slash_command(function):
         #
         # This also deals with some argument backend that needs to be done for 
         # every command. 
+
+        client.debug(f"Raw Input: {inputs}")
+
         inputs = inputs[0].split(" ")
         inputs.pop(0)
-            
+
+        client.debug(f"Split Input: {inputs}")
+
+        # print(inputs)
+
+        flag_indexes = []
+        flags = []
+
+        for index in range(len(inputs)):
+            if inputs[index].startswith("--"): 
+
+                flag_indexes.append(index)
+                flags.append(inputs[index].strip("--"))
+        client.debug("Finished scanning")
+
+        client.debug("Starting flag popping")
+
+        popped = 0
+        for flag in flag_indexes: 
+            inputs.pop(flag - popped)
+            popped += 1
+            # raise NotImplementedError
+
+        client.debug("Done flag popping")
+
+        client.debug(f"Flag Processed Input: {inputs}")
+
         ### LOGIC: 
         # - Handle Flags (identify, create, and then put into kwargs)
         #   - Cannot be in or after when a string is needed *UNLESS the tring 
@@ -94,6 +123,11 @@ class client:
     def __init__(): 
         print("No __init__ needed!")
 
+
+    # Print outputs
+    # TODO: Add formatting so that: 
+    #   - they will auto wrap after 80 characters
+    #   - newlines always start with enough spaces to line it up with the inital text start.
     def announce(string: str): 
         """Print a bot message for all* to see! * = sent as if it was a user account but with a bot tag."""
         print(f"\033[0m\033[90mAnounce:{command_tools.white} {string}")
@@ -120,11 +154,13 @@ class client:
         and when your debug level is set to info or higher."""
         print(f"\033[0m\033[96m   Info:{command_tools.white} {string}")
 
-    def debug(string: str, DEBUG=False): 
+    def debug(string: str, DEBUG=True): 
         """Print debug info as your bot. Will only show up in the terminal
         and when your debug level is set to debug or the --debug (-d) flag is
         included on run."""
         if DEBUG: print(f"\033[0m\033[92m  Debug:{command_tools.white} {string} ...")
+
+
 
     # :/ no, this does nothing right now.
     def input(string: str): 
@@ -135,7 +171,7 @@ class client:
         pass
 
     def message_box_content(string: str): # Edits the message box content when enter is pressed. Used for commands like /shrug.
-        print(f"{command_tools.gray}Changed message content to:{command_tools.white} {string}")
+        print(f"{command_tools.output} Changed message box content to \"{string}\"")
         pass
 
     def get_message_list(channel: guid): 
@@ -253,6 +289,7 @@ class user:
 class command_tools: 
     gray = "\033[0m\033[90m"
     white = "\033[0m\033[97m"
+    output = f"{gray} Output:{white}"
 
     def args_to_string(args): # Strip is number removed from the start
         string = ""
