@@ -7,8 +7,18 @@ from datetime import timedelta, datetime
 
 IS_DEBUG_MODE = True
 
+__AUTHORS__ = {
+    "tryoxiss": {
+        "Contact": "No",
+        "Username": "tryoxiss",
+        "real name": "no"
+    }
+}
+
+__REPOSITORY__ = "https://github.com/tryoxiss/bonfire-server/"
+
 @slash_command
-def nick(*nickname, **flags): 
+def nick(*nickname, **flags) -> None: 
     nickname = ct.args_to_string(nickname)
 
     if "user" in flags: 
@@ -18,7 +28,7 @@ def nick(*nickname, **flags):
         client.set_nick(nickname)
 
 @slash_command
-def kick(user: str, *reason, **flags): 
+def kick(user: str, *reason, **flags) -> None: 
     client.REMOVE(edition="2023", 
                   type="kick", 
                   target="GUID", 
@@ -30,10 +40,8 @@ def kick(user: str, *reason, **flags):
 # only real way to do that :/
 
 @slash_command
-def ban(user: str, _duration: str = "", *reason, **flags): # _ means OPTIONAL __NOT__ UNUSED
+def ban(user: str, _duration: str = "", *reason, DEBUG=False, **flags) -> None: # _ means OPTIONAL __NOT__ UNUSED
     __ARGUMENTS__ = ["@mention or guid", "Duration (optional)", "Reason"]
-    
-    DEBUG = True # Set this based on a flag. Check with if DEBUG: client.info("String ...").
 
     # client.debug("If this prints, it works!")
 
@@ -45,14 +53,10 @@ def ban(user: str, _duration: str = "", *reason, **flags): # _ means OPTIONAL __
 
     reason = ct.args_to_string(reason)
 
-    client.debug("If this prints but not the others, this works", DEBUG)
-
-    client.debug("Scanning time field", DEBUG)
+    client.debug("Parsing time field", DEBUG)
 
     if regex.search("[0-9]+[y, d, w, m]", expires.lower()):
         expires = expires.lower()
-
-        client.debug("Found time field", DEBUG)
 
         # Round up to the next closet hour, and checked for unbans every hour.
         # So if you ban someone at 21:15 or 21:59 on January 4th for 1 day 
@@ -70,19 +74,19 @@ def ban(user: str, _duration: str = "", *reason, **flags): # _ means OPTIONAL __
         elif "m" in expires: expires = int(expires.rstrip("m")) * 30  # Month
         elif "w" in expires: expires = int(expires.rstrip("w")) * 7   # Week
         elif "d" in expires: expires = int(expires.rstrip("d"))       # Day
-        
-        reason = reason
+
         client.debug("Setting reason", DEBUG)
+        reason = reason
     else: 
-        client.debug("No time found", DEBUG)
+        client.debug("Interpriting as: indefinte", DEBUG)
         reason = expires + " " + reason
         expires = "never"
-        client.debug("TIme set to indefinte", DEBUG)
+        client.debug("Time set to indefinte", DEBUG)
 
     client.debug("Cleaning reason field", DEBUG)
     reason = reason.rstrip(" ").lstrip(" ")
 
-    client.info("No ban object is currently sent with the /ban command.")
+    client.warn("No ban object is currently sent with the /ban command.")
 
     # if DEBUG: client.info("Sending packet", DEBUG)
 
@@ -96,7 +100,7 @@ def ban(user: str, _duration: str = "", *reason, **flags): # _ means OPTIONAL __
 #// EMOTE BLOCK (NOT WORKING)
 
 @slash_command
-def emote(EMOTE, *message, **flags):
+def emote(EMOTE, *message, **flags) -> None:
     __ARGUMENTS__ = ["Emote", "Message"]
 
     kaomoji = ""
@@ -153,6 +157,19 @@ def emote(EMOTE, *message, **flags):
     
     client.message_box_content(message)
 
+@slash_command
+def todo(*string, **flags): 
+    client.info("""Thank you for your interest! Some major wrapper 
+          features that are yet to be implemented are: 
+          - Single Letter Flags
+          - Type-checking
+          - Type Conversions
+          - Client Interactions
+          - Auto-formatting of client print functions for terminal use
+
+          Probably more! If you search for `TODO:` in our code base you will 
+          many small enhancements!
+    """)
 
 @alias(emote)
 def e(*message): pass # Can be anything not necesarly *message
@@ -176,7 +193,7 @@ def getoffmylawn(*message): pass
 
 try: 
     while IS_DEBUG_MODE == True: 
-        user_input = input(f"{ct.gray}  Input: {ct.white}")
+        user_input = input(f"\n{ct.gray}   Input: {ct.white}")
 
         if not user_input.startswith("/"): continue
 
@@ -187,20 +204,27 @@ try:
         except SyntaxError:
             client.error("The command had an inernal syntax error.")
         except KeyboardInterrupt: 
-            client.info("Process Stopped (KeyboardInterrupt)")
+            client.info("Process Stopped (KeyboardInterrupt)\n")
+            exit(1)
         except MemoryError:
             client.error("You do not have enough memory to run this command... somehow? (these commands take like 100 bytes ._.)")
         except AttributeError:
             client.error("a `python:AttributeError` occured.")
         except NotImplementedError: 
-            client.error("The feature you are trying to use here is not implemented yet.")
-            client.info("python:NotImplemented")
+            client.warn("A feature you are trying to use here is not implemented yet. ")
+            client.info(f"""If you would like to help implement this yourself, please see our 
+          repository at: {__REPOSITORY__}
+          A list of yet-to-be-implemented features can be found by running 
+          `/todo`!""")
         except: 
             client.error("An unknown error occured. This may be in your block or the commands header.")
             # client.error(f"Either there is such command \"{user_input}\" or the command had an error it could not handle.")
 
         if user_input.startswith("exit") or user_input.startswith("quit"): 
             exit(1)
+except KeyboardInterrupt: 
+    client.info("Process Stopped (KeyboardInterrupt)\n")
+    exit(1)
 except: 
     SLASH_COMMAND_IMPORTED = False
     CLIENT_IMPORTED = False
@@ -213,8 +237,8 @@ except:
         client.error("The command line interface loop failed.")
     except: 
         print("""\033[0m\033[91m  Error:\033[0m\033[97mThe client class is not imported!
-         If it IS imported, please make sure it is not renamed as that causes 
-         this diagnostic to fail, leading to false positives.""")
+          If it IS imported, please make sure it is not renamed as that causes 
+          this diagnostic to fail, leading to false positives.""")
         
         exit(0)
 
@@ -226,11 +250,10 @@ except:
     except: client.error("Slash command decorator not imported!")
     else: 
         client.info("""All required modules appear to be imported.
-         If you got this error, that means you are likely using 
-         an unimported module.
+          If you got this error, that means you are likely using 
+          an unimported module.
 
-         Please check that you are not renaming any core modules 
-         as that will cause this diagnostic to fail.
+          Please check that you are not renaming any core modules 
+          as that will cause this diagnostic to fail.
     """)
         client.info("Exiting ... ")
-finally: print("wtf?")

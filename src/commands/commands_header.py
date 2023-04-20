@@ -1,6 +1,8 @@
 import uuid as guid
 import time
 
+# import gc as garbage_collector
+
 """
 commands_header is a python file that contains functions required or useful
 or writing slash commands for codename bonfire.
@@ -11,6 +13,14 @@ commands.h.py
 
 # This file contains botting functions you will likely need!
 
+# ENTER UNSAFE PYTHON
+# garbage_collector.disable() # <- only disables AUTOMATIC garbage collection
+
+# def COLLECT_GARBAGE(): 
+#     """A lazy persons way to write unsafe python"""
+
+#     garbage_collector.collect()
+
 def slash_command(function):
     def wrapper(*inputs):
         # Mostly a cosmedic decorator to tell the rust that the function is a
@@ -19,12 +29,15 @@ def slash_command(function):
         # This also deals with some argument backend that needs to be done for 
         # every command. 
 
-        client.debug(f"Raw Input: {inputs}")
+        WRAPPER_DEBUG = False
+        SPEED_TEST = False
+
+        client.debug(f"Raw Input: {inputs}", WRAPPER_DEBUG)
 
         inputs = inputs[0].split(" ")
         inputs.pop(0)
 
-        client.debug(f"Split Input: {inputs}")
+        client.debug(f"Split Input: {inputs}", WRAPPER_DEBUG)
 
         # print(inputs)
 
@@ -33,22 +46,37 @@ def slash_command(function):
 
         for index in range(len(inputs)):
             if inputs[index].startswith("--"): 
-
+                client.debug(f"Found flag: {inputs[index]}", WRAPPER_DEBUG)
                 flag_indexes.append(index)
                 flags.append(inputs[index].strip("--"))
-        client.debug("Finished scanning")
+                client.debug(f"Stripped flag: {flags[-1]}", WRAPPER_DEBUG)
+            elif inputs[index].startswith("-"):
+                raise NotImplementedError
+        client.debug("Finished scanning", WRAPPER_DEBUG)
 
-        client.debug("Starting flag popping")
+        client.debug("Starting flag popping", WRAPPER_DEBUG)
 
         popped = 0
         for flag in flag_indexes: 
             inputs.pop(flag - popped)
             popped += 1
-            # raise NotImplementedError
+        
+        del popped, flag_indexes
 
-        client.debug("Done flag popping")
+        client.debug("Done flag popping", WRAPPER_DEBUG)
+        client.debug(f"Flag Processed Input: {inputs}", WRAPPER_DEBUG)
 
-        client.debug(f"Flag Processed Input: {inputs}")
+        DEBUG=False
+
+        client.debug("Parsing wrapper-level flags", DEBUG)
+        for flag in flags: 
+            client.debug(f"Current flag: {flag}", WRAPPER_DEBUG)
+            if flag.lower() == "debug": 
+                DEBUG = True
+                client.debug("Found debug flag", WRAPPER_DEBUG)
+            if flag.lower() == "speed" or flag.lower() == "timer" or flag.lower() == "time" or flag.lower() == "performance": 
+                SPEED_TEST = True
+                client.debug("Found speed-test flag", WRAPPER_DEBUG)
 
         ### LOGIC: 
         # - Handle Flags (identify, create, and then put into kwargs)
@@ -84,16 +112,23 @@ def slash_command(function):
         # client.info("Test Info")
         # client.print("Test Print")
 
-        # Please find a better way to name this. Or even better, don't need a variable just check in the if statement
-        SPEED_TEST_FLAG = False
+        # client.fatal("Test Fatal")
+        # client.error("Test Error")
+        # client.warn("Test Warn")
+        # client.info("Test Info")
+        # client.print("Test Print")
 
-        if SPEED_TEST_FLAG == True: 
+        # Please find a better way to name this. Or even better, don't need a variable just check in the if statement
+
+        if WRAPPER_DEBUG: client.devider()
+
+        if SPEED_TEST == True: 
             start_time = time.time_ns()
-            function(*inputs)
-            # client.info(f"This command took {round((time.time_ns() - start_time) / 1_000_000, 2)}ms to complete!")
+            function(*inputs, DEBUG=DEBUG, flags=flags)
+            client.info(f"This command took {round((time.time_ns() - start_time) / 1_000_000, 2)}ms to complete!")
             # client.info(f"This command took {time.time_ns() - start_time} NANOSECCONDS to complete!")
         else: 
-            function(*inputs)
+            function(*inputs, DEBUG=DEBUG, flags=flags)
     return wrapper
 
 def speed_test(function):
@@ -121,46 +156,66 @@ class client:
     """
 
     def __init__(): 
-        print("No __init__ needed!")
-
+        client.info("No __init__ needed!")
+    
+    def __update__(): 
+        client.info("No __update__ needed!")
+    
+    def __kill__(): 
+        client.info("No __kill__ needed!")
 
     # Print outputs
     # TODO: Add formatting so that: 
-    #   - they will auto wrap after 80 characters
+    #   - they will auto wrap after 80 characters, splitting at spaces
     #   - newlines always start with enough spaces to line it up with the inital text start.
+    #
+    # Desired output: https://cdn.discordapp.com/attachments/911129965972553729/1097997773816746118/image.png
+    # from text: 
+    # client.info("""
+    # Thank you for your interest! Some major wrapper features that are not implemented yet are:
+    # - Single Letter Flags
+    # - Type-checking
+    # - Type Converters
+    # - Client Interactions
+    # - Auto-formatting of lient print functions for terminal use
+    # 
+    # Probably more! If you search for `TODO:` in our code base you will see many small enhancements!
+    # """)
     def announce(string: str): 
         """Print a bot message for all* to see! * = sent as if it was a user account but with a bot tag."""
-        print(f"\033[0m\033[90mAnounce:{command_tools.white} {string}")
+        print(f"\n\033[0m\033[90m Anounce:{command_tools.white} {string}", end="")
     
     def print(string: str): # Print a bot message/command response
         """Print a bot message that only the commands runner can see."""
-        print(f"\033[0m\033[90m  Print:{command_tools.white} {string}")
+        print(f"\n\033[0m\033[90m   Print:{command_tools.white} {string}", end="")
 
     def fatal(string: str, *, type="", command=""): 
         """Print an fatal error message for your bot. """
-        print(f"  \033[0m\033[41m\033[97mFatal: {string}{command_tools.white}")
+        print(f"\n   \033[0m\033[41m\033[30mFatal: {string}{command_tools.white}", end="")
     
     def error(string: str, *, type="", command=""): 
         """Print an error message for your bot. """
-        print(f"\033[0m\033[91m  Error:{command_tools.white} {string}")
+        print(f"\n\033[0m\033[91m   Error:{command_tools.white} {string}", end="")
 
     def warn(string: str, *, type="", command=""): 
         """Print an warning for your bot. Will only show up in the terminal
         and when your debug level is set to warn or higher."""
-        print(f"\033[0m\033[93mWarning:{command_tools.white} {string}")
+        print(f"\n\033[0m\033[93m Warning:{command_tools.white} {string}", end="")
 
     def info(string: str, *, type="", command=""): 
         """Print debug info as your bot. Will only show up in the terminal
         and when your debug level is set to info or higher."""
-        print(f"\033[0m\033[96m   Info:{command_tools.white} {string}")
+        print(f"\n\033[0m\033[96m    Info:{command_tools.white} {string}", end="")
 
     def debug(string: str, DEBUG=True): 
-        """Print debug info as your bot. Will only show up in the terminal
-        and when your debug level is set to debug or the --debug (-d) flag is
-        included on run."""
-        if DEBUG: print(f"\033[0m\033[92m  Debug:{command_tools.white} {string} ...")
-
-
+        """Prints debug messages to the dev terminal. These are often used
+        to show what the command is currently doing and give insight as to
+        how it works. They will only be written when the --debug flag is
+        set."""
+        if DEBUG: print(f"\n\033[0m\033[92m   Debug:{command_tools.white} {string} ...", end="")
+    
+    def devider(): 
+        print(f"\n\033[0m\033[90m   " + "-" * 74, end="")
 
     # :/ no, this does nothing right now.
     def input(string: str): 
@@ -171,7 +226,8 @@ class client:
         pass
 
     def message_box_content(string: str): # Edits the message box content when enter is pressed. Used for commands like /shrug.
-        print(f"{command_tools.output} Changed message box content to \"{string}\"")
+        print(f"""\n{command_tools.output} Changed message box content to
+          \"{string}\"""", end="")
         pass
 
     def get_message_list(channel: guid): 
@@ -179,7 +235,6 @@ class client:
 
     def set_nick(string: str, **flags): 
         pass
-
 
     # *, paramater will eat ALL positional arguments, making them all 
     # need to be keyword only
@@ -289,7 +344,7 @@ class user:
 class command_tools: 
     gray = "\033[0m\033[90m"
     white = "\033[0m\033[97m"
-    output = f"{gray} Output:{white}"
+    output = f"{gray}  Output:{white}"
 
     def args_to_string(args): # Strip is number removed from the start
         string = ""
