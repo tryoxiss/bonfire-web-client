@@ -21,7 +21,7 @@ commands.h.py
 def slash_command(function):
     """
     A nice little command wraper that serves both practical and semantic 
-    pourposes. This tells the client that this is a slash command, and
+    pourposes. This tells the Client that this is a slash command, and
     also handles flags, user input, and all the repettive/heavy-lfting
     things you will see for almost every command.
     """
@@ -37,22 +37,27 @@ def slash_command(function):
         # This also deals with some argument backend that needs to be done for 
         # every command. 
 
-        WRAPPER_DEBUG = True
         SPEED_TEST = False
 
-        client.debug(f"Raw Input: {inputs}", WRAPPER_DEBUG)
+        client = Client()
+
+        # Wrapper debug only, same variable is used but edited before it is
+        # fed into the command itself. 
+        client.show_debug = False
+
+        client.debug(f"Raw Input: {inputs}")
 
         inputs = inputs[0].split(" ")
         inputs.pop(0)
 
-        client.debug(f"Split Input: {inputs}", WRAPPER_DEBUG)
+        client.debug(f"Split Input: {inputs}")
 
         # print(inputs)
 
         flag_indexes = []
         flags = {
-            "debug": False,
             "speed": False,
+            "debug": False
         }
 
         # TODO: Keep flags out of string collectors.
@@ -62,10 +67,11 @@ def slash_command(function):
             if not inputs[index].startswith("-"): continue
 
             if inputs[index].startswith("--"): 
-                client.debug(f"Found flag: {inputs[index]}", WRAPPER_DEBUG)
+                client.debug(f"Found flag: {inputs[index]}")
+
                 flag_indexes.append(index)
 
-                client.debug("Appending Flag to dictionary", WRAPPER_DEBUG)
+                client.debug("Appending Flag to dictionary")
                 flags[str(inputs[index].lstrip("-"))] = True
 
                 flags[str(inputs[index].lstrip("-"))] = True
@@ -73,19 +79,19 @@ def slash_command(function):
                 continue
             
             # else: 
-            client.debug(f"Found short-form flags", WRAPPER_DEBUG)
+            client.debug(f"Found short-form flags")
 
             flag_collector = inputs[index]
             for character in flag_collector:
-                client.debug(f"Found flag: {character}", WRAPPER_DEBUG)
-                client.debug("Appending Flag to dictionary", WRAPPER_DEBUG)
+                client.debug(f"Found flag: {character}")
+                client.debug("Appending Flag to dictionary")
                 flags[character] = True
         
-        client.debug("Finished scanning", WRAPPER_DEBUG)
+        client.debug("Finished scanning")
 
         # del index
 
-        client.debug("Starting flag popping", WRAPPER_DEBUG)
+        client.debug("Starting flag popping")
 
         popped = 0
         for flag in flag_indexes: 
@@ -94,10 +100,10 @@ def slash_command(function):
 
         # del popped, flag_indexes
 
-        client.debug("Done flag popping", WRAPPER_DEBUG)
-        client.debug(f"Flag Processed Input: {inputs}", WRAPPER_DEBUG)
+        client.debug("Done flag popping")
+        client.debug(f"Flag Processed Input: {inputs}")
 
-        client.debug(f"Flags: {flags}", WRAPPER_DEBUG)
+        client.debug(f"Flags: {flags}")
 
         ### LOGIC: 
         # - Handle Flags (identify, create, and then put into kwargs)
@@ -141,13 +147,20 @@ def slash_command(function):
 
         # Please find a better way to name this. Or even better, don't need a variable just check in the if statement
 
-        client.debug(f"Debug Flag: {flags['debug']}", WRAPPER_DEBUG)
+        client.debug(f"Debug Flag: {client.show_debug}")
 
-        if WRAPPER_DEBUG: client.devider()
 
-        if flags["speed"] == False: 
+        if client.show_debug: client.devider()
+
+        # We do this here so one variable can control both the wrappers debug
+        # and the commands debug seperately. 
+        if flags['debug'] == True: 
+            client.show_debug = True
+
+        if flags["speed"] == True: 
+            client.debug("Running with speed tests")
             start_time = time.time_ns()
-            function(*inputs, DEBUG=flags["debug"], **flags)
+            function(*inputs, client=client, **flags)
 
             run_time = time.time_ns() - start_time
 
@@ -164,51 +177,33 @@ def slash_command(function):
             
             del start_time, run_time
         else: 
-            function(*inputs, DEBUG=flags["debug"], **flags)
+            function(*inputs, client=client, **flags)
         
         del inputs, flags
-        del SPEED_TEST, WRAPPER_DEBUG
+        del SPEED_TEST
         garbage_collector.collect() # Free any unused variables
     # End Wrapper Function
     return wrapper
 
-def speed_test(function):
-    def wrapper(*args):
-
-        client.warn(f"""The @speed_test decorator is DEPRECIATED! Please consider using
-      the --speed flag on command run instead. This will be REMOVED in a future version!!""")
-
-        try: 
-            start_time = time.time_ns()
-        except:
-            client.error("Failed to get the time value.")
-        function(*args)
-
-        if (time.time_ns() - start_time) >= 10_000: 
-            client.info(f"This command took {round((time.time_ns() - start_time) / 1_000_000, 2)}ms to complete!")
-        elif (time.time_ns() - start_time) == 0:
-            client.warn("The speed test function seems to be bugged, since it returned 0 nanosecconds.")
-        elif (time.time_ns() - start_time) < 0:
-            client.warn("The speed test function seems to be bugged, since it returned a negative value.")
-        else: 
-            client.info(f"This command took {time.time_ns() - start_time} NANOSECCONDS to complete!")
-    return wrapper
-
-class client: 
+class Client: 
     """
-    Interact with the users client. This is the main class you will interact with. 
+    Interact with the users Client. This is the main class you will interact with. 
     """
 
-    MEOW = True
+    # Not constants, but all caps to show they are not edited in this context
+    # ever. 
+    # show_debug = False
+    # show_info = True
+    # show_warn = True
+    # show_error = True
+    # Others are not included as they are showing the commands output.
+    # Either that or its a fatal error which must be shown. 
 
-    def __init__(): 
-        client.info("No __init__ needed!")
-    
-    def __update__(): 
-        client.info("No __update__ needed!")
-    
-    def __kill__(): 
-        client.info("No __kill__ needed!")
+    def __init__(self): 
+        self.show_debug = False
+        self.show_info = True
+        self.show_warn = True
+        self.show_error = True
 
     # Print outputs
     # TODO: Add formatting so that: 
@@ -217,7 +212,7 @@ class client:
     #
     # Desired output: https://cdn.discordapp.com/attachments/911129965972553729/1097997773816746118/image.png
     # from text: 
-    # client.info("""
+    # Client.info("""
     # Thank you for your interest! Some major wrapper features that are not implemented yet are:
     # - Single Letter Flags
     # - Type-checking
@@ -227,56 +222,59 @@ class client:
     # 
     # Probably more! If you search for `TODO:` in our code base you will see many small enhancements!
     # """)
-    def announce(string: str): 
+    def announce(self, string: str): 
         """Print a bot message for all* to see! * = sent as if it was a user account but with a bot tag."""
         print(f"\n\033[0m\033[90m Anounce:{command_tools.white} {string}", end="")
     
-    def print(string: str): # Print a bot message/command response
+    def print(self, string: str): # Print a bot message/command response
         """Print a bot message that only the commands runner can see."""
         print(f"\n\033[0m\033[90m   Print:{command_tools.white} {string}", end="")
 
-    def fatal(string: str, *, type="", command=""): 
+    def fatal(self, string: str, *, type="", command=""): 
         """Print an fatal error message for your bot. """
         print(f"\n   \033[0m\033[41m\033[30mFatal: {string}{command_tools.white}", end="")
     
-    def error(string: str, *, type="", command=""): 
+    def error(self, string: str, *, type="", command=""): 
         """Print an error message for your bot. """
-        print(f"\n\033[0m\033[91m   Error:{command_tools.white} {string}", end="")
 
-    def warn(string: str, *, type="", command=""): 
+        if self.show_error: 
+            print(f"\n\033[0m\033[91m   Error:{command_tools.white} {string}", end="")
+
+    def warn(self, string: str, *, type="", command=""): 
         """Print an warning for your bot. Will only show up in the terminal
         and when your debug level is set to warn or higher."""
-        print(f"\n\033[0m\033[93m Warning:{command_tools.white} {string}", end="")
 
-    def info(string: str, *, type="", command=""): 
+        if self.show_warn: 
+            print(f"\n\033[0m\033[93m Warning:{command_tools.white} {string}", end="")
+
+    def info(self, string: str, *, type="", command=""): 
         """Print debug info as your bot. Will only show up in the terminal
         and when your debug level is set to info or higher."""
-        print(f"\n\033[0m\033[96m    Info:{command_tools.white} {string}", end="")
 
-    def debug(string: str, DEBUG=False): 
+        if self.show_info: 
+            print(f"\n\033[0m\033[96m    Info:{command_tools.white} {string}", end="")
+
+    def debug(self, string: str): 
         """Prints debug messages to the dev terminal. These are often used
         to show what the command is currently doing and give insight as to
         how it works. They will only be written when the --debug flag is
         set."""
-        # if client.MEOW: 
-            # print(f"Meow: {client.MEOW}")
-            # client.MEOW = False
-            # print(f"Meow: {client.MEOW}")
 
-        if DEBUG: print(f"\n\033[0m\033[92m   Debug:{command_tools.white} {string} ...", end="")
+        if self.show_debug: 
+            print(f"\n\033[0m\033[92m   Debug:{command_tools.white} {string} ...", end="")
     
-    def devider(): 
+    def devider(self): 
         print(f"\n\033[0m\033[90m   " + "-" * 74, end="")
 
     # :/ no, this does nothing right now.
-    def input(string: str): 
+    def input(self, string: str): 
         string = input()
         return string
 
-    def message(): # Print a message as the bot
+    def message(self): # Print a message as the bot
         pass
 
-    def message_box_content(string: str): # Edits the message box content when enter is pressed. Used for commands like /shrug.
+    def message_box_content(self, string: str): # Edits the message box content when enter is pressed. Used for commands like /shrug.
         print(f"""\n{command_tools.output} Changed message box content to
           \"{string}\"""", end="")
         pass
@@ -284,19 +282,19 @@ class client:
     def get_message_list(channel: guid): 
         pass
 
-    def set_nick(string: str, **flags): 
+    def set_nick(self, string: str, **flags): 
         pass
 
     # *, paramater will eat ALL positional arguments, making them all 
     # need to be keyword only
-    def CONNECT(*, edition="2023", server: str): 
+    def CONNECT(self, *, edition="2023", server: str): 
         """
         Used to establishing connections. Does nothing and will not be 
         added here as bots have no need to do this.
         """
         pass
 
-    def CREATE(*, edition="2023", type="message", language, author, adressed, time, content: str): 
+    def CREATE(self, *, edition="2023", type="message", language, author, adressed, time, content: str): 
         """
         An advanced function to send a CREATE request to the server. Create 
         requests create content on the server such as a message, oreaction,
@@ -304,16 +302,16 @@ class client:
         """
         pass
 
-    def NOTIFY(packet: str):
+    def NOTIFY(self, packet: str):
         """
         An advanced function to send a NOTIFY request to the server. Notify 
-        requests notify or communicate with the client or server, but for 
+        requests notify or communicate with the Client or server, but for 
         one-time  packets that do not need to be stored: such as voice data, 
         establishing a one-time connection, etc.
         """
         pass
 
-    def EDIT(*, edition="2023", type="message", target, time, content: str): 
+    def EDIT(self, *, edition="2023", type="message", target, time, content: str): 
         """
         An advanced function to send a EDIT request to the server. Edit 
         requests edit existing contnt on the server: think of editing a
@@ -321,7 +319,7 @@ class client:
         """
         pass
 
-    def REMOVE(*, edition="2023", target, conent=""): 
+    def REMOVE(self, *, edition="2023", target, conent=""): 
         """
         An advanced function to send a REMOVE request to the server. Remove
         requests remove the content from anyone but the owners view, but 
@@ -334,14 +332,14 @@ class client:
         """
         pass
 
-    def DELETE(*, edition="2023", target): 
+    def DELETE(self, *, edition="2023", target): 
         """
         An advanced function to send a DELETE request to the server. Delete
         requests permently delete content from the server. 
         """
         pass
 
-    def DESTORY(*, edition="2023", target): 
+    def DESTORY(self, *, edition="2023", target): 
         """
         An advanced function to send a DESTROY request to the server. Destroy
         requests don't just delete the content, they also whipe over it with
@@ -355,7 +353,7 @@ class client:
         """
         pass
 
-    def GET(*, edition="2023", type, range):
+    def GET(self, *, edition="2023", type, range):
         """
         An advanced function to send a GET request to the server. Get requests
         retrieve data and return it to you. You can specify what paramaters you
@@ -363,7 +361,7 @@ class client:
         """
         pass
 
-    def REQUEST(*, edition="2023", **keyword_args):
+    def REQUEST(self, *, edition="2023", **keyword_args):
         """
         An advanced function to send ANY type of request. Thos function adds
         no data header, letting you create it on your own entirely. 
@@ -439,7 +437,7 @@ class command_tools:
         elif base == 64:
             pass
         else: 
-            client.print("GUID is not a valid base. Please use a base 16, 32, 64, or 10 GUID, either colon or hyphen seperated.")
+            Client.print("GUID is not a valid base. Please use a base 16, 32, 64, or 10 GUID, either colon or hyphen seperated.")
 
     # https://stackoverflow.com/questions/26929227/base-converter-in-python
     # def base_convert(base_to: str, number: int):

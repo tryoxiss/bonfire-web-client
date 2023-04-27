@@ -1,4 +1,4 @@
-from commands_header import slash_command, client, alias
+from commands_header import slash_command, Client, alias
 from commands_header import command_tools as ct
 import re as regex
 from datetime import timedelta, datetime
@@ -19,7 +19,7 @@ __AUTHORS__ = {
 __REPOSITORY__ = "https://github.com/tryoxiss/bonfire-server/"
 
 @slash_command
-def nick(*nickname, **flags) -> None: 
+def nick(*nickname, client, **flags) -> None: 
     nickname = ct.args_to_string(nickname)
 
     if "user" in flags: 
@@ -41,22 +41,27 @@ def kick(user: str, *reason, **flags) -> None:
 # only real way to do that :/
 
 @slash_command
-def ban(user: str, _duration: str = "", *reason, DEBUG=False, **flags) -> None: # _ means OPTIONAL __NOT__ UNUSED
+def cmdebug(*, client, **flags):
+
+    client.print("cuddle")
+
+@slash_command
+def ban(user: str, _duration: str = "", *reason, client, **flags) -> None: # _ means OPTIONAL __NOT__ UNUSED
     __ARGUMENTS__ = ["@mention or guid", "Duration (optional)", "Reason"]
 
     # THIS IS A TERRIBLE WAY TO DO THIS!!! We want to just accept user as a User instnatly instead of needing to type convert!
 
-    client.debug("Turning user string into User object", DEBUG)
+    client.debug("Turning user string into User object")
     user = User(user)
 
-    client.debug("If this prints a GUID, it is a user object.", DEBUG)
-    client.debug(user.guid16, DEBUG)
+    client.debug("If this prints a GUID, it is a user object.")
+    client.debug(user.guid16)
 
     expires = _duration
 
     reason = ct.args_to_string(reason)
 
-    client.debug("Parsing time field", DEBUG)
+    client.debug("Parsing time field")
 
     if regex.search("[0-9]+[y, d, w, m]", expires.lower()):
         expires = expires.lower()
@@ -78,19 +83,19 @@ def ban(user: str, _duration: str = "", *reason, DEBUG=False, **flags) -> None: 
         elif "w" in expires: expires = int(expires.rstrip("w")) * 7   # Week
         elif "d" in expires: expires = int(expires.rstrip("d"))       # Day
 
-        client.debug("Setting reason", DEBUG)
+        client.debug("Setting reason")
         reason = reason
     else: 
-        client.debug("Interpriting as: indefinte", DEBUG)
+        client.debug("Interpriting as: indefinte")
         reason = expires + " " + reason
         expires = "never"
-        client.debug("Time set to indefinte", DEBUG)
+        client.debug("Time set to indefinte")
 
-    client.debug("Cleaning reason field", DEBUG)
+    client.debug("Cleaning reason field")
 
     client.warn("No ban object is currently sent with the /ban command.")
 
-    # if DEBUG: client.info("Sending packet", DEBUG)
+    # if DEBUG: Client.info("Sending packet", DEBUG)
 
     if expires == "never": 
         client.print(f"Banned {user.display_name} for \"{reason}\" indefintely.")
@@ -99,7 +104,7 @@ def ban(user: str, _duration: str = "", *reason, DEBUG=False, **flags) -> None: 
         client.print(f"Banned {user.display_name} for \"{reason}\". This ban will be lifed on {lifted_on.strftime('%d/%b/%Y at %H:00')}.")
 
 @slash_command
-def whois(user: str, *, DEBUG=False, **flags) -> None: 
+def whois(user: str, *, client, **flags) -> None: 
     user = User(user)
 
     client.print(f"""
@@ -110,15 +115,15 @@ def whois(user: str, *, DEBUG=False, **flags) -> None:
 #// EMOTE BLOCK (NOT WORKING)
 
 @slash_command
-def emote(EMOTE, *message, DEBUG=False, **flags) -> None:
+def emote(EMOTE, *message, client, **flags) -> None:
     __ARGUMENTS__ = ["Emote", "Message"]
 
-    client.debug("Init Kaomoji", DEBUG)
+    client.debug("Init Kaomoji")
     kaomoji = ""
-    client.debug("Parsing string", DEBUG)
+    client.debug("Parsing string")
     message = ct.args_to_string(message)
 
-    client.debug("Setting kaomoji", DEBUG)
+    client.debug("Setting kaomoji")
     index = { 
         # IDEAS: Greet, Love, Happy, Etc. 
         # List: http://kaomoji.ru/en/
@@ -171,14 +176,14 @@ def emote(EMOTE, *message, DEBUG=False, **flags) -> None:
     client.message_box_content(message)
 
 @slash_command
-def todo(*string, **flags): 
+def todo(*string, client, **flags): 
     client.info("""Thank you for your interest! Some major wrapper 
           features that are yet to be implemented are: 
           - Single Letter Flags
           - Type-checking
           - Type Conversions
           - Client Interactions
-          - Auto-formatting of client print functions for terminal use
+          - Auto-formatting of Client print functions for terminal use
 
           Probably more! If you search for `TODO:` in our code base you will 
           many small enhancements!
@@ -200,11 +205,15 @@ def getoffmylawn(*message): pass
 # BEGIN DEBUG BLOCK                                                           #
 # --------------------------------------------------------------------------- #
 # This cant be in the header, but copy+paste this into your file to have a    #
-# command line test interface. The dev enviornment in our official client     #
+# command line test interface. The dev enviornment in our official Client     #
 # automatically injects this code at the end on program run.                  #
 ###############################################################################
 
-import os
+if IS_DEBUG_MODE: 
+    import os
+    from commands_header import Client
+
+client = Client()
 
 try: 
     while IS_DEBUG_MODE == True: 
@@ -215,8 +224,8 @@ try:
         try: 
             command_func = user_input.lstrip("/").split(" ")
             globals()[command_func[0]](user_input)
-            # List of exceptions: https://www.programiz.com/python-programming/exceptions
-            # https://docs.python.org/3/library/exceptions.html
+        # List of exceptions: https://www.programiz.com/python-programming/exceptions
+        # https://docs.python.org/3/library/exceptions.html
         except SyntaxError:
             client.error("The command had an inernal syntax error.")
         except KeyboardInterrupt: 
@@ -229,16 +238,16 @@ try:
         except NotImplementedError: 
             client.warn("A feature you are trying to use here is not implemented yet. ")
             client.info(f"""If you would like to help implement this yourself, please see our 
-          repository at: {__REPOSITORY__}
-          A list of yet-to-be-implemented features can be found by running 
-          `/todo`!""")
+            repository at: {__REPOSITORY__}
+            A list of yet-to-be-implemented features can be found by running 
+            `/todo`!""")
         except NameError: 
             client.error(f"No such command or internal function \"{command_func[0]}\" eixsts")
         # except: ImportError:
-        #     client.error("")
+        #     Client.error("")
         except: 
             client.error("An unknown error occured. This may be in your block or the commands header.")
-            # client.error(f"Either there is such command \"{user_input}\" or the command had an error it could not handle.")
+            # Client.error(f"Either there is such command \"{user_input}\" or the command had an error it could not handle.")
 
         if user_input.startswith("exit") or user_input.startswith("quit"): 
             client.info("Process Stopped (ExitCommand)\n")
@@ -257,7 +266,7 @@ except:
     try: 
         client.error("The command line interface loop failed.")
     except: 
-        print("""\033[0m\033[91m  Error:\033[0m\033[97mThe client class is not imported!
+        print("""\033[0m\033[91m   Error:\033[0m\033[97m The Client class is not imported!
           If it IS imported, please make sure it is not renamed as that causes 
           this diagnostic to fail, leading to false positives.""")
         
