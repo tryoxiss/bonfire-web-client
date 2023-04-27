@@ -2,6 +2,7 @@ from commands_header import slash_command, client, alias
 from commands_header import command_tools as ct
 import re as regex
 from datetime import timedelta, datetime
+from commands_header import User
 
 # import argparse
 
@@ -43,11 +44,13 @@ def kick(user: str, *reason, **flags) -> None:
 def ban(user: str, _duration: str = "", *reason, DEBUG=False, **flags) -> None: # _ means OPTIONAL __NOT__ UNUSED
     __ARGUMENTS__ = ["@mention or guid", "Duration (optional)", "Reason"]
 
-    # client.debug("If this prints, it works!")
+    # THIS IS A TERRIBLE WAY TO DO THIS!!! We want to just accept user as a User instnatly instead of needing to type convert!
 
-    if "--debug" in flags: 
-        DEBUG = True
-        client.debug("Debug flag detected: Switching to debug mode!", True)
+    client.debug("Turning user string into User object", DEBUG)
+    user = User(user)
+
+    client.debug("If this prints a GUID, it is a user object.", DEBUG)
+    client.debug(user.guid16, DEBUG)
 
     expires = _duration
 
@@ -84,28 +87,38 @@ def ban(user: str, _duration: str = "", *reason, DEBUG=False, **flags) -> None: 
         client.debug("Time set to indefinte", DEBUG)
 
     client.debug("Cleaning reason field", DEBUG)
-    reason = reason.rstrip(" ").lstrip(" ")
 
     client.warn("No ban object is currently sent with the /ban command.")
 
     # if DEBUG: client.info("Sending packet", DEBUG)
 
     if expires == "never": 
-        client.print(f"Banned {user} for \"{reason}\" indefintely.")
+        client.print(f"Banned {user.display_name} for \"{reason}\" indefintely.")
     else: 
         lifted_on = datetime.today() + timedelta(days=expires, hours=1)
-        client.print(f"Banned {user} for \"{reason}\". This ban will be lifed on {lifted_on.strftime('%d/%b/%Y at %H:00')}.")
+        client.print(f"Banned {user.display_name} for \"{reason}\". This ban will be lifed on {lifted_on.strftime('%d/%b/%Y at %H:00')}.")
 
+@slash_command
+def whois(user: str, *, DEBUG=False, **flags) -> None: 
+    user = User(user)
+
+    client.print(f"""
+**Display Name:** {user.display_name}
+**guid base 16:** `{user.guid16}`
+    """)
 
 #// EMOTE BLOCK (NOT WORKING)
 
 @slash_command
-def emote(EMOTE, *message, **flags) -> None:
+def emote(EMOTE, *message, DEBUG=False, **flags) -> None:
     __ARGUMENTS__ = ["Emote", "Message"]
 
+    client.debug("Init Kaomoji", DEBUG)
     kaomoji = ""
+    client.debug("Parsing string", DEBUG)
     message = ct.args_to_string(message)
 
+    client.debug("Setting kaomoji", DEBUG)
     index = { 
         # IDEAS: Greet, Love, Happy, Etc. 
         # List: http://kaomoji.ru/en/
@@ -145,7 +158,7 @@ def emote(EMOTE, *message, **flags) -> None:
         "lazy": "_(:3 」∠)_",
     }
 
-    if EMOTE == "--list": 
+    if "list" in flags: 
         client.warn("This is not designed to be visually appealing yet! This is just the raw code!")
         client.print(index)
         return
@@ -191,6 +204,8 @@ def getoffmylawn(*message): pass
 # automatically injects this code at the end on program run.                  #
 ###############################################################################
 
+import os
+
 try: 
     while IS_DEBUG_MODE == True: 
         user_input = input(f"\n{ct.gray}   Input: {ct.white}")
@@ -201,6 +216,7 @@ try:
             command_func = user_input.lstrip("/").split(" ")
             globals()[command_func[0]](user_input)
             # List of exceptions: https://www.programiz.com/python-programming/exceptions
+            # https://docs.python.org/3/library/exceptions.html
         except SyntaxError:
             client.error("The command had an inernal syntax error.")
         except KeyboardInterrupt: 
@@ -216,11 +232,16 @@ try:
           repository at: {__REPOSITORY__}
           A list of yet-to-be-implemented features can be found by running 
           `/todo`!""")
+        except NameError: 
+            client.error(f"No such command or internal function \"{command_func[0]}\" eixsts")
+        # except: ImportError:
+        #     client.error("")
         except: 
             client.error("An unknown error occured. This may be in your block or the commands header.")
             # client.error(f"Either there is such command \"{user_input}\" or the command had an error it could not handle.")
 
         if user_input.startswith("exit") or user_input.startswith("quit"): 
+            client.info("Process Stopped (ExitCommand)\n")
             exit(1)
 except KeyboardInterrupt: 
     client.info("Process Stopped (KeyboardInterrupt)\n")

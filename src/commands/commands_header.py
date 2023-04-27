@@ -1,7 +1,7 @@
 import uuid as guid
 import time
 
-# import gc as garbage_collector
+import gc as garbage_collector
 
 """
 commands_header is a python file that contains functions required or useful
@@ -13,23 +13,31 @@ commands.h.py
 
 # This file contains botting functions you will likely need!
 
-# ENTER UNSAFE PYTHON
-# garbage_collector.disable() # <- only disables AUTOMATIC garbage collection
-
 # def COLLECT_GARBAGE(): 
 #     """A lazy persons way to write unsafe python"""
 
 #     garbage_collector.collect()
 
 def slash_command(function):
+    """
+    A nice little command wraper that serves both practical and semantic 
+    pourposes. This tells the client that this is a slash command, and
+    also handles flags, user input, and all the repettive/heavy-lfting
+    things you will see for almost every command.
+    """
+
     def wrapper(*inputs):
+        # ENTER UNSAFE PYTHON
+        # garbage_collector.disable() # <- only disables AUTOMATIC garbage collection. 
+        # Can till be manually collected with garbage_collector.collect()
+
         # Mostly a cosmedic decorator to tell the rust that the function is a
         # slash command, and to add it to the index.
         #
         # This also deals with some argument backend that needs to be done for 
         # every command. 
 
-        WRAPPER_DEBUG = False
+        WRAPPER_DEBUG = True
         SPEED_TEST = False
 
         client.debug(f"Raw Input: {inputs}", WRAPPER_DEBUG)
@@ -42,17 +50,40 @@ def slash_command(function):
         # print(inputs)
 
         flag_indexes = []
-        flags = []
+        flags = {
+            "debug": False,
+            "speed": False,
+        }
 
+        # TODO: Keep flags out of string collectors.
+        # TODO: Let them add non `True` values to the `flags` dictionary.
+        # I hate this messy code but this is the only place it will ever be used so extraction hardly makes sense here. 
         for index in range(len(inputs)):
+            if not inputs[index].startswith("-"): continue
+
             if inputs[index].startswith("--"): 
                 client.debug(f"Found flag: {inputs[index]}", WRAPPER_DEBUG)
                 flag_indexes.append(index)
-                flags.append(inputs[index].strip("--"))
-                client.debug(f"Stripped flag: {flags[-1]}", WRAPPER_DEBUG)
-            elif inputs[index].startswith("-"):
-                raise NotImplementedError
+
+                client.debug("Appending Flag to dictionary", WRAPPER_DEBUG)
+                flags[str(inputs[index].lstrip("-"))] = True
+
+                flags[str(inputs[index].lstrip("-"))] = True
+                client.debug(f"flags: {flags}")
+                continue
+            
+            # else: 
+            client.debug(f"Found short-form flags", WRAPPER_DEBUG)
+
+            flag_collector = inputs[index]
+            for character in flag_collector:
+                client.debug(f"Found flag: {character}", WRAPPER_DEBUG)
+                client.debug("Appending Flag to dictionary", WRAPPER_DEBUG)
+                flags[character] = True
+        
         client.debug("Finished scanning", WRAPPER_DEBUG)
+
+        # del index
 
         client.debug("Starting flag popping", WRAPPER_DEBUG)
 
@@ -60,23 +91,13 @@ def slash_command(function):
         for flag in flag_indexes: 
             inputs.pop(flag - popped)
             popped += 1
-        
-        del popped, flag_indexes
+
+        # del popped, flag_indexes
 
         client.debug("Done flag popping", WRAPPER_DEBUG)
         client.debug(f"Flag Processed Input: {inputs}", WRAPPER_DEBUG)
 
-        DEBUG=False
-
-        client.debug("Parsing wrapper-level flags", DEBUG)
-        for flag in flags: 
-            client.debug(f"Current flag: {flag}", WRAPPER_DEBUG)
-            if flag.lower() == "debug": 
-                DEBUG = True
-                client.debug("Found debug flag", WRAPPER_DEBUG)
-            if flag.lower() == "speed" or flag.lower() == "timer" or flag.lower() == "time" or flag.lower() == "performance": 
-                SPEED_TEST = True
-                client.debug("Found speed-test flag", WRAPPER_DEBUG)
+        client.debug(f"Flags: {flags}", WRAPPER_DEBUG)
 
         ### LOGIC: 
         # - Handle Flags (identify, create, and then put into kwargs)
@@ -120,19 +141,42 @@ def slash_command(function):
 
         # Please find a better way to name this. Or even better, don't need a variable just check in the if statement
 
+        client.debug(f"Debug Flag: {flags['debug']}", WRAPPER_DEBUG)
+
         if WRAPPER_DEBUG: client.devider()
 
-        if SPEED_TEST == True: 
+        if flags["speed"] == False: 
             start_time = time.time_ns()
-            function(*inputs, DEBUG=DEBUG, flags=flags)
-            client.info(f"This command took {round((time.time_ns() - start_time) / 1_000_000, 2)}ms to complete!")
-            # client.info(f"This command took {time.time_ns() - start_time} NANOSECCONDS to complete!")
+            function(*inputs, DEBUG=flags["debug"], **flags)
+
+            run_time = time.time_ns() - start_time
+
+            if run_time >= 10_000: 
+                client.info(f"This command took {round(run_time / 1_000_000, 2)}ms to complete!")
+            elif run_time == 0: 
+                client.warn("The speed test flag seems to be bugged, since it returned 0 nanosecconds.")
+            elif run_time >= 10_000: 
+                client.debug(run_time)
+            elif (time.time_ns() - start_time) < 0:
+                client.warn("The speed test function seems to be bugged, since it returned a negative value.")
+            else: 
+                client.info(f"This command took {time.time_ns() - start_time} NANOSECCONDS to complete!")
+            
+            del start_time, run_time
         else: 
-            function(*inputs, DEBUG=DEBUG, flags=flags)
+            function(*inputs, DEBUG=flags["debug"], **flags)
+        
+        del inputs, flags
+        del SPEED_TEST, WRAPPER_DEBUG
+        garbage_collector.collect() # Free any unused variables
+    # End Wrapper Function
     return wrapper
 
 def speed_test(function):
     def wrapper(*args):
+
+        client.warn(f"""The @speed_test decorator is DEPRECIATED! Please consider using
+      the --speed flag on command run instead. This will be REMOVED in a future version!!""")
 
         try: 
             start_time = time.time_ns()
@@ -154,6 +198,8 @@ class client:
     """
     Interact with the users client. This is the main class you will interact with. 
     """
+
+    MEOW = True
 
     def __init__(): 
         client.info("No __init__ needed!")
@@ -207,11 +253,16 @@ class client:
         and when your debug level is set to info or higher."""
         print(f"\n\033[0m\033[96m    Info:{command_tools.white} {string}", end="")
 
-    def debug(string: str, DEBUG=True): 
+    def debug(string: str, DEBUG=False): 
         """Prints debug messages to the dev terminal. These are often used
         to show what the command is currently doing and give insight as to
         how it works. They will only be written when the --debug flag is
         set."""
+        # if client.MEOW: 
+            # print(f"Meow: {client.MEOW}")
+            # client.MEOW = False
+            # print(f"Meow: {client.MEOW}")
+
         if DEBUG: print(f"\n\033[0m\033[92m   Debug:{command_tools.white} {string} ...", end="")
     
     def devider(): 
@@ -323,22 +374,30 @@ class client:
         # like server pings.
         pass 
 
+#// Types get capital letters and are one word.
 
-
-### MIGHT REMOVE THE USER CLASS
-class user: 
-    """
-    Hands user related actions.
-    """
-    def get_guid16(username): 
+class Server: 
+    def __init__(self): 
         pass
+    
+    def connect(self, server): 
+        raise NotImplementedError
 
-    def get_account(identifier): 
+class User: 
+    """
+    What do you think a user is? Do you REALLY need help with this?
+    """
+    def __init__(self, identifier): 
         """
-        The identifier can be an @ or GUID16
+        Initiate a new user object. The identifier can be a guid16, a
+        guid32_dyslexic, a handle (STARTING with the @ sign). All other
+        variables needed will be retrieved via querys. 
         """
-        pass
 
+        self.name = "test"
+        self.guid16 = guid.uuid4()
+        self.guid32_dyslexic = "GUID_32_dyslexic"
+        self.display_name = identifier
 
 
 class command_tools: 
@@ -351,6 +410,8 @@ class command_tools:
 
         for i in range(len(args)): 
             string += args[i] + " "
+        
+        return string.lstrip(" ").strip(" ")
 
         return string
     
