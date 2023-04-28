@@ -4,8 +4,6 @@ import re as regex
 from datetime import timedelta, datetime
 from commands_header import User
 
-# import argparse
-
 IS_DEBUG_MODE = True
 
 __AUTHORS__ = {
@@ -201,6 +199,54 @@ def kaomoji(*message): pass
 @alias(ban)
 def getoffmylawn(*message): pass
 
+@slash_command
+def group(action, *, client, **flags): 
+    
+    if action.lower() == "new":
+        instance = client.get_instance()
+
+        name = client.input("Group Name: ")
+        want_fancy_uri = client.input(f"""Do you want a fancy ID (y/n)? """)
+        
+        if want_fancy_uri == "y": 
+            uri = client.input(f"""{ct.white}{instance}/group/""")
+        if want_fancy_uri == "n": 
+            client.print("""You will get a GUID as your ID then. You can change
+   this at any time.""")
+        else: 
+            client.info("Interpriting as: no")
+            uri = client.get_guid_4()
+
+        del want_fancy_uri
+
+        client.print(f"""
+        Your invite will look like this: 
+   https://{instance}/group/{uri}
+   ocp://{instance}/{uri} <-- PROTOCOL NAME WIP
+
+""")
+        
+        import time
+
+        client.input(f"""Do you want a starter template (y/n): """)
+
+        client.debug("""All these following messages are cosmedic! This command
+   currently does nothing!""")
+        client.debug("Allocating storage")
+        time.sleep(0.1)
+
+        client.debug("Preparing template")
+        time.sleep(0.03)
+
+        client.debug("Generating keys")
+        time.sleep(0.2)
+
+        client.debug("connecting")
+        time.sleep(0.2)
+
+        client.debug("joining")
+        time.sleep(0.2)
+
 ###############################################################################
 # BEGIN DEBUG BLOCK                                                           #
 # --------------------------------------------------------------------------- #
@@ -241,12 +287,13 @@ try:
             repository at: {__REPOSITORY__}
             A list of yet-to-be-implemented features can be found by running 
             `/todo`!""")
-        except NameError: 
+        except LookupError: 
             client.error(f"No such command or internal function \"{command_func[0]}\" eixsts")
         # except: ImportError:
         #     Client.error("")
         except: 
             client.error("An unknown error occured. This may be in your block or the commands header.")
+            client.info("This is most often")
             # Client.error(f"Either there is such command \"{user_input}\" or the command had an error it could not handle.")
 
         if user_input.startswith("exit") or user_input.startswith("quit"): 

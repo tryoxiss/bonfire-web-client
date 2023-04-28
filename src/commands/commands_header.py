@@ -1,7 +1,6 @@
-import uuid as guid
-import time
-
 import gc as garbage_collector
+import time
+import uuid as guid
 
 """
 commands_header is a python file that contains functions required or useful
@@ -190,20 +189,20 @@ class Client:
     Interact with the users Client. This is the main class you will interact with. 
     """
 
-    # Not constants, but all caps to show they are not edited in this context
-    # ever. 
-    # show_debug = False
-    # show_info = True
-    # show_warn = True
-    # show_error = True
-    # Others are not included as they are showing the commands output.
-    # Either that or its a fatal error which must be shown. 
-
     def __init__(self): 
         self.show_debug = False
         self.show_info = True
         self.show_warn = True
         self.show_error = True
+
+        prefrences = {}
+
+        # Set in the users client config
+        # Do not share. 
+
+        CLIENT_TOKEN = ""
+        # PRIVATE_KEY = ""
+        PUBLIC_KEY = ""
 
     # Print outputs
     # TODO: Add formatting so that: 
@@ -252,7 +251,7 @@ class Client:
         and when your debug level is set to info or higher."""
 
         if self.show_info: 
-            print(f"\n\033[0m\033[96m    Info:{command_tools.white} {string}", end="")
+            print(f"\n{command_tools.blue}    Info:{command_tools.white} {string}", end="")
 
     def debug(self, string: str): 
         """Prints debug messages to the dev terminal. These are often used
@@ -266,9 +265,16 @@ class Client:
     def devider(self): 
         print(f"\n\033[0m\033[90m   " + "-" * 74, end="")
 
+
+    def get_instance(user="@me"): 
+        return "chat.instance.tld"
+
+    def get_guid_4(self): 
+        return guid.uuid4()
+
     # :/ no, this does nothing right now.
-    def input(self, string: str): 
-        string = input()
+    def input(self, promt: str): 
+        string = input(f" {command_tools.blue}? {command_tools.gray}{promt}{command_tools.blue}")
         return string
 
     def message(self): # Print a message as the bot
@@ -401,6 +407,7 @@ class User:
 class command_tools: 
     gray = "\033[0m\033[90m"
     white = "\033[0m\033[97m"
+    blue = "\033[0m\033[96m"
     output = f"{gray}  Output:{white}"
 
     def args_to_string(args): # Strip is number removed from the start
