@@ -220,9 +220,9 @@ def group(action, *, client, **flags):
         del want_fancy_uri
 
         client.print(f"""
-        Your invite will look like this: 
-   https://{instance}/group/{uri}
-   ocp://{instance}/{uri} <-- PROTOCOL NAME WIP
+        Your group links will look like this: 
+   https://{instance}/group/{uri}/category/channel/
+   ocp://{instance}/{uri}/category/channel/ <-- PROTOCOL NAME WIP
 
 """)
         
