@@ -1,10 +1,7 @@
-from commands_header import slash_command, Client, alias
+from commands_header import slash_command, Client, alias, User
 from commands_header import command_tools as ct
 import re as regex
 from datetime import timedelta, datetime
-from commands_header import User
-
-IS_DEBUG_MODE = True
 
 __AUTHORS__ = {
     "tryoxiss": {
@@ -40,7 +37,6 @@ def kick(user: str, *reason, **flags) -> None:
 
 @slash_command
 def cmdebug(*, client, **flags):
-
     client.print("cuddle")
 
 @slash_command
@@ -255,7 +251,7 @@ def group(action, *, client, **flags):
 # automatically injects this code at the end on program run.                  #
 ###############################################################################
 
-if IS_DEBUG_MODE: 
+if IS_DEBUG_MODE := True: 
     import os
     from commands_header import Client
 

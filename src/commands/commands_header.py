@@ -2,6 +2,8 @@ import gc as garbage_collector
 import time
 import uuid as guid
 
+import inspect
+
 """
 commands_header is a python file that contains functions required or useful
 or writing slash commands for codename bonfire.
@@ -36,13 +38,13 @@ def slash_command(function):
         # This also deals with some argument backend that needs to be done for 
         # every command. 
 
+        # __init__ 
         SPEED_TEST = False
-
         client = Client()
 
         # Wrapper debug only, same variable is used but edited before it is
         # fed into the command itself. 
-        client.show_debug = False
+        client.show_debug = True
 
         client.debug(f"Raw Input: {inputs}")
 
@@ -105,32 +107,33 @@ def slash_command(function):
         client.debug(f"Flags: {flags}")
 
         ### LOGIC: 
-        # - Handle Flags (identify, create, and then put into kwargs)
-        #   - Cannot be in or after when a string is needed *UNLESS the tring 
-        #     is "quoted"
-        #   - must be after positional arguments, before a  multi-word string
-        #     paramater
-        #   - Identify quoted strings and remove quotes
-        # - Combine Strings (IF DESIRED BY METADATA VARIABLE 
-        #   (__COMBINE_STRINGS__ = True : Combine them! default: False))
-        # - identify types
-        #   - check for valid types 
-        #       - Int: 0-9, replacng "_", " ", ",", "." with "" or "_" to make 
-        #         it code readable
-        #       - Float: 0-9, ",", "." -- replace them both is a "". If multple
-        #         exist:
-        #           - Replace the more common one with "".
-        #           - If theres exactly one of each, whicever one comes last 
-        #             (right most), becomes the decmal, and the other becomes ""
-        #           - If more than one of both "," and "." exists: throw an error
+        # - [ ] Handle Flags 
+        #       - [x] identify
+        #       - [x] create
+        #       - [x] put into kwargs
+        #       - [ ] Cannot be in or after when a string is needed *UNLESS the 
+        #             string is "quoted"
+        #    - [ ]must be after positional arguments, before a  multi-word string
+        #      paramater
+        #     - [ ]Identify quoted strings and remove quotes
+        # - [ ] Combine Strings (IF DESIRED BY METADATA VARIABLE 
+        #       (__COMBINE_STRINGS__ = True : Combine them! default: False))
+        # - [ ] identify types
+        #     - [ ] check for valid types 
+        #         - [ ] Int: 0-9, replacng "_", " ", ",", "." with "" or "_" to make 
+        #           it code readable
+        #         - [ ] Float: 0-9, ",", "." -- replace them both is a "". If multple
+        #               exist:
+        #               - [ ] Replace the more common one with "".
+        #               - [ ] If theres exactly one of each, whicever one comes last 
+        #                    (right most), becomes the decmal, and the other becomes ""
+        #               - [ ] If more than one of both "," and "." exists: throw an error
         #             and say you could not identify the decimal point. 
-        #   - convert to correct types (if none specified: String)
+        #  - [ ] convert to correct types (if none specified: String)
+        #  - [ ] Identify optional (_) paramaters
+        #       - [ ] If not found, fill those with a null (None) value.
 
         ## Also we want it to look at the paramaters needed and allow skipping of optional paramaters by providing null [MAYBE]
-
-        # All caps flags are handled by this and NOT PASSED ON. So for example
-        # --SPEED will also return the time the command took to run.
-        # --DEBUG
 
         # client.fatal("Test Fatal")
         # client.error("Test Error")
@@ -148,6 +151,16 @@ def slash_command(function):
 
         client.debug(f"Debug Flag: {client.show_debug}")
 
+        function_signature = (inspect.signature(function))
+        function_arguments = len(list(function_signature.parameters)) - 3 # Remove the *string, client=, and **flags from the number
+
+        if len(inputs) <= function_arguments: 
+            client.error(f"Not enough arguments passed! Expected at least {function_arguments} arguments.")
+    #         client.print(f"""The syntax for this command is: 
+    # {function_signature}""")
+            return
+
+        del function_signature, function_arguments
 
         if client.show_debug: client.devider()
 
@@ -155,6 +168,8 @@ def slash_command(function):
         # and the commands debug seperately. 
         if flags['debug'] == True: 
             client.show_debug = True
+
+        client.debug(f"Passing arguments: {inputs}")
 
         if flags["speed"] == True: 
             client.debug("Running with speed tests")
@@ -190,7 +205,7 @@ class Client:
     """
 
     def __init__(self): 
-        self.show_debug = False
+        self.show_debug = True
         self.show_info = True
         self.show_warn = True
         self.show_error = True
@@ -387,6 +402,19 @@ class Server:
     def connect(self, server): 
         raise NotImplementedError
 
+class Profile: 
+    """
+    Profile objects.
+    """
+
+    def __init__(self, identifier): 
+        self.name = "test"
+        self.guid16 = guid.uuid4()
+        self.guid32_dyslexic = "GUID_32_dyslexic"
+        self.display_name = identifier
+        self.account = guid.uuid4()
+        self.account_auth = guid.uuid4() # Let's pretend this is a token. It's NOT! But lets play pretend!
+
 class User: 
     """
     What do you think a user is? Do you REALLY need help with this?
@@ -398,10 +426,13 @@ class User:
         variables needed will be retrieved via querys. 
         """
 
-        self.name = "test"
+        self.display_name = "[FIELD IS DEPRICATED! Use the profiles name instead!]"
+        self.login_name = "test"
+        self.email = "user@email.email"
         self.guid16 = guid.uuid4()
         self.guid32_dyslexic = "GUID_32_dyslexic"
-        self.display_name = identifier
+        self.profile = "uwu"
+        # self.profiles = {"m": Profile(), "t": Profile(), "au": Profile()}
 
 
 class command_tools: 

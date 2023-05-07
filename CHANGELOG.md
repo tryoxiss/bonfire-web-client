@@ -39,4 +39,8 @@ This is our baseline so not much here. We wanted to get this much finished befor
 - Tooltips
 - Commands Header document
     - `@slash_command` wrapper
+        - Ensures enough arguments are present
+        - Identifies and handles basic flags
+        - Handles client object creation
+        - 
     - Command Tools class

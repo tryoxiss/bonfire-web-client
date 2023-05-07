@@ -10,7 +10,7 @@ pub enum Msg {
 }
 
 
-struct Guid { guid: u128 }
+struct Guid (u128);
 
 // struct ChannelMessages {
 //     // channel_name: String,
@@ -18,7 +18,7 @@ struct Guid { guid: u128 }
 // }
 
 struct App {
-    expandable_textarea_ref: NodeRef,
+    expandable_textarea: NodeRef,
     content: String,
 
     // theme: String,
@@ -34,42 +34,44 @@ struct App {
     // temp_task: Task,
 }
 
+// functions to be used by `impl Component for App`
+impl App {
+    fn update_message_box_content(&mut self) {
+        if let Some(div) = self.expandable_textarea.cast::<web_sys::HtmlElement>() {
+            // self.content = div.inner_html();
+            self.content = div.inner_text();
+            div.set_inner_text("");
+        }
+    }
+}
+
 impl Component for App {
     type Message = Msg;
     type Properties = ();
 
     fn create(_ctx: &Context<Self>) -> Self {
-        println!("Creating app (1/2)");
-        println!("Mounting app (2/2)");
+        println!("Creating and mounting app");
 
-        Self { 
-            expandable_textarea_ref: NodeRef::default(),
+        return Self { 
+            expandable_textarea: NodeRef::default(),
             content: String::new(),
 
             // theme: "ctp-mocha",
-            account: Guid { guid: 1 },
-            profile: Guid { guid: 1 },
+            account: Guid (1),
+            profile: Guid (1),
             // version: meeoww
 
             // link,
             // storage,
             // database,
             // temp_task: Task::new(),
-
-        }
+        };
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         println!("Updating App");
         match msg {
-            Msg::UpdateContent => {
-                if let Some(div) = self.expandable_textarea_ref.cast::<web_sys::HtmlElement>() {
-                    // self.content = div.inner_html();
-                    self.content = div.inner_text();
-                    div.set_inner_text("");
-                }
-                true
-            }
+            Msg::UpdateContent => { self.update_message_box_content(); true }
         }
     }
 
@@ -154,7 +156,7 @@ impl Component for App {
 
             //<ExpandableTextarea />
             <div 
-            ref={self.expandable_textarea_ref.clone()}
+            ref={self.expandable_textarea.clone()}
             class="expandable-textarea"
             id="message-box"
             role="textbox"
