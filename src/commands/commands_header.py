@@ -28,22 +28,18 @@ def slash_command(function):
     """
 
     def wrapper(*inputs):
+        # We want to time the whole thing, so we need to reccord the start 
+        # time. If they don't want a speed test, we can simply free this 
+        # later.
+        start_time = time.time_ns()
+
         # ENTER UNSAFE PYTHON
         # garbage_collector.disable() # <- only disables AUTOMATIC garbage collection. 
         # Can till be manually collected with garbage_collector.collect()
 
-        # Mostly a cosmedic decorator to tell the rust that the function is a
-        # slash command, and to add it to the index.
-        #
-        # This also deals with some argument backend that needs to be done for 
-        # every command. 
-
         # __init__ 
-        SPEED_TEST = False
         client = Client()
 
-        # Wrapper debug only, same variable is used but edited before it is
-        # fed into the command itself. 
         client.show_debug = True
 
         client.debug(f"Raw Input: {inputs}")
@@ -53,69 +49,8 @@ def slash_command(function):
 
         client.debug(f"Split Input: {inputs}")
 
-        # print(inputs)
+        flags = handle_flags(inputs, client=client)
 
-        flag_indexes = []
-        flags = {
-            "speed": False,
-            "debug": False
-        }
-
-        # TODO: Keep flags out of string collectors.
-        # TODO: Let them add non `True` values to the `flags` dictionary.
-        # I hate this messy code but this is the only place it will ever be used so extraction hardly makes sense here. 
-        for index in range(len(inputs)):
-            if not inputs[index].startswith("-"): continue
-
-            if inputs[index].startswith("--"): 
-                client.debug(f"Found flag: {inputs[index]}")
-
-                flag_indexes.append(index)
-
-                client.debug("Appending Flag to dictionary")
-                flags[str(inputs[index].lstrip("-"))] = True
-
-                flags[str(inputs[index].lstrip("-"))] = True
-                client.debug(f"flags: {flags}")
-                continue
-            
-            # else: 
-            client.debug(f"Found short-form flags")
-
-            flag_collector = inputs[index]
-            for character in flag_collector:
-                client.debug(f"Found flag: {character}")
-                client.debug("Appending Flag to dictionary")
-                flags[character] = True
-        
-        client.debug("Finished scanning")
-
-        # del index
-
-        client.debug("Starting flag popping")
-
-        popped = 0
-        for flag in flag_indexes: 
-            inputs.pop(flag - popped)
-            popped += 1
-
-        # del popped, flag_indexes
-
-        client.debug("Done flag popping")
-        client.debug(f"Flag Processed Input: {inputs}")
-
-        client.debug(f"Flags: {flags}")
-
-        ### LOGIC: 
-        # - [ ] Handle Flags 
-        #       - [x] identify
-        #       - [x] create
-        #       - [x] put into kwargs
-        #       - [ ] Cannot be in or after when a string is needed *UNLESS the 
-        #             string is "quoted"
-        #    - [ ]must be after positional arguments, before a  multi-word string
-        #      paramater
-        #     - [ ]Identify quoted strings and remove quotes
         # - [ ] Combine Strings (IF DESIRED BY METADATA VARIABLE 
         #       (__COMBINE_STRINGS__ = True : Combine them! default: False))
         # - [ ] identify types
@@ -129,51 +64,45 @@ def slash_command(function):
         #                    (right most), becomes the decmal, and the other becomes ""
         #               - [ ] If more than one of both "," and "." exists: throw an error
         #             and say you could not identify the decimal point. 
-        #  - [ ] convert to correct types (if none specified: String)
-        #  - [ ] Identify optional (_) paramaters
+
+
+        # - [ ] convert to correct types (if none specified: String)
+
+
+        # - [ ] Identify optional (_) paramaters
         #       - [ ] If not found, fill those with a null (None) value.
 
-        ## Also we want it to look at the paramaters needed and allow skipping of optional paramaters by providing null [MAYBE]
+        # This is a mess. The condition is basically: 
+        # "If the command takes morew arguments than we recieved as input, run this block"
+        if len(inputs) <= (function_arguments := len(inspect.signature(function).parameters) - 3):
+            #              ^^^^^^^^^^^^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^ ^^^^^^^^^^
+            #              | Take the number of    | | Get function details    | |        |
+            #              | arguments - 3 [2] and |                             | [1]    |
+            #              | assign it[3] for later|   
+            #              | use in the error msg  |
+            #              
+            # [1]: From the details, take the paramaters minus 3 (required paramaters that the user dosen't input)
+            # [2]: 3 is the number of required arguments NOT supplied by the user necesarly. They are, in order, 
+            #      *string_collector (can be blank), 
+            #      client (supplied by wrapper), 
+            #      **flags (supplied by wrapper, can be empty)
 
-        # client.fatal("Test Fatal")
-        # client.error("Test Error")
-        # client.warn("Test Warn")
-        # client.info("Test Info")
-        # client.print("Test Print")
-
-        # client.fatal("Test Fatal")
-        # client.error("Test Error")
-        # client.warn("Test Warn")
-        # client.info("Test Info")
-        # client.print("Test Print")
-
-        # Please find a better way to name this. Or even better, don't need a variable just check in the if statement
-
-        client.debug(f"Debug Flag: {client.show_debug}")
-
-        function_signature = (inspect.signature(function))
-        function_arguments = len(list(function_signature.parameters)) - 3 # Remove the *string, client=, and **flags from the number
-
-        if len(inputs) <= function_arguments: 
             client.error(f"Not enough arguments passed! Expected at least {function_arguments} arguments.")
-    #         client.print(f"""The syntax for this command is: 
-    # {function_signature}""")
+            del function_arguments
             return
-
-        del function_signature, function_arguments
 
         if client.show_debug: client.devider()
 
         # We do this here so one variable can control both the wrappers debug
         # and the commands debug seperately. 
-        if flags['debug'] == True: 
-            client.show_debug = True
+        client.show_debug = flags['debug']
+
 
         client.debug(f"Passing arguments: {inputs}")
 
-        if flags["speed"] == True: 
+        if flags["speed"] == True or flags["debug"] == True: 
             client.debug("Running with speed tests")
-            start_time = time.time_ns()
+
             function(*inputs, client=client, **flags)
 
             run_time = time.time_ns() - start_time
@@ -191,13 +120,97 @@ def slash_command(function):
             
             del start_time, run_time
         else: 
+            del start_time
             function(*inputs, client=client, **flags)
         
         del inputs, flags
-        del SPEED_TEST
-        garbage_collector.collect() # Free any unused variables
-    # End Wrapper Function
+        garbage_collector.collect() 
     return wrapper
+
+def handle_flags(inputs, *, client):
+
+    # - [x] identify
+    # - [x] create
+    # - [x] put into kwargs
+    # - [ ] Cannot be in or after when a string is needed *UNLESS the 
+    #       String is "quoted"
+    # - [ ] must be after positional arguments, before a  multi-word string
+    #       paramater
+    # - [ ]Identify quoted strings and remove quotes
+
+    flag_indexes = []
+    flags = {
+        "speed": False,
+        "debug": False,
+    }
+
+    # TODO: Keep flags out of string collectors.
+    # TODO: Let them add non `True` values to the `flags` dictionary.
+    # I hate this messy code but this is the only place it will ever be used so extraction hardly makes sense here. 
+    for index in range(len(inputs)):
+        if not inputs[index].startswith("-"): continue
+
+        if inputs[index].startswith("--"): 
+            client.debug(f"Found flag: {inputs[index]}")
+
+            flag_indexes.append(index)
+
+            if "=" in inputs[index]: 
+                client.debug("Found value flag")
+                flag = inputs[index].split("=")
+
+                client.debug(f"{flag}")
+
+                key = str(flag[0]).lstrip("--")
+                value = flag[1]
+                del flag
+
+                # Do float first to avoid rounding!
+                try: value = float(value)
+                except: client.debug("Value can be represented as a float")
+                try: value = int(value)
+                except: client.debug("Value can be represented as a intiger")
+
+                flags[key] = value
+
+                del key, value
+
+                continue
+
+            client.debug("Appending Flag to dictionary")
+            flags[str(inputs[index].lstrip("-"))] = True
+
+            flags[str(inputs[index].lstrip("-"))] = True
+            client.debug(f"flags: {flags}")
+            continue
+        
+        # else: 
+        client.debug(f"Found short-form flags")
+
+        flag_collector = inputs[index]
+        for character in flag_collector:
+            client.debug(f"Found flag: {character}")
+            client.debug("Appending Flag to dictionary")
+            flags[character] = True
+    
+    client.debug("Finished scanning")
+
+    # del index
+
+    client.debug("Starting flag popping")
+
+    popped = 0
+    for flag in flag_indexes: 
+        inputs.pop(flag - popped)
+        popped += 1
+
+    # del popped, flag_indexes
+
+    client.debug("Done flag popping")
+    client.debug(f"Flag Processed Input: {inputs}")
+
+    client.debug(f"Flags: {flags}")
+    return flags
 
 class Client: 
     """
