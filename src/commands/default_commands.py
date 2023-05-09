@@ -40,7 +40,7 @@ def cmdebug(*, client, **flags):
     client.print("cuddle")
 
 @slash_command
-def ban(user: str, _duration: str = "", *reason, client, **flags) -> None: # _ means OPTIONAL __NOT__ UNUSED
+def ban(user: str, _duration: str = "", *reason, client, **flags) -> bool: # _ means OPTIONAL __NOT__ UNUSED
     __ARGUMENTS__ = ["@mention or guid", "Duration (optional)", "Reason"]
 
     # THIS IS A TERRIBLE WAY TO DO THIS!!! We want to just accept user as a User instnatly instead of needing to type convert!

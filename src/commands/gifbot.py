@@ -1,17 +1,57 @@
 from commands_header import slash_command
 from commands_header import command_tools as ct
+import random
 
 @slash_command 
-def my_command(arg1, arg2, *string_collector, client, **flags) -> bool:
+def tired(*, client, **flags) -> bool:
 
-    __ARGUMENTS__ = ["Argument 1", "Argument 2", "Argument 3"]
+    gifs = [
+        "https://tenor.com/view/anime-tired-anime-girl-cute-kawaii-gif-14818724",
+        "https://tenor.com/view/bed-girl-tired-exhausted-anime-gif-12802615",
+        "https://tenor.com/view/lucky-star-yawn-tired-sleepy-sleep-gif-8472935",
+        "https://tenor.com/view/tired-bored-anime-girl-bed-gif-18074141",
+        "https://tenor.com/view/tired-anime-girl-bed-gif-12806723",
+        "https://tenor.com/view/anime-sleep-gif-19525636",
+        "https://tenor.com/view/rin-shelter-anime-girl-anime-girl-gif-16378676",
+        "https://tenor.com/view/willcore-kon-anime-girl-sleepy-gif-24035077",
+        "https://tenor.com/view/anime-girl-re-zero-starting-life-in-another-world-emilia-gif-17724637",
+        "https://tenor.com/view/ugh-yawn-tired-anime-sleepy-gif-17034115",
+        "https://tenor.com/view/nogamenolife-shiro-sleepy-tired-exhausted-gif-6238156",
+        "https://tenor.com/view/anime-tired-sleep-ranma-gif-24059343",
+        "https://tenor.com/view/tired-yawn-gape-azur-lane-laffey-gif-20063007",
+        "https://tenor.com/view/anime-tired-exhausted-gif-9595436",
+        "https://tenor.com/view/anime-girl-tired-yawning-gif-12799669",
+        "https://tenor.com/view/anime-tired-sleep-ranma-gif-24059343",
+    ]
 
-    client.print("Hello World!") 
+    client.message_box_content(f"{gifs[random.randrange(0, len(gifs))]}")
 
 
+@slash_command 
+def bored(*, client, **flags) -> bool:
+
+    gifs = [
+        "https://tenor.com/view/cute-bored-im-bored-panda-anime-gif-16619785",
+        "https://tenor.com/view/music-ssss-dynazenon-anime-girl-gif-21583218",
+        "https://tenor.com/view/bouuuuuuuuuuuuuuuuuuuuuuuuuu-bored-anime-cute-kawaii-gif-13095377",
+        "https://tenor.com/view/bored-anime-bubbles-gif-14078318",
+        "https://tenor.com/view/sleepy-anime-tired-bored-gif-12003953",
+        "https://tenor.com/view/anime-tired-exhausted-gif-9595436",
+    ]
+
+    client.message_box_content(f"{gifs[random.randrange(0, len(gifs))]}")
 
 
+@slash_command 
+def cuddle(*, client, **flags) -> bool:
 
+    gifs = [
+        "https://tenor.com/view/kon-yui-azusa-yui-hirasawa-azusa-nakano-gif-18946600",
+        "https://tenor.com/view/anime-hug-anime-anime-girl-anime-girls-anime-girls-hugging-gif-26094816",
+        "https://tenor.com/view/hug-love-cuddle-sweet-gif-16300151",
+    ]
+
+    client.message_box_content(f"{gifs[random.randrange(0, len(gifs))]}")
 
 ###############################################################################
 # BEGIN DEBUG BLOCK                                                           #

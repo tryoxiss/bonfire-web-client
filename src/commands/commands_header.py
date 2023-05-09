@@ -27,11 +27,11 @@ def slash_command(function):
     things you will see for almost every command.
     """
 
-    def wrapper(*inputs):
+    def wrapper(*_inputs):
         # We want to time the whole thing, so we need to reccord the start 
         # time. If they don't want a speed test, we can simply free this 
         # later.
-        start_time = time.time_ns()
+        _start_time = time.time_ns()
 
         # ENTER UNSAFE PYTHON
         # garbage_collector.disable() # <- only disables AUTOMATIC garbage collection. 
@@ -40,16 +40,16 @@ def slash_command(function):
         # __init__ 
         client = Client()
 
-        client.show_debug = True
+        client.show_debug = False
 
-        client.debug(f"Raw Input: {inputs}")
+        client.debug(f"Raw Input: {_inputs}")
 
-        inputs = inputs[0].split(" ")
-        inputs.pop(0)
+        _inputs = _inputs[0].split(" ")
+        _inputs.pop(0)
 
-        client.debug(f"Split Input: {inputs}")
+        client.debug(f"Split Input: {_inputs}")
 
-        flags = handle_flags(inputs, client=client)
+        _flags = handle_flags(_inputs, client=client)
 
         # - [ ] Combine Strings (IF DESIRED BY METADATA VARIABLE 
         #       (__COMBINE_STRINGS__ = True : Combine them! default: False))
@@ -74,7 +74,7 @@ def slash_command(function):
 
         # This is a mess. The condition is basically: 
         # "If the command takes morew arguments than we recieved as input, run this block"
-        if len(inputs) <= (function_arguments := len(inspect.signature(function).parameters) - 3):
+        if len(_inputs) <= (function_arguments := len(inspect.signature(function).parameters) - 3):
             #              ^^^^^^^^^^^^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^ ^^^^^^^^^^
             #              | Take the number of    | | Get function details    | |        |
             #              | arguments - 3 [2] and |                             | [1]    |
@@ -95,36 +95,49 @@ def slash_command(function):
 
         # We do this here so one variable can control both the wrappers debug
         # and the commands debug seperately. 
-        client.show_debug = flags['debug']
+        client.show_debug = _flags['debug']
 
 
-        client.debug(f"Passing arguments: {inputs}")
+        client.debug(f"Passing arguments: {_inputs}")
 
-        if flags["speed"] == True or flags["debug"] == True: 
-            client.debug("Running with speed tests")
+        panic = function(*_inputs, client=client, **_flags)
 
-            function(*inputs, client=client, **flags)
+        if _flags["speed"] == True: 
+            _run_time = time.time_ns() - _start_time
 
-            run_time = time.time_ns() - start_time
-
-            if run_time >= 10_000: 
-                client.info(f"This command took {round(run_time / 1_000_000, 2)}ms to complete!")
-            elif run_time == 0: 
+            if _run_time >= 10_000: 
+                client.info(f"This command took {round(_run_time / 1_000_000, 2)}ms to complete!")
+            elif _run_time == 0: 
                 client.warn("The speed test flag seems to be bugged, since it returned 0 nanosecconds.")
-            elif run_time >= 10_000: 
-                client.debug(run_time)
-            elif (time.time_ns() - start_time) < 0:
+            elif _run_time >= 10_000: 
+                client.debug(_run_time)
+            elif (time.time_ns() - _start_time) < 0:
                 client.warn("The speed test function seems to be bugged, since it returned a negative value.")
             else: 
-                client.info(f"This command took {time.time_ns() - start_time} NANOSECCONDS to complete!")
+                client.info(f"This command took {time.time_ns() - _start_time} NANOSECCONDS to complete!")
             
-            del start_time, run_time
+            del _run_time
+        del _inputs, _flags, _start_time
+
+        # True, False, and None are all valid for a boolean values.
+        # return True = Panic
+        # return False = ???
+        # return and return None are the same.
+        # return None
+
+        if panic == True: 
+            client.warn("""The command panniced (returned `True`)! 
+          A panic is a non-recoverable error.""")
+        if panic == True: 
+            client.info("The command indicated it was completed successfully.")
+        if panic == None: 
+            client.info("The command was completed successfully.")
         else: 
-            del start_time
-            function(*inputs, client=client, **flags)
-        
-        del inputs, flags
-        garbage_collector.collect() 
+            client.warn("""Please only return True, False, or None from a 
+          command function! You automatically return None with just a `return` 
+          statement or at the end of your command.""")
+
+        garbage_collector.collect()
     return wrapper
 
 def handle_flags(inputs, *, client):

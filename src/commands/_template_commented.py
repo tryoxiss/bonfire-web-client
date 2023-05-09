@@ -13,7 +13,7 @@ from commands_header import slash_command
 # function be be processed.
 
 @slash_command # <-- This is important, as it does a lot of heavy lifting for you and tells your client to treat it as a slash command.
-def my_command(arg1, arg2, *string_collector, client, **flags): 
+def my_command(arg1, arg2, *string_collector, client, **flags) -> bool: 
     # if you don't need a string collector, just use * to eat all arguments. It will work better, trust me.
     # Define your arguments. This is how the end user knows what to put in each field. If this dosen't exist, we will instead show the variable names.
     __ARGUMENTS__ = ["Argument 1", "Argument 2", "Argument 3"] 
