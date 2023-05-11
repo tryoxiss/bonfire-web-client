@@ -103,30 +103,33 @@ def slash_command(function):
         panic = function(*_inputs, client=client, **_flags)
 
         if _flags["speed"] == True: 
-            _run_time = time.time_ns() - _start_time
+            _run_time_ns = time.time_ns() - _start_time
 
-            if _run_time >= 60_000_000_000:
-                client.info(f"This command took {round(_run_time / 60_000_000_000, 2)}m to complete!")
+            if _run_time_ns >= 60_000_000_000: # 1 minute (60 secconds)
+                # TODO: Display as XmXs rather than X.XXm !!
+                client.info(f"This command took {round(_run_time_ns / 60_000_000_000, 2)}m to complete!")
                 client.info(f"""Keep in mind: This accounts for user input, so if the user takes
-           30 secconds to enter an input, the time will be 30 secconds longer than the processing
-          time!""")
-            if _run_time >= 1_000_000_000: 
-                client.info(f"This command took {round(_run_time / 1_000_000_000, 2)}s to complete!")
+        30 secconds to enter an input, the time will be 30 secconds longer than the processing
+        time!""")
+            elif _run_time_ns >= 1_000_000_000: # 1 seccond
+                client.info(f"This command took {round(_run_time_ns / 1_000_000_000, 2)}s to complete!")
                 client.info(f"""Keep in mind: This accounts for user input, so if the user takes
-          30 secconds to enter an input, the time will be 30 secconds longer than the processing
-          time!""")
-            elif _run_time >= 10_000: 
-                client.info(f"This command took {round(_run_time / 1_000_000, 2)}ms to complete!")
-            elif _run_time == 0: 
+        30 secconds to enter an input, the time will be 30 secconds longer than the processing
+        time!""")
+            elif _run_time_ns < 1_000_000_000: # less than 1 seccond
+                client.info(f"This command took {round(_run_time_ns / 1_000_000, 2)}ms to complete!")
+            elif _run_time_ns == 0: 
                 client.warn("The speed test flag seems to be bugged, since it returned 0 nanosecconds.")
-            elif _run_time >= 10_000: 
-                client.debug(_run_time)
-            elif (time.time_ns() - _start_time) < 0:
+            elif _run_time_ns >= 10_000: 
+                client.debug(_run_time_ns)
+            elif (time.time_ns() - _start_time) < 0: 
                 client.warn("The speed test function seems to be bugged, since it returned a negative value.")
-            else: 
+            else: # If displayed in millasecconds (ms) would be 0.00ms, so we display as ns!
                 client.info(f"This command took {time.time_ns() - _start_time}ns to complete!")
+                client.warn(f"""This is a suspiciouslt fast runtime for a python program!
+          """)
             
-            del _run_time
+            del _run_time_ns
         del _inputs, _flags, _start_time
 
         # True, False, and None are all valid for a boolean values.
