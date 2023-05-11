@@ -109,13 +109,13 @@ def slash_command(function):
                 # TODO: Display as XmXs rather than X.XXm !!
                 client.info(f"This command took {round(_run_time_ns / 60_000_000_000, 2)}m to complete!")
                 client.info(f"""Keep in mind: This accounts for user input, so if the user takes
-        30 secconds to enter an input, the time will be 30 secconds longer than the processing
-        time!""")
+        30 secconds to enter an input, the time will be 30 secconds longer than 
+        the processing time!""")
             elif _run_time_ns >= 1_000_000_000: # 1 seccond
                 client.info(f"This command took {round(_run_time_ns / 1_000_000_000, 2)}s to complete!")
                 client.info(f"""Keep in mind: This accounts for user input, so if the user takes
-        30 secconds to enter an input, the time will be 30 secconds longer than the processing
-        time!""")
+        30 secconds to enter an input, the time will be 30 secconds longer than
+        the processing time!""")
             elif _run_time_ns < 1_000_000_000: # less than 1 seccond
                 client.info(f"This command took {round(_run_time_ns / 1_000_000, 2)}ms to complete!")
             elif _run_time_ns == 0: 
