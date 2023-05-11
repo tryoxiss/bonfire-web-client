@@ -106,6 +106,11 @@ def slash_command(function):
             _run_time = time.time_ns() - _start_time
 
             if _run_time >= 10_000: 
+                client.info(f"This command took {round(_run_time / 1_000_000, 2)}s to complete!")
+                client.info(f"""Keep in mind: This accounts for user input, so if the user takes
+           30 secconds to enter an input, the time will be 30 secconds longer than the processing
+          time!""")
+            elif _run_time < 10_000: 
                 client.info(f"This command took {round(_run_time / 1_000_000, 2)}ms to complete!")
             elif _run_time == 0: 
                 client.warn("The speed test flag seems to be bugged, since it returned 0 nanosecconds.")
@@ -114,7 +119,7 @@ def slash_command(function):
             elif (time.time_ns() - _start_time) < 0:
                 client.warn("The speed test function seems to be bugged, since it returned a negative value.")
             else: 
-                client.info(f"This command took {time.time_ns() - _start_time} NANOSECCONDS to complete!")
+                client.info(f"This command took {time.time_ns() - _start_time}ns to complete!")
             
             del _run_time
         del _inputs, _flags, _start_time
@@ -315,7 +320,7 @@ class Client:
 
     # :/ no, this does nothing right now.
     def input(self, promt: str): 
-        string = input(f" {command_tools.blue}? {command_tools.gray}{promt}{command_tools.blue}")
+        string = input(f"\n {command_tools.blue}? {command_tools.gray}{promt}{command_tools.blue}")
         return string
 
     def message(self): # Print a message as the bot

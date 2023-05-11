@@ -173,7 +173,6 @@ def emote(EMOTE, *message, client, **flags) -> None:
 def todo(*string, client, **flags): 
     client.info("""Thank you for your interest! Some major wrapper 
           features that are yet to be implemented are: 
-          - Single Letter Flags
           - Type-checking
           - Type Conversions
           - Client Interactions
@@ -206,7 +205,7 @@ def group(action, *, client, **flags):
         
         if want_fancy_uri == "y": 
             uri = client.input(f"""{ct.white}{instance}/group/""")
-        if want_fancy_uri == "n": 
+        elif want_fancy_uri == "n": 
             client.print("""You will get a GUID as your ID then. You can change
    this at any time.""")
         else: 
