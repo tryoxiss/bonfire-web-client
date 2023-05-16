@@ -25,8 +25,8 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS, Windows 11, Fedora Linux, etc.]
- - Browser [e.g. Chrome, Safari, Firefox]
- - Version [e.g. 1.112] (optional)
+ - Browser: [e.g. Chrome, Safari, Firefox]
+ - Version: [e.g. 1.112] (optional)
 
 **Hardware:** (optional)
  - Device: [e.g. iPhone6]
