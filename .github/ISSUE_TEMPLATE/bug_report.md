@@ -17,22 +17,22 @@ Steps to reproduce the behavior:
 3. Scroll down to '...'
 4. See error
 
-**Expected behavior** (optional)
+**Expected behavior** 
 A clear and concise description of what you expected to happen. 
 
-**Screenshots** (optional)
+**Screenshots** (optional, delete if not filled in)
 If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS, Windows 11, Fedora Linux, etc.]
- - Browser [e.g. chrome, safari, custom client]
- - Version [e.g. 1.14.2] (optional)
+ - Browser [e.g. Chrome, Safari, Firefox]
+ - Version [e.g. 1.112] (optional)
 
 **Hardware:** (optional)
  - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
+ - OS: [e.g. iOS-14]
  - Browser [e.g. stock browser, safari]
  - Version [e.g. 22]
 
-**Additional context**
+**Additional context** (optional, delete if not filled in)
 Add any other context about the problem here.
