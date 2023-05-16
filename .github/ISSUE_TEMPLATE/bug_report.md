@@ -2,7 +2,7 @@
 name: Bug report
 about: Report bugs to help us keep our software clean!
 title: ''
-labels: bug
+labels: 🐛 bug 
 assignees: ''
 
 ---
