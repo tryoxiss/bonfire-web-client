@@ -40,7 +40,7 @@ def slash_command(function):
         # __init__ 
         client = Client()
 
-        client.show_debug = False
+        client.show_debug = True
 
         client.debug(f"Raw Input: {_inputs}")
 
@@ -53,6 +53,37 @@ def slash_command(function):
 
         # - [ ] Combine Strings (IF DESIRED BY METADATA VARIABLE 
         #       (__COMBINE_STRINGS__ = True : Combine them! default: False))
+
+
+
+        ## THIS IS A TERRIBLE WAY OF DOING THIS!
+        command_paramaters = function.__annotations__
+        client.print(command_paramaters)
+
+        iterations = 0
+        for argument in command_paramaters.values(): 
+            client.debug(f"arg: {argument}; iter: {iterations}; inputs: {_inputs};")
+
+            if argument == str: 
+                client.debug("Value is untyped or typed as a string: Nothing to do! Contuing")
+                continue
+            elif argument == int: 
+                client.debug("Found intiger: Converting type")
+                try: 
+                    _inputs[iterations] = int(_inputs[iterations])
+                except: 
+                    client.error(f"Please use a valid intiger (positive or negative, no decimals) for argument {iterations + 1}!")
+                    return
+            elif argument == float: 
+                client.debug("Found intiger: Converting type")
+                try: 
+                    _inputs[iterations] = float(_inputs[iterations])
+                except: 
+                    client.error(f"Please use a valid float (positive or negative, can include decimals) for argument {iterations + 1}!")
+                    return
+
+            iterations += 1
+
         # - [ ] identify types
         #     - [ ] check for valid types 
         #         - [ ] Int: 0-9, replacng "_", " ", ",", "." with "" or "_" to make 
@@ -552,3 +583,29 @@ def alias(alias_function):
             return alias_function(*args, **kwargs)
         return _
     return _
+
+
+
+#//
+#//
+#//# UNIT TESTS
+#// run: 
+# python -m unittest commands_header.py 
+#//
+#//
+
+# import unittest as test
+
+
+# class TestTools(): 
+#     def assert_eq(left, right, name: str): 
+#         if left == right: 
+#             print(f"{name} passed!")
+#             return
+#         print(f"{name} failed!")
+
+# def tests(): 
+#     type_conversion_test()
+
+# def type_conversion_test(): 
+#     pass
