@@ -127,18 +127,18 @@ impl Component for App {
         </header>
 
         <ul class="main-content">
-            // <MessageRoot content="Hello world" author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-            // <MessageConsecutive content="Hello world" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-            // <MessageConsecutive content="Oooh treats!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            <MessageRoot content="Hello world" author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            <MessageConsecutive content="Hello world" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            <MessageConsecutive content="Oooh treats!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
 
-            // <MessageRoot content="Attribution: please keep until we have a proper credts popup." author_name="Doggo" time="20:47" datetime_full="24 March 2023 at 20:47" />
-            // <MessageConsecutive content="Icons are from font awesome free. https://fontawesome.com/v6/icons/ (Attribution Required)" time="20:47" datetime_full="24 March 2023 at 20:47" />
-            // <MessageConsecutive content="Default background image is by Lightscape and is from unsplash. https://unsplash.com/photos/LtnPejWDSAY (No attribution required, its just the reasonable person thing to do)" time="20:47" datetime_full="24 March 2023 at 20:47" />
+            <MessageRoot content="Attribution: please keep until we have a proper credts popup." author_name="Doggo" time="20:47" datetime_full="24 March 2023 at 20:47" />
+            <MessageConsecutive content="Icons are from font awesome free. https://fontawesome.com/v6/icons/ (Attribution Required)" time="20:47" datetime_full="24 March 2023 at 20:47" />
+            <MessageConsecutive content="Default background image is by Lightscape and is from unsplash. https://unsplash.com/photos/LtnPejWDSAY (No attribution required, its just the reasonable person thing to do)" time="20:47" datetime_full="24 March 2023 at 20:47" />
             
-            // <MessageRoot author_name="Doggo" content="aaaaa" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-            // <MessageConsecutive content="yummy!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            <MessageRoot author_name="Doggo" content="aaaaa" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
+            <MessageConsecutive content="yummy!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
                
-            // <MessageRoot author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" content={self.content.clone()} />
+            <MessageRoot author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" content={self.content.clone()} />
 
             <MessagePane />
         </ul>
