@@ -9,21 +9,15 @@ pub enum Msg {
     UpdateContent,
 }
 
-
-struct Guid (u128);
-
-// struct ChannelMessages {
-//     // channel_name: String,
-//     messages: <vec>
-// }
+struct _Guid (u128);
 
 struct App {
     expandable_textarea: NodeRef,
     content: String,
 
     // theme: String,
-    account: Guid,
-    profile: Guid,
+    // account: Guid,
+    // profile: Guid,
 
     // metadata
     // version: String,
@@ -57,8 +51,8 @@ impl Component for App {
             content: String::new(),
 
             // theme: "ctp-mocha",
-            account: Guid (1),
-            profile: Guid (1),
+            // account: Guid (1),
+            // profile: Guid (1),
             // version: meeoww
 
             // link,
@@ -146,9 +140,7 @@ impl Component for App {
                
             <MessageRoot author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" content={self.content.clone()} />
 
-            <br />
-
-        
+            <MessagePane />
         </ul>
 
         <div class="message-area placeholder-message">
@@ -264,6 +256,79 @@ pub struct AppStruct {
 //     html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg> }
 // }
 
+struct MessagePane {
+    channel_messages: ChannelMessages,
+}
+
+// functions to be used by `impl Component for App`
+impl MessagePane {
+    // fn update_message_box_content(&mut self) {
+    //     if let Some(div) = self.expandable_textarea.cast::<web_sys::HtmlElement>() {
+    //         // self.content = div.inner_html();
+    //         self.content = div.inner_text();
+    //         div.set_inner_text("");
+    //     }
+    // }
+}
+
+impl Component for MessagePane {
+    type Message = Msg;
+    type Properties = ();
+
+    fn create(_ctx: &Context<Self>) -> Self {
+        println!("Creating and mounting app");
+
+        return Self { 
+            channel_messages: ChannelMessages::new(),
+
+            // theme: "ctp-mocha",
+            // account: Guid (1),
+            // profile: Guid (1),
+            // version: meeoww
+
+            // link,
+            // storage,
+            // database,
+            // temp_task: Task::new(),
+        };
+    }
+
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
+        println!("Updating App");
+        match msg {
+            Msg::UpdateContent => { true }
+        }
+    }
+
+    fn view(&self, _ctx: &Context<Self>) -> Html {
+        println!("Rendering App");
+
+        let messages_list = html! {
+            {
+            self.channel_messages.1.iter().map(|message| {
+                html!{ <MessageRoot author_name={message.author_name.clone()} time={message.time.clone()} datetime_full={message.datetime_full.clone()} content={message.content.clone()} />}
+            }).collect::<Html>()
+            }
+        };
+
+        html! {
+            <main>
+                { messages_list }
+            </main>
+        }
+    }
+}
+
+// #[function_component]
+// fn MessagesPane() -> Html {
+//     let items = (1..=10).collect::<messages>();
+//     html! {
+//         <main> 
+//             { for items.iter() }
+//         </main>
+//     }
+// }
+
 #[derive(Properties, PartialEq)]
 pub struct Message { 
     #[prop_or_default]
@@ -283,22 +348,22 @@ pub struct Message {
     unix_time: i64,
 }
 
-// fn send_message() { 
-     /*
-        Sanatise Content
-        
-        Create Element
+impl Message {
+    pub fn new() -> Message {
+        return Message { content: ("hello, bonfire!".to_string()), time: ("22:56".to_string()), datetime_full: ("15 May 2023 at 22:56".to_string()), author_name: ("Happy Camper".to_string()), unix_time: (800869) }
+    }
+}
 
-        Fihure out type (Root or Consec)
+struct ChannelMessages (String, Vec<Message>);
 
-        Render to DOM
-
-        (ALLOWING HTML CONTENT INSIDE IT)
-      */
-// }
+impl ChannelMessages {
+    pub fn new() -> ChannelMessages {
+        return ChannelMessages(String::from("Channel Name"), vec![Message::new(), Message::new(), Message::new()]);
+    }
+}
 
 #[function_component]
-fn MyProfile(props: &Message) -> Html {
+fn MyProfile(_props: &Message) -> Html {
     html! {
     <div role="profile">
         <div style="background-image: url(https://picsum.photos/id/237/200/300);" class="pfp">
@@ -345,6 +410,20 @@ fn MessageConsecutive(props: &Message) -> Html {
     }
 }
 
+// fn send_message() { 
+     /*
+        Sanatise Content
+        
+        Create Element
+
+        Fihure out type (Root or Consec)
+
+        Render to DOM
+
+        (ALLOWING HTML CONTENT INSIDE IT)
+      */
+// }
+
 #[derive(Properties, PartialEq)]
 pub struct SidebarIconStruct { 
     #[prop_or_default]
@@ -352,7 +431,7 @@ pub struct SidebarIconStruct {
 }
 
 #[function_component]
-fn SidebarIcon(props: &SidebarIconStruct) -> Html {
+fn SidebarIcon(_props: &SidebarIconStruct) -> Html {
     html! {
     <li class="has-tooltip">
         <a href="#1" data-tippy-content="Meeeowww" style="background-image: url(https://picsum.photos/id/237/200/300);"></a>
