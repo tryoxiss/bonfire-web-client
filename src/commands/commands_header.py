@@ -40,7 +40,7 @@ def slash_command(function):
         # __init__ 
         client = Client()
 
-        client.show_debug = True
+        client.show_debug = False
 
         client.debug(f"Raw Input: {_inputs}")
 
@@ -58,7 +58,7 @@ def slash_command(function):
 
         ## THIS IS A TERRIBLE WAY OF DOING THIS!
         command_paramaters = function.__annotations__
-        client.print(command_paramaters)
+        client.debug(command_paramaters)
 
         iterations = 0
         for argument in command_paramaters.values(): 
@@ -72,6 +72,7 @@ def slash_command(function):
                 try: 
                     _inputs[iterations] = int(_inputs[iterations])
                 except: 
+                    if _flags["unit-test"] == True: raise ValueError
                     client.error(f"Please use a valid intiger (positive or negative, no decimals) for argument {iterations + 1}!")
                     return
             elif argument == float: 
@@ -79,6 +80,7 @@ def slash_command(function):
                 try: 
                     _inputs[iterations] = float(_inputs[iterations])
                 except: 
+                    if _flags["unit-test"] == True: raise ValueError
                     client.error(f"Please use a valid float (positive or negative, can include decimals) for argument {iterations + 1}!")
                     return
 
@@ -173,9 +175,9 @@ def slash_command(function):
             client.warn("""The command panniced (returned `True`)! 
           A panic is a non-recoverable error.""")
         if panic == True: 
-            client.info("The command indicated it was completed successfully.")
+            client.debug("The command indicated it was completed successfully.")
         if panic == None: 
-            client.info("The command was completed successfully.")
+            client.debug("The command was completed successfully.")
         else: 
             client.warn("""Please only return True, False, or None from a 
           command function! You automatically return None with just a `return` 
@@ -199,6 +201,7 @@ def handle_flags(inputs, *, client):
     flags = {
         "speed": False,
         "debug": False,
+        "unit-test": False,
     }
 
     # TODO: Keep flags out of string collectors.
@@ -348,7 +351,7 @@ class Client:
             print(f"\n\033[0m\033[92m   Debug:{command_tools.white} {string} ...", end="")
     
     def devider(self): 
-        print(f"\n\033[0m\033[90m   " + "-" * 74, end="")
+        print(f"\n\033[0m\033[90m   " + "-" * 74, end="\n")
 
 
     def get_instance(user="@me"): 
@@ -589,23 +592,126 @@ def alias(alias_function):
 #//
 #//
 #//# UNIT TESTS
-#// run: 
-# python -m unittest commands_header.py 
 #//
 #//
 
-# import unittest as test
+class test_tools: 
+    brace_color = "\033[0m\033[90m"
+    name_color = "\033[0m\033[97m"
+
+    ok_color = "\033[0m\033[92m"
+    fail_color = "\033[0m\033[91m"
+    skip_color = "\033[0m\033[90m"
+
+    def test_module(name):
+        print(f"\n\033[0m" + "\033[90m--- " + "\033[0m" + name + "\033[90m"+ " " + "-" * (75 - len(name)), end="\n")
+
+    def ok(name): 
+        print(f"{test_tools.brace_color}[  {test_tools.ok_color}OK{test_tools.brace_color}  ] {test_tools.name_color}{name}")
+
+    def fail(name): 
+        print(f"{test_tools.brace_color}[ {test_tools.fail_color}FAIL{test_tools.brace_color} ] {test_tools.name_color}{name}")
+
+    def skip(name): 
+        print(f"{test_tools.brace_color}[ {test_tools.skip_color}SKIP{test_tools.brace_color} ] {test_tools.name_color}{name}")
 
 
-# class TestTools(): 
-#     def assert_eq(left, right, name: str): 
-#         if left == right: 
-#             print(f"{name} passed!")
-#             return
-#         print(f"{name} failed!")
+    def assert_eq(left: any, right: any, *, name = "Unnamed Test"): 
+        if left == right: 
+            test_tools.ok(name)
+        else: 
+            test_tools.fail(name)
+    
+    def assert_not_eq(left: any, right: any, *, name = "Unnamed Test"): 
+        if left == right: 
+            test_tools.fail(name)
+        else: 
+            test_tools.ok(name)
+    
+    def assert_int(variable: any, *, name = "Unnamed Test"): 
+        if type(variable) == int: 
+            test_tools.ok(name)
+        else: 
+            test_tools.fail(name)
+    
+    def assert_float(variable: any, *, name = "Unnamed Test"): 
+        if type(variable) == float: 
+            test_tools.ok(name)
+        else: 
+            test_tools.fail(name)
+    
+    def assert_str(variable: any, *, name = "Unnamed Test"): 
+        if type(variable) == str: 
+            test_tools.ok(name)
+        else: 
+            test_tools.fail(name)
 
-# def tests(): 
-#     type_conversion_test()
 
-# def type_conversion_test(): 
-#     pass
+@slash_command
+def convert_pi(pi: float, *, client, **flags):
+    test_tools.assert_eq(pi, 3.141, name="Convert string of 3.141 to float")
+
+@slash_command
+def int_as_float(val: float, *, client, **flags):
+    test_tools.assert_float(val, name="Use type hinting to make it a float rather than an intiger")
+
+@slash_command
+def keep_as_string_hinted(val: str, *, client, **flags):
+    test_tools.assert_str(val, name="Keep a hinted string as a string")
+
+@slash_command
+def keep_as_string_unhinted(val, *, client, **flags):
+    test_tools.assert_str(val, name="Keep an unhinted string as a string")
+
+@slash_command
+def fail_to_convert_float_to_int(pi: int, *, client, **flags):
+    # Should not be
+    test_tools.assert_int(pi, name="Fail to convert a float to intiger")
+
+@slash_command
+def convert_non_numerical_string_to_int(val: int, *, client, **flags):
+    # Should not be
+    test_tools.assert_str(val, str, name="Fail to convert a non-numerical string to an intiger")
+
+@slash_command
+def convert_non_numerical_string_to_float(val: float, *, client, **flags):
+    # Should not be
+    test_tools.assert_str(val, str, name="Fail to convert a non-numerical string to a float")
+
+@slash_command
+def convert_non_numerical_string_to_float(val: float, *, client, **flags):
+    # Should not be
+    test_tools.assert_str(val, str, name="Fail to convert a non-numerical string to a float")
+
+
+
+def tests(): 
+    test_tools.test_module("test_tools module test")
+
+    test_tools.ok("This test should OK")
+    test_tools.fail("This test should FAIL")
+    test_tools.skip("This test should SKIP")
+
+    test_tools.test_module("@slash_command type conversions")
+
+    # Test things that should work
+    convert_pi("/test 3.141")
+    int_as_float("/test 12")
+    keep_as_string_hinted("/test meow")
+    keep_as_string_unhinted("/test meow")
+
+    # Test things that should not work 
+    try: fail_to_convert_float_to_int("/test 3.141 --unit-test")
+    except: test_tools.ok("Fail to convert a float to intiger")
+    
+    try: convert_non_numerical_string_to_int("/test four --unit-test")
+    except: test_tools.ok("Fail to convert a non-numerical string to an intiger")
+
+    try: convert_non_numerical_string_to_float("/test three point one four one --unit-test")
+    except: test_tools.ok("Fail to convert a non-numerical string to a float")
+
+    test_tools.test_module("@slash_command flags system")
+
+
+
+tests()

@@ -293,8 +293,6 @@ impl Component for MessagePane {
 
 
 struct SettingsMenu { }
-
-// functions to be used by `impl Component for SettingsMenu`
 impl SettingsMenu { }
 
 impl Component for SettingsMenu {
