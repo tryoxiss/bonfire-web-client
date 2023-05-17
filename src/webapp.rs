@@ -408,13 +408,6 @@ impl ChannelMessages {
 
         return channel_messages;
     }
-
-    pub fn add_one(mut channel_messages: ChannelMessages) -> ChannelMessages {
-
-        channel_messages.1.push(Message::new("Hello. ".to_string()));
-
-        return channel_messages;
-    }
 }
 
 #[function_component]
