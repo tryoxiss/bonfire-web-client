@@ -128,6 +128,8 @@ impl Component for App {
 
         <MessagePane />
 
+        // <SettingsMenu />
+
         <div class="message-area placeholder-message">
             <button class="round-button"><FaPlusIcon /></button>
 
@@ -304,6 +306,99 @@ impl Component for MessagePane {
     }
 }
 
+
+struct SettingsMenu {
+    channel_messages: ChannelMessages,
+}
+
+// functions to be used by `impl Component for App`
+impl SettingsMenu {
+    // fn update_message_box_content(&mut self) {
+    //     if let Some(div) = self.expandable_textarea.cast::<web_sys::HtmlElement>() {
+    //         // self.content = div.inner_html();
+    //         self.content = div.inner_text();
+    //         div.set_inner_text("");
+    //     }
+    // }
+}
+
+impl Component for SettingsMenu {
+    type Message = Msg;
+    type Properties = ();
+
+    fn create(_ctx: &Context<Self>) -> Self {
+        println!("Creating and mounting app");
+
+        return Self { 
+            channel_messages: ChannelMessages::new(),
+
+            // theme: "ctp-mocha",
+            // account: Guid (1),
+            // profile: Guid (1),
+            // version: meeoww
+
+            // link,
+            // storage,
+            // database,
+            // temp_task: Task::new(),
+        };
+    }
+
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
+        println!("Updating App");
+        match msg {
+            Msg::UpdateContent => { true }
+        }
+    }
+
+    fn view(&self, _ctx: &Context<Self>) -> Html {
+        println!("Rendering App");
+
+        let messages_list = html! {
+            <div class="allow-headings settings-menu">
+                <h2>{"Options (THIS SHOULD BE THE TITLEBAR)"}</h2>
+                <ul>
+                    <li>
+                        <div class="flex-container flex-force-seccond-item-right">
+                            <h3>{"Reduced Motion"}</h3> 
+                            <Switch />
+                        </div>
+                        <p class="muted">{"Animations will only play on hover, and bigger animations will be less pronounced."}</p>
+                    </li>
+
+                    <li>
+                        <div class="flex-container flex-force-seccond-item-right">
+                            <h3>{"Use Dyslexic Font"}</h3> 
+                            <Switch />
+                        </div>
+                        <p class="muted">{"The font will be changed to 'Atkinon Hyperlegible'."}</p>
+                    </li>
+
+                    <li>
+                        <div class="">
+                            <h3>{"Danger Zone"}</h3> 
+                            <p class="muted">{"Spooky scary dangrous buttons"}</p>
+                            
+                        </div>
+                        <ButtonNormal /><ButtonDangerWait /><ButtonText />
+                    </li>
+                </ul>
+
+                <h2>{"Attribution"}</h2>
+                <ul>
+                    <li>{"Icons are from font awesome free. https://fontawesome.com/v6/icons/ (Attribution Required)"}</li>
+                </ul>
+            </div> 
+        };
+
+        html! {
+            <ul class="main-content">
+                { messages_list }
+            </ul>
+        }
+    }
+}
+
 // #[function_component]
 // fn MessagesPane() -> Html {
 //     let items = (1..=10).collect::<messages>();
@@ -335,7 +430,8 @@ pub struct Message {
 
 impl Message {
     pub fn new() -> Message {
-        return Message { content: ("Hello, Bonfire! Icons are from font awesome free. https://fontawesome.com/v6/icons/ (Attribution Required)".to_string()), time: ("22:56".to_string()), datetime_full: ("15 May 2023 at 22:56".to_string()), author_name: ("Happy Camper".to_string()), unix_time: (800869) }
+        return Message { content: ("Hello, Bonfire! \n
+        Icons are from font awesome free. https://fontawesome.com/v6/icons/ (Attribution Required)".to_string()), time: ("22:56".to_string()), datetime_full: ("15 May 2023 at 22:56".to_string()), author_name: ("Happy Camper".to_string()), unix_time: (800869) }
     }
 }
 
@@ -356,7 +452,7 @@ fn MyProfile(_props: &Message) -> Html {
         </div>
         <div class="content">
             <text>{"doggo"}</text>
-            <text class="muted">{"This is my status"}</text>
+            <text class="muted">{"Barking at butterflies"}</text>
         </div>
     </div>
     }
@@ -365,7 +461,7 @@ fn MyProfile(_props: &Message) -> Html {
 #[function_component]
 fn MessageRoot(props: &Message) -> Html {
     html! {
-    <li>
+    <li class="message">
         <div style="background-image: url(https://picsum.photos/id/237/200/300);" class="pfp" />
 
         <div class="content">
@@ -386,7 +482,7 @@ fn MessageRoot(props: &Message) -> Html {
 #[function_component]
 fn MessageConsecutive(props: &Message) -> Html {
     html! {
-    <li>
+    <li class="message">
     <time class="has-tooltip" data-tippy-content={props.datetime_full.clone()}>{ props.time.clone() }</time>
         <div class="content">
         <p>{ props.content.clone() }</p>

@@ -43,20 +43,9 @@ app {
     margin-left: -2.5rem;
 }
 
-:not(.allow) :is(h1, h2, h3, h4, h5, h6) { 
+:not(.allow-rich-formatting) :is(h1, h2, h3, h4, h5, h6) { 
     font-size: 1rem;
     font-weight: 400;
-}
-
-.pfp { 
-    width: 3rem;
-    height: 3rem;
-    background-size: cover;
-    border-radius: var(--border-icon-radius);
-}
-
-.content text { 
-    display: block;
 }
 
 [role="groups"] { grid-area: groups; }
@@ -128,21 +117,21 @@ main time {
 }
 
 .author { 
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
 main ul { 
     overflow: scroll;
 }
 
-main li:hover time { 
+.message:hover time { 
     margin-left: var(--standard-margin);
     font-size: 0.8rem;
     margin-top: 3px;
     opacity: 1;
 }
 
-main li { 
+.message { 
     display: grid;
 
     grid-template-columns: 4rem 1fr;
@@ -152,6 +141,17 @@ main li {
 .message-area { 
     display: flex;
     background: transparent;
+}
+
+.pfp { 
+    width: 3rem;
+    height: 3rem;
+    background-size: cover;
+    border-radius: var(--border-icon-radius);
+}
+
+.content text { 
+    display: block;
 }
 
 .expandable-textarea {

@@ -145,19 +145,21 @@ ol > ol > ol > ol { list-style: lower-roman; }
 
 /* ☢️ You're playing a dangrous game, girl!
  * -----------------------------------------
- * Removing the outline on content makes it harder for people who navigate with 
+ * Removing the outline on content makes it harder for people who 
+ * navigate with 
  * keyboard as they can't see where the focus is. 
  * 
- * In this case, it should be fine as the cursor indicator is present but avoid
- * doing this in any other case unless you re-implement a focus state. 
+ * In this case, it should be fine as the cursor indicator is
+ *  present but avoid doing this in any other case unless you 
+ * re-implement a focus state. 
  * 
- * And no, since this is conteneditable :focus-visible is the defult and won't
- * work because of that.
+ * And no, since this is conteneditable :focus-visible is the 
+ * defult and won't work because of that.
  */
 .expandable-textarea:focus { 
     outline: 0; /* See above warning */
 }
-.button-danger-wait, .button-danger {
+.button-rect {
     text-shadow: 0px 0px 4px var(--box-bg);
 }
 
@@ -167,6 +169,28 @@ ol > ol > ol > ol { list-style: lower-roman; }
 .bot-message {}
 .ping-message {}
 
+
+header time { 
+    height: 1rem;
+}
+
+.allow-headings h2 { 
+    font-size: 1.05rem;
+    font-weight: bold;
+}
+
+.settings-menu li { 
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid rgb(255, 255, 255, 0.1);
+}
+
+.flex-container { 
+    display: flex;
+}
+
+.flex-force-seccond-item-right *:nth-child(2) { 
+    margin-left: auto;
+}
 
 .author { 
     /* Set --color-1 and --color-2 in the html like so: 
