@@ -1,4 +1,3 @@
-
 use yew::prelude::*;
 // use std::time::{Duration, SystemTime};
 
@@ -128,8 +127,6 @@ pub struct AppStruct {
     theme: String,
 }
 
-// props: &Props
-
 // Then somewhere else you can use the component inside `html!`
 // #[function_component]
 // fn HelloWorld() -> Html {
@@ -208,6 +205,7 @@ pub struct AppStruct {
 //     html! { <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg> }
 // }
 
+#[derive(Default, Clone)]
 struct MessagePane {
     expandable_textarea: NodeRef,
     channel_messages: ChannelMessages,
@@ -236,23 +234,17 @@ impl Component for MessagePane {
             expandable_textarea: NodeRef::default(),
             channel_messages: ChannelMessages::new(),
             content: String::new(),
-
-            // theme: "ctp-mocha",
-            // account: Guid (1),
-            // profile: Guid (1),
-            // version: meeoww
-
-            // link,
-            // storage,
-            // database,
-            // temp_task: Task::new(),
         };
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         println!("Updating App");
         match msg {
-            Msg::UpdateContent => { self.update_message_box_content(); true }
+            Msg::UpdateContent => { 
+                self.update_message_box_content(); 
+                self.channel_messages = ChannelMessages::new_message(self.channel_messages.clone(), self.content.clone());
+                true 
+            }
         }
     }
 
@@ -372,7 +364,7 @@ impl Component for SettingsMenu {
     }
 }
 
-#[derive(Properties, PartialEq)]
+#[derive(Properties, PartialEq, Default, Clone)]
 pub struct Message { 
     #[prop_or_default]
     content: String,
@@ -392,17 +384,36 @@ pub struct Message {
 }
 
 impl Message {
-    pub fn new() -> Message {
+    pub fn new(content: String) -> Message {
+        return Message { content: (content.to_string()), time: ("22:56".to_string()), datetime_full: ("15 May 2023 at 22:56".to_string()), author_name: ("Happy Camper".to_string()), unix_time: (800869) }
+    }
+
+    pub fn attribution_message() -> Message {
         return Message { content: ("Hello, Bonfire! \n
-        Icons are from font awesome free. https://fontawesome.com/v6/icons/ (Attribution Required)".to_string()), time: ("22:56".to_string()), datetime_full: ("15 May 2023 at 22:56".to_string()), author_name: ("Happy Camper".to_string()), unix_time: (800869) }
+        Icons are from font awesome free. https://fontawesome.com/v6/icons/ (Attribution Required)".to_string()), time: ("22:56".to_string()), datetime_full: ("15 May 2023 at 22:56".to_string()), author_name: ("Font Awesome Free".to_string()), unix_time: (800869) }
     }
 }
 
+#[derive(Default, Clone)]
 struct ChannelMessages (String, Vec<Message>);
 
 impl ChannelMessages {
     pub fn new() -> ChannelMessages {
-        return ChannelMessages(String::from("Channel Name"), vec![Message::new(), Message::new(), Message::new()]);
+        return ChannelMessages(String::from("Channel Name"), vec![Message::attribution_message()]);
+    }
+
+    pub fn new_message(mut channel_messages: ChannelMessages, content: String) -> ChannelMessages {
+
+        channel_messages.1.push(Message::new(content.to_string()));
+
+        return channel_messages;
+    }
+
+    pub fn add_one(mut channel_messages: ChannelMessages) -> ChannelMessages {
+
+        channel_messages.1.push(Message::new("Hello. ".to_string()));
+
+        return channel_messages;
     }
 }
 
