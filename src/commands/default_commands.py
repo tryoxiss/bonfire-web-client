@@ -1,5 +1,4 @@
-from commands_header import slash_command, Client, alias, User
-from commands_header import command_tools as ct
+from commands_header import slash_command, Client, alias, User, command_tools as ct
 import re as regex
 from datetime import timedelta, datetime
 

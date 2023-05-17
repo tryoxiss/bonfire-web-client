@@ -51,6 +51,13 @@ def slash_command(function):
 
         _flags = handle_flags(_inputs, client=client)
 
+        if _flags["no-console-output"] == True: 
+            client.show_debug = False
+            client.show_error = False
+            client.show_info = False
+            client.show_warn = False
+
+
         # - [ ] Combine Strings (IF DESIRED BY METADATA VARIABLE 
         #       (__COMBINE_STRINGS__ = True : Combine them! default: False))
 
@@ -128,8 +135,10 @@ def slash_command(function):
 
         # We do this here so one variable can control both the wrappers debug
         # and the commands debug seperately. 
-        client.show_debug = _flags['debug']
 
+
+        if _flags["no-console-output"] == False: 
+            client.show_debug = _flags['debug']
 
         client.debug(f"Passing arguments: {_inputs}")
 
@@ -202,6 +211,7 @@ def handle_flags(inputs, *, client):
         "speed": False,
         "debug": False,
         "unit-test": False,
+        "no-console-output": False,
     }
 
     # TODO: Keep flags out of string collectors.
@@ -210,10 +220,10 @@ def handle_flags(inputs, *, client):
     for index in range(len(inputs)):
         if not inputs[index].startswith("-"): continue
 
+        flag_indexes.append(index)
+
         if inputs[index].startswith("--"): 
             client.debug(f"Found flag: {inputs[index]}")
-
-            flag_indexes.append(index)
 
             if "=" in inputs[index]: 
                 client.debug("Found value flag")
@@ -647,6 +657,8 @@ class test_tools:
             test_tools.fail(name)
 
 
+# Type Conversions
+
 @slash_command
 def convert_pi(pi: float, *, client, **flags):
     test_tools.assert_eq(pi, 3.141, name="Convert string of 3.141 to float")
@@ -671,19 +683,71 @@ def fail_to_convert_float_to_int(pi: int, *, client, **flags):
 @slash_command
 def convert_non_numerical_string_to_int(val: int, *, client, **flags):
     # Should not be
-    test_tools.assert_str(val, str, name="Fail to convert a non-numerical string to an intiger")
+    test_tools.assert_str(val, name="Fail to convert a non-numerical string to an intiger")
 
 @slash_command
 def convert_non_numerical_string_to_float(val: float, *, client, **flags):
     # Should not be
-    test_tools.assert_str(val, str, name="Fail to convert a non-numerical string to a float")
+    test_tools.assert_str(val, name="Fail to convert a non-numerical string to a float")
 
 @slash_command
 def convert_non_numerical_string_to_float(val: float, *, client, **flags):
     # Should not be
-    test_tools.assert_str(val, str, name="Fail to convert a non-numerical string to a float")
+    test_tools.assert_str(val, name="Fail to convert a non-numerical string to a float")
 
+# Flags
 
+@slash_command
+def debug_flag_true(val, *, client, **flags):
+    test_tools.assert_eq(flags["debug"], True, name="Set debug flag")
+
+@slash_command
+def debug_flag_short_true(val, *, client, **flags):
+    test_tools.assert_eq(flags["d"], True, name="Set short debug flag")
+
+@slash_command
+def debug_flag_false(val, *, client, **flags):
+    test_tools.assert_eq(flags["debug"], False, name="Don't set debug flag")
+
+@slash_command
+def speed_flag_true(val, *, client, **flags):
+    test_tools.assert_eq(flags["speed"], True, name="Set speed flag")
+
+@slash_command
+def speed_flag_false(val, *, client, **flags):
+    test_tools.assert_eq(flags["speed"], False, name="Don't set speed flag")
+
+@slash_command
+def value_flag_str_no_spaces(val, *, client, **flags):
+    test_tools.assert_eq(flags["string"], "string", name="Keep value flag as a string (no spaces)")
+
+@slash_command
+def value_flag_str_with_spaces(val, *, client, **flags):
+    test_tools.skip("(Not Implemented) Keep value flag as a string (with spaces)")
+    return
+    test_tools.assert_eq(flags["string"], "the quick brown fox jumps over the lazy beown dog", name="Keep value flag as a string (with spaces)")
+
+@slash_command
+def value_flag_int(val, *, client, **flags):
+    test_tools.assert_eq(flags["intiger"], 13, name="Interprited a value flag and make it an intiger")
+
+# Return values
+
+@slash_command
+def panic_with_return_true(val, *, client, **flags):
+    return True
+
+@slash_command
+def dont_panic_with_return_false(val, *, client, **flags):
+    return False
+
+@slash_command
+def dont_panic_with_return_none(val, *, client, **flags):
+    return
+
+@slash_command
+def dont_panic_with_return_implicit(val, *, client, **flags):
+    pass # We need a block, it will implictly return at the end of the block.
 
 def tests(): 
     test_tools.test_module("test_tools module test")
@@ -695,10 +759,17 @@ def tests():
     test_tools.test_module("@slash_command type conversions")
 
     # Test things that should work
-    convert_pi("/test 3.141")
-    int_as_float("/test 12")
-    keep_as_string_hinted("/test meow")
-    keep_as_string_unhinted("/test meow")
+    try: convert_pi("/test 3.141")
+    except: pass
+
+    try: int_as_float("/test 12")
+    except: pass
+
+    try: keep_as_string_hinted("/test meow")
+    except: pass
+
+    try: keep_as_string_unhinted("/test meow")
+    except: pass
 
     # Test things that should not work 
     try: fail_to_convert_float_to_int("/test 3.141 --unit-test")
@@ -710,8 +781,86 @@ def tests():
     try: convert_non_numerical_string_to_float("/test three point one four one --unit-test")
     except: test_tools.ok("Fail to convert a non-numerical string to a float")
 
+    # no-console-output
+
     test_tools.test_module("@slash_command flags system")
 
+    try: debug_flag_true("/test a --debug --no-console-output")
+    except: test_tools.fail("Set debug flag")
+
+    try: debug_flag_short_true("/test a -d --no-console-output")
+    except: test_tools.fail("Set short debug flag")
+
+    try: debug_flag_false("/test a --no-console-output")
+    except: test_tools.fail("Don't set debug flag")
+
+    try: speed_flag_true("/test a --speed --no-console-output")
+    except: test_tools.fail("Set speed flag")
+
+    try: speed_flag_false("/test a --no-console-output")
+    except: test_tools.fail("Don't set speed flag")
+
+    try: value_flag_str_no_spaces("/test meow --string=string")
+    except: test_tools.fail("Set value flag to string with no spaces")
+
+    try: value_flag_str_with_spaces("/test meow --string=\"the quick brown fox jumps over the lazy beown dog\"")
+    except: test_tools.skip("(Not Implemented) Keep value flag as a string (with spaces)")
+
+    try: value_flag_int("/test meow --intiger=13")
+    except: test_tools.fail("Set value flag and change type to int")
+
+    # test_tools.test_module("@slash_command panic system")
+
+    # try: panic = panic_with_return_true("/test meow")
+    # except: test_tools.fail("Panic with return true")
+
+    # if panic == False: 
+    #     test_tools.fail("Panic with return true")
+    # else: 
+    #     test_tools.ok("Panic with return true")
+
+
+    # panic = "a?"
+
+    # try: panic = panic_with_return_true("/test meow")
+    # except: test_tools.fail("Don't panic with return false")
+
+    # if panic == True: 
+    #     test_tools.fail("Don't panic with return false")
+    # else: 
+    #     test_tools.ok("Don't panic with return false")
+
+
+    # try: panic = dont_panic_with_return_false("/test meow")
+    # except: test_tools.fail("Don't panic with return none")
+
+    # if panic == None: 
+    #     test_tools.fail("Don't panic with return none")
+    # else: 
+    #     test_tools.ok("Don't panic with return none")
+
+
+    # try: panic = dont_panic_with_return_none("/test meow")
+    # except: test_tools.fail("Don't panic with return none")
+
+    # if panic == None: 
+    #     test_tools.ok("Don't panic with return none")
+    # else: 
+    #     test_tools.fail("Don't panic with return none")
+
+
+
+    # - Not enough arguments
+    # - Too many arguments
+    # - Panic is True
+    # - Panic is False
+    # - Panic is None
+
+    # - Change message box content
+
+    # - Alias
+
+# https://discord.com/channels/@me/911129965972553729/1108273727755534336
 
 
 tests()
