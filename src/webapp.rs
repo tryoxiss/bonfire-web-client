@@ -126,22 +126,7 @@ impl Component for App {
             <span style="margin-left: auto;"><button class="header-button" id="pinned-messages"><FaPushpinIcon /></button></span>
         </header>
 
-        <ul class="main-content">
-            <MessageRoot content="Hello world" author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-            <MessageConsecutive content="Hello world" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-            <MessageConsecutive content="Oooh treats!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-
-            <MessageRoot content="Attribution: please keep until we have a proper credts popup." author_name="Doggo" time="20:47" datetime_full="24 March 2023 at 20:47" />
-            <MessageConsecutive content="Icons are from font awesome free. https://fontawesome.com/v6/icons/ (Attribution Required)" time="20:47" datetime_full="24 March 2023 at 20:47" />
-            <MessageConsecutive content="Default background image is by Lightscape and is from unsplash. https://unsplash.com/photos/LtnPejWDSAY (No attribution required, its just the reasonable person thing to do)" time="20:47" datetime_full="24 March 2023 at 20:47" />
-            
-            <MessageRoot author_name="Doggo" content="aaaaa" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-            <MessageConsecutive content="yummy!!" time="20:12" datetime_full="28 Febuary 2023 at 20:13" />
-               
-            <MessageRoot author_name="Doggo" time="20:12" datetime_full="28 Febuary 2023 at 20:13" content={self.content.clone()} />
-
-            <MessagePane />
-        </ul>
+        <MessagePane />
 
         <div class="message-area placeholder-message">
             <button class="round-button"><FaPlusIcon /></button>
@@ -312,9 +297,9 @@ impl Component for MessagePane {
         };
 
         html! {
-            <main>
+            <ul class="main-content">
                 { messages_list }
-            </main>
+            </ul>
         }
     }
 }
@@ -350,7 +335,7 @@ pub struct Message {
 
 impl Message {
     pub fn new() -> Message {
-        return Message { content: ("hello, bonfire!".to_string()), time: ("22:56".to_string()), datetime_full: ("15 May 2023 at 22:56".to_string()), author_name: ("Happy Camper".to_string()), unix_time: (800869) }
+        return Message { content: ("Hello, Bonfire! Icons are from font awesome free. https://fontawesome.com/v6/icons/ (Attribution Required)".to_string()), time: ("22:56".to_string()), datetime_full: ("15 May 2023 at 22:56".to_string()), author_name: ("Happy Camper".to_string()), unix_time: (800869) }
     }
 }
 
@@ -479,7 +464,7 @@ fn ContextMenu() -> Html {
         <ul class="menu"> 
             <ContextMenuMessage />
 
-            <ul class="menu dev-mode"> 
+            <ul class="menu"> 
                 <li class=""><button href="#"><label for="name_muted_checkbox">{"Mute Channel"}</label> <input id="name_muted_checkbox" type="checkbox" /></button></li> 
                 <li class="trash"><button href="#">{"Copy Text"} <FaCopy /></button></li> 
                 <li class="trash"><button href="#">{"Copy Link"} <FaLink /></button></li> 
@@ -487,6 +472,7 @@ fn ContextMenu() -> Html {
             </ul> 
 
             <hr />
+
             <ul class="menu dev-mode"> 
                 <li class="trash"><button href="#">{"Copy GUID"} <FaFingerprint /></button></li> 
                 <li class="trash"><button href="#">{"Inspect Element"} <FaHtmlIcon /></button></li> 
