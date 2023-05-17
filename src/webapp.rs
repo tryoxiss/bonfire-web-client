@@ -12,9 +12,6 @@ pub enum Msg {
 struct _Guid (u128);
 
 struct App {
-    expandable_textarea: NodeRef,
-    content: String,
-
     // theme: String,
     // account: Guid,
     // profile: Guid,
@@ -29,15 +26,7 @@ struct App {
 }
 
 // functions to be used by `impl Component for App`
-impl App {
-    fn update_message_box_content(&mut self) {
-        if let Some(div) = self.expandable_textarea.cast::<web_sys::HtmlElement>() {
-            // self.content = div.inner_html();
-            self.content = div.inner_text();
-            div.set_inner_text("");
-        }
-    }
-}
+impl App { }
 
 impl Component for App {
     type Message = Msg;
@@ -47,9 +36,6 @@ impl Component for App {
         println!("Creating and mounting app");
 
         return Self { 
-            expandable_textarea: NodeRef::default(),
-            content: String::new(),
-
             // theme: "ctp-mocha",
             // account: Guid (1),
             // profile: Guid (1),
@@ -65,11 +51,11 @@ impl Component for App {
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         println!("Updating App");
         match msg {
-            Msg::UpdateContent => { self.update_message_box_content(); true }
+            Msg::UpdateContent => { true }
         }
     }
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         println!("Rendering App");
         html! { 
 <app class="reduced-motion dyslexic-font" theme="ctp-mocha" metadata-app="Bonfire Server offical" metadata-version="0:1:14::beta" metadata-repository="github.com/tryoxiss/bonfire-server" metadata-main_authors="Khaim0919, Tryoxiss" metadata-licence="AGPL 3.0 (https://github.com/tryoxiss/bonfire-server/blob/main/LICENCE)">
@@ -120,31 +106,10 @@ impl Component for App {
     </nav>
 
     <main>
-        <header class="med-padding">
-            <h1><span class="muted">{"@"}</span><span>{"doggo"}</span><span class="muted">{"@instance.tld"}</span></h1>
-            <vr/>
-            <span style="margin-left: auto;"><button class="header-button" id="pinned-messages"><FaPushpinIcon /></button></span>
-        </header>
-
+        
         <MessagePane />
 
         // <SettingsMenu />
-
-        <div class="message-area placeholder-message">
-            <button class="round-button"><FaPlusIcon /></button>
-
-            //<ExpandableTextarea />
-            <div 
-            ref={self.expandable_textarea.clone()}
-            class="expandable-textarea"
-            id="message-box"
-            role="textbox"
-            contenteditable="true"
-            placeholder="send a message">
-            </div>
-
-            <button class="round-button" onclick={ctx.link().callback(|_| Msg::UpdateContent)}><FaSendIcon /></button>
-        </div>
 
     </main>
 
@@ -244,18 +209,20 @@ pub struct AppStruct {
 // }
 
 struct MessagePane {
+    expandable_textarea: NodeRef,
     channel_messages: ChannelMessages,
+    content: String,
 }
 
-// functions to be used by `impl Component for App`
+// functions to be used by `impl Component for MessagePane`
 impl MessagePane {
-    // fn update_message_box_content(&mut self) {
-    //     if let Some(div) = self.expandable_textarea.cast::<web_sys::HtmlElement>() {
-    //         // self.content = div.inner_html();
-    //         self.content = div.inner_text();
-    //         div.set_inner_text("");
-    //     }
-    // }
+    fn update_message_box_content(&mut self) {
+        if let Some(div) = self.expandable_textarea.cast::<web_sys::HtmlElement>() {
+            // self.content = div.inner_html();
+            self.content = div.inner_text();
+            div.set_inner_text("");
+        }
+    }
 }
 
 impl Component for MessagePane {
@@ -266,7 +233,9 @@ impl Component for MessagePane {
         println!("Creating and mounting app");
 
         return Self { 
+            expandable_textarea: NodeRef::default(),
             channel_messages: ChannelMessages::new(),
+            content: String::new(),
 
             // theme: "ctp-mocha",
             // account: Guid (1),
@@ -283,11 +252,11 @@ impl Component for MessagePane {
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         println!("Updating App");
         match msg {
-            Msg::UpdateContent => { true }
+            Msg::UpdateContent => { self.update_message_box_content(); true }
         }
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         println!("Rendering App");
 
         let messages_list = html! {
@@ -299,28 +268,42 @@ impl Component for MessagePane {
         };
 
         html! {
-            <ul class="main-content">
-                { messages_list }
-            </ul>
+<>
+    <header class="med-padding">
+        <h1><span class="muted">{"@"}</span><span>{"doggo"}</span><span class="muted">{"@instance.tld"}</span></h1>
+        <vr/>
+        <span style="margin-left: auto;"><button class="header-button" id="pinned-messages"><FaPushpinIcon /></button></span>
+    </header>
+
+    <ul class="main-content">
+        { messages_list }
+    </ul>
+
+    <div class="message-area placeholder-message">
+            <button class="round-button"><FaPlusIcon /></button>
+
+            //<ExpandableTextarea />
+            <div 
+            ref={self.expandable_textarea.clone()}
+            class="expandable-textarea"
+            id="message-box"
+            role="textbox"
+            contenteditable="true"
+            placeholder="send a message">
+            </div>
+
+            <button class="round-button" onclick={ctx.link().callback(|_| Msg::UpdateContent)}><FaSendIcon /></button>
+        </div>
+</>
         }
     }
 }
 
 
-struct SettingsMenu {
-    channel_messages: ChannelMessages,
-}
+struct SettingsMenu { }
 
-// functions to be used by `impl Component for App`
-impl SettingsMenu {
-    // fn update_message_box_content(&mut self) {
-    //     if let Some(div) = self.expandable_textarea.cast::<web_sys::HtmlElement>() {
-    //         // self.content = div.inner_html();
-    //         self.content = div.inner_text();
-    //         div.set_inner_text("");
-    //     }
-    // }
-}
+// functions to be used by `impl Component for SettingsMenu`
+impl SettingsMenu { }
 
 impl Component for SettingsMenu {
     type Message = Msg;
@@ -329,19 +312,7 @@ impl Component for SettingsMenu {
     fn create(_ctx: &Context<Self>) -> Self {
         println!("Creating and mounting app");
 
-        return Self { 
-            channel_messages: ChannelMessages::new(),
-
-            // theme: "ctp-mocha",
-            // account: Guid (1),
-            // profile: Guid (1),
-            // version: meeoww
-
-            // link,
-            // storage,
-            // database,
-            // temp_task: Task::new(),
-        };
+        return Self { };
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
@@ -353,61 +324,53 @@ impl Component for SettingsMenu {
 
     fn view(&self, _ctx: &Context<Self>) -> Html {
         println!("Rendering App");
-
-        let messages_list = html! {
-            <div class="allow-headings settings-menu">
-                <h2>{"Options (THIS SHOULD BE THE TITLEBAR)"}</h2>
-                <ul>
-                    <li>
-                        <div class="flex-container flex-force-seccond-item-right">
-                            <h3>{"Reduced Motion"}</h3> 
-                            <Switch />
-                        </div>
-                        <p class="muted">{"Animations will only play on hover, and bigger animations will be less pronounced."}</p>
-                    </li>
-
-                    <li>
-                        <div class="flex-container flex-force-seccond-item-right">
-                            <h3>{"Use Dyslexic Font"}</h3> 
-                            <Switch />
-                        </div>
-                        <p class="muted">{"The font will be changed to 'Atkinon Hyperlegible'."}</p>
-                    </li>
-
-                    <li>
-                        <div class="">
-                            <h3>{"Danger Zone"}</h3> 
-                            <p class="muted">{"Spooky scary dangrous buttons"}</p>
-                            
-                        </div>
-                        <ButtonNormal /><ButtonDangerWait /><ButtonText />
-                    </li>
-                </ul>
-
-                <h2>{"Attribution"}</h2>
-                <ul>
-                    <li>{"Icons are from font awesome free. https://fontawesome.com/v6/icons/ (Attribution Required)"}</li>
-                </ul>
-            </div> 
-        };
-
         html! {
-            <ul class="main-content">
-                { messages_list }
+<>
+    <header class="med-padding">
+        <h1>{"Options"}</h1>
+        <vr/>
+        <span style="margin-left: auto;"><button class="header-button" id="pinned-messages"><FaPushpinIcon /></button></span>
+    </header>
+
+    <ul class="main-content">
+        <div class="allow-headings settings-menu">
+            <ul>
+                <li>
+                    <div class="flex-container flex-force-seccond-item-right">
+                        <h3>{"Reduced Motion"}</h3> 
+                        <Switch />
+                    </div>
+                    <p class="muted">{"Animations will only play on hover, and bigger animations will be less pronounced."}</p>
+                </li>
+
+                <li>
+                    <div class="flex-container flex-force-seccond-item-right">
+                        <h3>{"Use Dyslexic Font"}</h3> 
+                        <Switch />
+                    </div>
+                    <p class="muted">{"The font will be changed to 'Atkinon Hyperlegible'."}</p>
+                </li>
+
+                <li>
+                    <div class="">
+                        <h3>{"Danger Zone"}</h3> 
+                        <p class="muted">{"Spooky scary dangrous buttons"}</p>
+                        
+                    </div>
+                    <ButtonNormal /><ButtonDangerWait /><ButtonText />
+                </li>
             </ul>
+
+            <h2>{"Attribution"}</h2>
+            <ul>
+                <li>{"Icons are from font awesome free. https://fontawesome.com/v6/icons/ (Attribution Required)"}</li>
+            </ul>
+        </div> 
+    </ul>
+</>
         }
     }
 }
-
-// #[function_component]
-// fn MessagesPane() -> Html {
-//     let items = (1..=10).collect::<messages>();
-//     html! {
-//         <main> 
-//             { for items.iter() }
-//         </main>
-//     }
-// }
 
 #[derive(Properties, PartialEq)]
 pub struct Message { 
