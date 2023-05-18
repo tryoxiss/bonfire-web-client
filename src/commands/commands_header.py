@@ -51,7 +51,7 @@ def slash_command(function):
 
         _flags = handle_flags(_inputs, client=client)
 
-        if _flags["no-console-output"] == True:  # No console output should be --quiet or -q
+        if _flags["quiet"] == True:  # No console output should be --quiet or -q
             client.show_debug = False
             client.show_error = False
             client.show_info = False
@@ -137,7 +137,7 @@ def slash_command(function):
         # and the commands debug seperately. 
 
 
-        if _flags["no-console-output"] == False: 
+        if _flags["quiet"] == False: 
             client.show_debug = _flags['debug']
 
         client.debug(f"Passing arguments: {_inputs}")
@@ -211,7 +211,7 @@ def handle_flags(inputs, *, client):
         "speed": False,
         "debug": False,
         "unit-test": False,
-        "no-console-output": False,
+        "quiet": False,
     }
 
     # TODO: Keep flags out of string collectors.
@@ -781,23 +781,23 @@ def tests():
     try: convert_non_numerical_string_to_float("/test three point one four one --unit-test")
     except: test_tools.ok("Fail to convert a non-numerical string to a float")
 
-    # no-console-output
+    # quiet
 
     test_tools.test_module("@slash_command flags system")
 
-    try: debug_flag_true("/test a --debug --no-console-output")
+    try: debug_flag_true("/test a --debug --quiet")
     except: test_tools.fail("Set debug flag")
 
-    try: debug_flag_short_true("/test a -d --no-console-output")
+    try: debug_flag_short_true("/test a -d --quiet")
     except: test_tools.fail("Set short debug flag")
 
-    try: debug_flag_false("/test a --no-console-output")
+    try: debug_flag_false("/test a --quiet")
     except: test_tools.fail("Don't set debug flag")
 
-    try: speed_flag_true("/test a --speed --no-console-output")
+    try: speed_flag_true("/test a --speed --quiet")
     except: test_tools.fail("Set speed flag")
 
-    try: speed_flag_false("/test a --no-console-output")
+    try: speed_flag_false("/test a --quiet")
     except: test_tools.fail("Don't set speed flag")
 
     try: value_flag_str_no_spaces("/test meow --string=string")
