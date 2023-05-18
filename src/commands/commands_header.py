@@ -51,7 +51,7 @@ def slash_command(function):
 
         _flags = handle_flags(_inputs, client=client)
 
-        if _flags["no-console-output"] == True: 
+        if _flags["no-console-output"] == True:  # No console output should be --quiet or -q
             client.show_debug = False
             client.show_error = False
             client.show_info = False
