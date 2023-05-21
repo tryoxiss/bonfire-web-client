@@ -92,6 +92,8 @@ def slash_command(function):
                     return
 
             iterations += 1
+        
+        del iterations
 
         # - [ ] identify types
         #     - [ ] check for valid types 
