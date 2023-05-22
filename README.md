@@ -8,7 +8,7 @@
 For instructions on how to set up bonfire, please look at our [Setup Guide](SETUP.md)
 
 Installer command (I think):
-`curl https://github.com/tryoxiss/bonfire-server/blob/new-working-branch/INSTALL.sh -o bonfire_installer.sh; ./bonfire_installer.sh`
+`sudo curl https://github.com/tryoxiss/bonfire-server/blob/new-working-branch/INSTALL.sh -o bonfire_installer.sh && sudo chmod +x bonfire_installer.sh && sudo ./bonfire_installer.sh`
 
 ## Primary Goals
 

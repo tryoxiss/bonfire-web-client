@@ -3,8 +3,6 @@
 # --------------------
 # Untested and unfinished.
 
-# chmod 700 INSTALL.sh
-
 PROJECT_NAME="dim-bonfire"
 INSTALL_VER="1.0.0"
 
