@@ -111,7 +111,7 @@ info
 
 # Default permissions: 
 # r-- r-- ---
-chmod 110 /srv/$PROJECT_NAME/ 
+chmod 440 /srv/$PROJECT_NAME/ 
 
 # Backend processing 
 # rwx r-x ---
@@ -123,11 +123,11 @@ chmod 070 /srv/$PROJECT_NAME/data/
 
 # What is served to the user directly (i.e. webapp)
 # rw- r-- r--
-chmod 311 /srv/$PROJECT_NAME/https/
+chmod 644 /srv/$PROJECT_NAME/https/
 
 # Old read-only versions of the software to easily revert. 
 # r-- r-- ---
-chmod 110 /srv/$PROJECT_NAME/old/
+chmod 440 /srv/$PROJECT_NAME/old/
 
 # mkdir $DATA_LOCATION/data/
 # mkdir $DATA_LOCATION/app/
