@@ -1,5 +1,5 @@
 
 
-fn query(query: String) { 
+fn query(query: String) {
 
 }

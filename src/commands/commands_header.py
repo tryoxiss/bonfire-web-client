@@ -863,4 +863,5 @@ def tests():
 # https://discord.com/channels/@me/911129965972553729/1108273727755534336
 
 
-tests()
+if __name__ == '__main__':
+    tests()
