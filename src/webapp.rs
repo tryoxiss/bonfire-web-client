@@ -4,6 +4,14 @@ use yew::prelude::*;
 //# DEBUG
 // use rand::prelude::*;
 
+// NOTE TO KHAIM!!!!
+// We will likely use PostgresSQL for our database, since its fully FOSS.
+// Since a bunch of people will be running thier own instances, we don't want
+// a database with paid features, and PostgresSQL is amazing and dosen't have
+// any! (it's also relational <3)
+//
+// https://www.postgresql.org/
+
 pub enum Msg {
     UpdateContent,
 }
