@@ -51,8 +51,13 @@ def ban(user: str, _duration: str = "", *reason, client, **flags) -> bool: # _ m
     client.debug(user.guid16)
 
     expires = _duration
+    client.debug(f"expires: {expires}")
 
-    reason = ct.args_to_string(reason)
+    # For some reason this is getting a random True input
+    client.debug(f"reason: {reason}")
+
+    client.debug(ct.args_to_string(reason))
+    reason = ct.args_to_string(reason) # - BUGS (also the cmdheader is causing MAJOR problems that unit tests didn't catch.)
 
     client.debug("Parsing time field")
 

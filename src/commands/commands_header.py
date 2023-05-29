@@ -153,7 +153,7 @@ def slash_command(function):
         if panic == True: 
             client.warn("""The command panniced (returned `True`)! 
           A panic is a non-recoverable error.""")
-        if panic == True: 
+        if panic == False: 
             client.debug("The command indicated it was completed successfully.")
         if panic == None: 
             client.debug("The command was completed successfully.")
@@ -179,6 +179,8 @@ def handle_paramaters(_inputs, function, *, client):
         _inputs[iterations] = argument(_inputs[iterations])
 
         iterations += 1
+
+    client.debug(f"{command_paramaters}")
 
     del iterations
 
