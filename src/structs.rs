@@ -70,9 +70,19 @@ pub struct Status {
 
     is_rich: bool, // if false: the icon is instead an emoji, and only the status is filled, the rest are null
 
-    title: String,
-    status: String,
-    details: String,
+    <SidebarIcon />
+    <SidebarIcon />
+    <SidebarIcon />
+    <SidebarIcon />
+    <SidebarIcon />
+</ul>
+<hr />
+<ul>
+    <li class="has-tooltip"><a href="#1" style="background-image: url(https://picsum.photos/id/237/200/300);"></a></li>
+    <li class="has-tooltip"><a href="#2" style="background-image: url(https://picsum.photos/id/217/200/300);"></a></li>
+    <li class="has-tooltip"><a href="#3" style="background-image: url(https://picsum.photos/id/237/1920/1080);"></a></li>
+    <li class="has-tooltip"><a href="#4" style="background-image: url(https://picsum.photos/id/291/200/300);"></a></li>
+    <li class="has-tooltip"><a href=
 
     allow_join_game: bool, 
     join_secret: String,

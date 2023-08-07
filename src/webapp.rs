@@ -1,4 +1,6 @@
 use yew::prelude::*;
+
+use crate::connection_handler::send_message;
 // use std::time::{Duration, SystemTime};
 
 //# DEBUG
@@ -294,6 +296,8 @@ impl Component for MessagePane {
             Msg::UpdateContent => {
                 self.update_message_box_content();
                 self.channel_messages = ChannelMessages::new_message(self.channel_messages.clone(), self.content.clone());
+                send_message(self.content.clone().as_str(), "plaintext");
+                println!("shellome");
                 true
             }
         }

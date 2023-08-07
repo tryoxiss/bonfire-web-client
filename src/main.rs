@@ -1,6 +1,7 @@
 #![recursion_limit = "256"]
 
 mod webapp;
+mod connection_handler;
 
 // Rust LOCAL imports:
 //
