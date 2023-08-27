@@ -1,6 +1,7 @@
 use yew::prelude::*;
 
 use crate::connection_handler::send_message;
+mod components;
 // use std::time::{Duration, SystemTime};
 
 //# DEBUG
@@ -463,6 +464,46 @@ impl ChannelMessages {
     }
 }
 
+// Constructer for most recent editions packets
+// fn construct_packet() {
+    /* LOGIC FLOW:
+    if no connection established:
+        establish connection
+
+    get and write data header:
+        edition: year
+        type: type
+        operation: OPERATION
+
+    get content:
+        guid:
+        content:
+        (other params):
+
+    sanatise packet (fn):
+        Escape characters
+
+    validate packet:
+        all fields that exist are allowed for this type
+        all field content values are valid
+        all required fields exist
+
+    sign package:
+        get public key
+        sign the package
+
+    encrypt package:
+        encrypt with shared secret
+
+    send package
+     */
+// }
+
+// fn construct_packet_e2023() {
+//     // since e2023 is the most recent we just call the standard contructor
+//     construct_packet()
+// }
+
 #[function_component]
 fn MyProfile(_props: &Message) -> Html {
     html! {
@@ -706,46 +747,6 @@ fn Slider() -> Html {
     <input type="range" min="1" max="100" value="50" class="slider"/>
     }
 }
-
-// Constructer for most recent editions packets
-// fn construct_packet() {
-    /* LOGIC FLOW:
-    if no connection established:
-        establish connection
-
-    get and write data header:
-        edition: year
-        type: type
-        operation: OPERATION
-
-    get content:
-        guid:
-        content:
-        (other params):
-
-    sanatise packet (fn):
-        Escape characters
-
-    validate packet:
-        all fields that exist are allowed for this type
-        all field content values are valid
-        all required fields exist
-
-    sign package:
-        get public key
-        sign the package
-
-    encrypt package:
-        encrypt with shared secret
-
-    send package
-     */
-// }
-
-// fn construct_packet_e2023() {
-//     // since e2023 is the most recent we just call the standard contructor
-//     construct_packet()
-// }
 
 pub fn render_app() {
     // yew::Renderer::<App>::new().render();
