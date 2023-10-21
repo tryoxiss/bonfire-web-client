@@ -1,4 +1,8 @@
 # bonfire
+
+> **Important**
+> We have migrated this repository to [codeberg](https://codeberg.org/tryoxiss/hermod-web-client) due to github using public repos as AI training data. This repository will be completely purged at some point.
+
 (TEMPORARY NAME) repo for decentralized discord-like federated chat! following all common conventions like markdown and naming schemes. Written in pure rust! 
 
 (Please note: Badges are updated manually)
